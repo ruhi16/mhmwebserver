@@ -16,9 +16,14 @@
 
 
 
+    {{--  --}}
+    <!-- This is Admin Main Section  component -->
+    <livewire:admin-dashboard-main-section-component />
+
+    {{--  --}}
     
     <div class="h-auto  min-w-full mx-auto ">
-        <table class="mx-auto mt-5 border-collapse border border-gray-600 ">
+        {{-- <table class="mx-auto mt-5 border-collapse border border-gray-600 ">
             <thead>
                 <tr>
                     <th class="border border-gray-300 px-4 py-2">Sl</th>
@@ -36,16 +41,7 @@
                         </a>
                     </td>
                 </tr>
-                {{-- <tr>
-                    <td class="border border-gray-300 px-4 py-2">1</td>
-                    <td class="border border-gray-300 px-4 py-2">Class Wise Task Management</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <a href="{{ route('admin.profilemanagement') }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                            Class Task Management
-                        </a>
-                    </td>
-                </tr> --}}
-                <tr>
+                
                     <td class="border border-gray-300 px-4 py-2">2</td>
                     <td class="border border-gray-300 px-4 py-2">Class-Section Wise Task Management</td>
                     <td class="border border-gray-300 px-4 py-2">
@@ -70,16 +66,18 @@
                         <a href="{{ route('admin.teacherwisemarksentrylink') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                             Teacher wise marks entry
                         </a>
+                        
                     </td>
                 </tr>
                 
             </tbody>
-        </table>
-                    
-        <div class="min-w-4xl mx-auto m-5 mt-5 border-collapse border border-gray-600 ">
+        </table> --}}
+                   
+        {{-- <div class="min-w-4xl mx-auto m-5 mt-5 border-collapse border border-gray-600 ">
             <livewire:admin-tabs-component />
-        </div>
-        {{-- <livewire:admin-voter-list-component /> --}}
+        </div> --}}
+    
+    {{-- <livewire:admin-voter-list-component /> --}}
 
     {{-- <livewire:admin-studentdb-component />         --}}
 

@@ -20,6 +20,9 @@ use App\Http\Livewire\AdminUserPreviledgeControlComponent;
 use App\Http\Livewire\SubadminMarksEntryComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
+use App\Models\Studentvl;
+// use Barryvdh\DomPDF\Facade\Pdf;
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
 // use App\Http\Livewire\Admin;
 // use App\View\Components\AdminDashboard;
@@ -50,6 +53,30 @@ Route::group(
       
     }
 );
+Route::get('pdf', function(){
+    // $data = [
+    //     'foo' => 'bar'
+    // ];
+
+    // $pdf = PDF::loadView('livewire.dompdf-testpage', [
+    //     'data' => $data
+    // ]);
+
+    // return $pdf->stream('document.pdf');
+    $mpdf = new \Mpdf\Mpdf([
+        'default_font_size' => 16,
+        'default_font' => 'nikosh',
+    ]);
+    $html = view('livewire.dompdf-testpage',[
+        'voters'    => Studentvl::all()
+    ])->render();
+    $mpdf->WriteHTML($html);
+
+    // $mpdf->WriteHTML('<h1>আমি আছি Hello World</h1>');
+    $mpdf->Output();
+});
+
+
 
 Route::group(
     ['prefix' => 'admin', 'middleware' => ['web', 'isAdmin']],

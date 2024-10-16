@@ -4,10 +4,8 @@
             {{ 'Home: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}
         </h2> 
     @endsection
-    
-    <h1>Change Password Component</h1>
 
-   
+    <h1>Change Password Component</h1>  
 
 <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     
@@ -62,16 +60,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
-
-
-
-
-
-
-
-   
-                   
+            </div>                   
         </div>
     </div>
 </div>

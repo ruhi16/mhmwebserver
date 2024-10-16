@@ -10,8 +10,10 @@
             @endsection
             {{--
         </x-slot> --}}
-
-
+        <button wire:click='generatePDF' class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Generate PDF
+        </button>
+        {{ $pdf_msg }}  
 
 
         <div class="h-auto  min-w-full mx-auto ">
