@@ -64,12 +64,20 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
+                        <x-dropdown-link :href="route('admin.createUser')"
+                                {{-- :href="route('logout')" --}}
+                                {{-- onclick="event.preventDefault(); this.closest('form').submit();" --}}
+                                >
+                                {{ __('Create User') }}
+                        </x-dropdown-link>
+
                         <x-dropdown-link :href="route('subadmin.changePassword')"
                                 {{-- :href="route('logout')" --}}
                                 {{-- onclick="event.preventDefault(); this.closest('form').submit();" --}}
                                 >
-                                {{ __('Settings') }}
-                            </x-dropdown-link>
+                                {{ __('Change Password') }}
+                        </x-dropdown-link>
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             

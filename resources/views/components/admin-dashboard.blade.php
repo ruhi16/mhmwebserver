@@ -14,8 +14,6 @@
         @endsection
     {{-- </x-slot> --}}
 
-
-
     {{--  --}}
     <!-- This is Admin Main Section  component -->
     <livewire:admin-dashboard-main-section-component />

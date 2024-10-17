@@ -13,6 +13,7 @@ use App\Http\Livewire\About;
 use App\Http\Livewire\AdminAdmissionComponent;
 use App\Http\Livewire\AdminAnsscrDistributionComponent;
 use App\Http\Livewire\AdminAnsscrDistributioncwComponent;
+use App\Http\Livewire\AdminCreateUserComponent;
 use App\Http\Livewire\AdminMyclassAnserScriptDistributionBaseComponent;
 use App\Http\Livewire\AdminMyclassSectionComponent;
 use App\Http\Livewire\AdminTeacherWiseMarksEntryLinksComponent;
@@ -128,6 +129,9 @@ Route::group(
 
         Route::get('/changePassword', UserChangePasswordComponent::class)
             ->name('subadmin.changePassword');
+
+        Route::get('/createUser', AdminCreateUserComponent::class)
+            ->name('admin.createUser');
 
     }
 );

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Manikchak High Madrasah(H.S)') }}</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -29,24 +29,16 @@
 
         <!-- Page Heading -->
         <header class="bg-blue-400 shadow">
-            <div class="max-w-8xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{-- {{ $slot }} --}}
-                @yield('header')
+            <div class="max-w-8xl mx-auto py-6 px-4 sm:px-6 lg:px-8">                
+                @yield('header')              
             </div>
         </header>
-
-        <!-- Page Content -->
-        {{-- <livewire:admin-sidebar-component /> --}}
         
+        <!-- Page Content -->
 
         {{ $slot }}
 
-
         <!-- Page Footer -->
-        {{-- @include('layouts.footer') --}}
-
-
-
         <livewire:footer-component />
     </div>
 
