@@ -22,12 +22,10 @@
                 
             </div>
         </div>
-        {{ $user ?? 'NA'}}
+        {{-- {{ $user ?? 'NA'}} --}}
 
         <div class="bg-slate-400 max-w-7xl mx-auto m-4 shadow-2xl rounded">
             <div class="">
-                
-    
     
                 <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
     

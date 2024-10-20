@@ -9,7 +9,8 @@
 
     <!-- For Tailwind CSS -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
+    {{--
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
@@ -32,118 +33,113 @@
 </head>
 
 <body class="min-w-full">
-    {{-- <livewire:navbar-component /> --}}
+    {{--
+    <livewire:navbar-component /> --}}
 
     <!-- <div class="relative flex items-top justify-center min-h-[60vh] 
                     bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0"> -->
     <div class="">
         @if (Route::has('login'))
-            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                @auth
-                    <a wire:navigate href="{{ url('/dashboard') }}"
-                        class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-                @else
-                    <a wire:navigate href="{{ route('login') }}"
-                        class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+            @auth
+            <a wire:navigate href="{{ url('/dashboard') }}"
+                class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+            @else
+            <a wire:navigate href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log
+                in</a>
 
-                    @if (Route::has('register'))
-                        <a wire:navigate href="{{ route('login') }}"
-                            class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                    @endif
-                @endauth
-            </div>
+                @if (Route::has('register'))
+                <a wire:navigate href="{{ route('login') }}"
+                    class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                @endif
+            @endauth
+        </div>
         @endif
-        {{--  --}}
-        {{--  --}}
+        {{-- --}}
+        {{-- --}}
         <div class="h-fit">
-            <div class="bg-gray-100 h-2/4">
+            <div class="bg-gradient-to-r from-indigo-100 from-10% via-sky-100 via-30% to-emerald-100 to-90% h-2/4">
                 <section class="">
                     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
                         <h1
                             class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-16xl dark:text-black">
                             Manikchak High Madrasah (H.S)
                         </h1>
-                        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+                        <p
+                            class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
                             Manikchak * Lalgola * Murshidabad
                         </p>
+                        <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
+                            <a href="#" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                                Get started
+                                <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="py-3 px-5 sm:ms-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-70">
+                                Learn more
+                            </a>  
+                        </div>
                     </div>
                     <div>
-                        
+
                     </div>
                 </section>
             </div>
 
+            @php
+                $bg_colors = ['blue', 'indigo', 'red', 'yellow', 'green', 'purple', 'pink'];
+                
+            @endphp
+            {{-- bg-gradient-to-r from-teal-100 from-10% via-sky-100 via-30% to-rose-100 to-90% --}}
+            <div class="mx-auto max-w-screen-4xl px-4 pt-8 sm:px-6 lg:px-8 ">
 
-            <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-3 gap-4">
+                    {{-- ... --}}
+                    @foreach($notices as $notice)
+                        @php $bg_color_index = random_int(0, count($bg_colors) - 1); @endphp
+                    <div
+                        class="block max-w-sm mx-auto p-6 bg-{{$bg_colors[$bg_color_index]}}-100 border border--200 cursor-pointer rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-            <div class="grid grid-cols-3 gap-4 ">
-                <div>
-                    <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Midday meal program, everyday</h5>
-                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">
+                            Notice: {{ $notice->id}}-{{ $notice->title}}-{{ $bg_color_index }}- bg-{{$bg_colors[$bg_color_index]}}-100
+                        </h5>
+                        <p class="font-normal text-gray-700 dark:text-gray-400 line-clamp-2">
+                            Desc: {{ $notice->desc }}
+                        </p>
+                        <p class="font-normal text-gray-700 dark:text-gray-400">
+                            Published: {{ $notice->dop }} Expire: {{ $notice->doe }}
+                        </p>
+                        <p class="font-normal text-gray-700 dark:text-gray-400">
+                            Status: {{ $notice->is_active }}
+                        </p>
+                        <p class="font-normal text-gray-700 dark:text-gray-400">
+                            Download Link: <a href="{{ url( $notice->fileaddr )}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $notice->title }}</a>                
+                        </p>
                     </div>
+                    @endforeach
+                    <!-- ... -->
                 </div>
-                <!-- ... -->
-                <div>
-                    <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-lime-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Annual Sports Day Celebration, 2024</h5>
-                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                    </div>
+                <div class="px-4 mx-auto max-w-screen-xl text-center py-2 lg:py-8 lg:px-12">
+                    <button type="button" class="inline-flex items-center gap-2 px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div>More, Notices...</div>
+                    </button>
                 </div>
-                <!-- ... -->
-                <div>
-                    <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-orange-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Annual Cultural Day Celebration, 2024</h5>
-                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                    </div>
-                </div>
-                <!-- ... -->
-                <div>
-                    <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-indigo-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                    </div>
-                </div>
-                <!-- ... -->
-                <div>
-                    <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-teal-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                    </div>
-                </div>
-                <!-- ... -->
-                <div>
-                    <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-purple-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                        <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                    </div>
-                </div>
-                <!-- ... -->
-
-
             </div>
             
-            </div>
-            
+
         </div>
 
+        <livewire:footer-component />
 
 
-
-    <livewire:footer-component />
-
-
-
-
-    @livewireScripts
-    <script src="{{ mix('js/app.js') }}"></script>
-    <script src="{{ mix('js/bootstrap.js') }}"></script>
+        @livewireScripts
+        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/bootstrap.js') }}"></script>
 </body>
 
 </html>

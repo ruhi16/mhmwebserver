@@ -1,18 +1,12 @@
-<div>
-    {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
-    {{-- <x-app-layout> --}}
-    {{-- <x-slot:header> --}}
+<div>    
     @section('header')
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ 'About: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}
-        </h2>
-        <h2>
-            {{-- xxxAdmin Admission Component : {{ $myclssec_id }} --}}
-        </h2>
+        </h2>        
     @endsection
-    {{-- </x-slot> --}}
+    
     <div class="min-w-full mx-auto bg-green-300 text-center text-4xl font-bold my-4">
-        Admin Answer Script Distribution for <span class="text-red-500">Class: {{ $myclssec->myclass->name }}</span> &
+        Admin XX Answer Script Distribution for <span class="text-red-500">Class: {{ $myclssec->myclass->name }}</span> &
         <span class="text-red-500">Section: {{ $myclssec->section->name }}</span>
     </div>
 

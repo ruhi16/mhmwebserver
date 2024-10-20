@@ -2,6 +2,7 @@
     {{-- Because she competes with no one, no one can compete with her. --}}
     
     <div class="mb-4 border border-gray-200 dark:border-gray-700">
+        
         <ul class="flex flex-wrap mb-px text-sm font-medium text-center">
             @foreach ($tabs as $key => $tab)
                 <li class="m-2" role="presentation">

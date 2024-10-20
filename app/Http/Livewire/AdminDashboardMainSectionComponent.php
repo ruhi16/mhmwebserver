@@ -7,9 +7,11 @@ use Livewire\Component;
 
 
 class AdminDashboardMainSectionComponent extends Component
-{
+{   
+    protected $history = [];
 
     public $selectedItem = 'item1';
+    public $componentName;
 
     public $items = [
         'item1' => [
@@ -45,6 +47,23 @@ class AdminDashboardMainSectionComponent extends Component
             'component' => 'admin-item-five-component',
         ],
     ];
+
+    public function mount(){
+        $this->componentName = request()->route()->getName();
+        // $this->history[] = $this->route()->getName();
+        // $this->history = []; //session()->get('history');
+    }
+
+    public function addToHistory(){
+        // session()->put('history', $this->history);
+    }
+
+    public function goBack(){
+        // $this->history = session()->get('history');
+        // $this->history = array_reverse($this->history);
+        // $this->selectedItem = $this->history[0];
+        // array_pop($this->history);
+    }
 
     public function selectedItem($key){
         $this->selectedItem = $key;

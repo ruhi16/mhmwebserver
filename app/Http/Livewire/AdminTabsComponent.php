@@ -7,6 +7,7 @@ use Livewire\Component;
 class AdminTabsComponent extends Component
 {
     public $selectedTab = 'tab1';
+    protected $history = [];
 
     public $tabs = [
         'tab1' => [
@@ -46,6 +47,23 @@ class AdminTabsComponent extends Component
             'component' => 'admin-tab-nine-component',
             ]
     ];
+
+    public function mount(){
+        $this->history = session()->get('history', []);
+        $this->history[] = request()->route()->getName();
+        $this->history[] = $this->route()->getName();
+    }
+
+    public function addToHistory(){
+        session()->put('history', $this->history);
+    }
+
+    public function goBack(){
+        $this->history = session()->get('history');
+        $this->history = array_reverse($this->history);
+        $this->selectedTab = $this->history[0];
+        array_pop($this->history);
+    }
 
     public function selectTab($tab){
         $this->selectedTab = $tab;

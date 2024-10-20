@@ -64,12 +64,14 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
-                        <x-dropdown-link :href="route('admin.createUser')"
-                                {{-- :href="route('logout')" --}}
-                                {{-- onclick="event.preventDefault(); this.closest('form').submit();" --}}
-                                >
-                                {{ __('Create User') }}
-                        </x-dropdown-link>
+                        @if( Auth::user()->role_id == 3 || Auth::user()->role_id == 4 )
+                            <x-dropdown-link :href="route('admin.createUser')"
+                                    {{-- :href="route('logout')" --}}
+                                    {{-- onclick="event.preventDefault(); this.closest('form').submit();" --}}
+                                    >
+                                    {{ __('Create User') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <x-dropdown-link :href="route('subadmin.changePassword')"
                                 {{-- :href="route('logout')" --}}
@@ -80,8 +82,6 @@
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            
-
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                     this.closest('form').submit();">

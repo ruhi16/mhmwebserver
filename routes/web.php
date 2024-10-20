@@ -21,6 +21,7 @@ use App\Http\Livewire\AdminUserPreviledgeControlComponent;
 use App\Http\Livewire\SubadminMarksEntryComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
+use App\Models\Notice;
 use App\Models\Studentvl;
 // use Barryvdh\DomPDF\Facade\Pdf;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
@@ -160,6 +161,8 @@ Route::group(
             App\Http\Controllers\UserController::class,
             'dashboard',
         ])->name('userDash');
+
+        
     }
 );
 
@@ -209,7 +212,10 @@ Route::get('/dashboard', function () {
     
 
 Route::get('/', function () {
-    return view('welcome');
+    $notices = Notice::orderBy('dop', 'desc')->get();
+    return view('welcome',[
+        'notices' => $notices
+    ]);
 });
 
 

@@ -25,10 +25,35 @@ class AdminMyclassAnserScriptDistributionBaseComponent extends Component
 
     public $myclass_id;
     public $section_id;
+    public $exam_id;
+
+    public $exam_term_active_tab_no = 1;
+    public $myclass_active_tab_no = 0;
 
     public $selectedClass = null;
     public $selectedSecton = null;
     public $selectedTeacher = null;
+
+    public function selectExamTermTab($exam_id){
+        $this->exam_term_active_tab_no = $exam_id;
+        $this->myclass_active_tab_no = 1;
+
+        
+    }
+
+    public function selectMyclassTab($myclass_id){
+        $this->myclass_active_tab_no = $myclass_id;
+
+        $this->myclass_id = $this->myclass_active_tab_no;
+        $this->exam_id = $this->exam_term_active_tab_no;
+
+    }
+
+
+
+
+
+
 
     public function resetToNull()
     {
@@ -45,6 +70,14 @@ class AdminMyclassAnserScriptDistributionBaseComponent extends Component
         $this->sections = Section::all();
         $this->teachers = Teacher::all();
         $this->exams = Exam::all();
+    }
+
+
+    public function showTable($myclass_id, $exam_id){
+
+        $this->myclass_id = $myclass_id;
+        $this->exam_id = $exam_id;
+
     }
 
     public function render()
