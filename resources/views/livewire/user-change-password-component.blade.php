@@ -22,11 +22,11 @@
                 Show Modal
         </button>
 
-        <button
+        {{-- <button
             class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded"
             wire:click="showWarningModal">
                 Show Warning Modal
-        </button>        
+        </button>         --}}
     </div>
     
 
@@ -56,8 +56,8 @@
                                 <label for="name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                 <input type="text" id="name" name="name" value="{{ auth()->user()->name }}"
-                                    wire:model="name"                                
-                                    class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>                        
+                                    wire:model="name"
+                                    class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                                     {{-- @error ('email') <span class="text-danger">{{ $message }}</span> @enderror --}}
                             </div>
 
@@ -97,13 +97,12 @@
                             <button type="button"
                                 class="border border-gray-200 px-4 py-2 mt-2 bg-red-500 hover:bg-red-600 text-white rounded  tracking-wider"
                                 wire:click="closeModal">
-                                Oke
+                                Cancel
                             </button>
 
                             <button                                
                                 type="submit"
-                                class="border border-gray-200 px-4 py-2 mt-2 ml-2 bg-blue-500 hover:bg-blue-600 text-white rounded  tracking-wider"
-                                >                            
+                                class="border border-gray-200 px-4 py-2 mt-2 ml-2 bg-blue-500 hover:bg-blue-600 text-white rounded  tracking-wider">
                                 Save Change
                             </button>
                             

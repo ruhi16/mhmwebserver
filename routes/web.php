@@ -63,6 +63,11 @@ Route::get('pdf', function(){
     // $pdf = PDF::loadView('livewire.dompdf-testpage', [
     //     'data' => $data
     // ]);
+    $this->voters_all = Studentvl::whereColumn('brother_id','!=', 'id')             
+            ->with('myclass')
+            ->with('section')           
+            ->orderBy('id', 'asc')  
+            ->get();
 
     // return $pdf->stream('document.pdf');
     $mpdf = new \Mpdf\Mpdf([
@@ -70,7 +75,8 @@ Route::get('pdf', function(){
         'default_font' => 'nikosh',
     ]);
     $html = view('livewire.dompdf-testpage',[
-        'voters'    => Studentvl::all()
+        'voters'    => Studentvl::all(),
+        'voters_all' => $this->voters_all
     ])->render();
     $mpdf->WriteHTML($html);
 
@@ -149,7 +155,8 @@ Route::group(
         Route::get('/marksentryentityclasswise/{myclassSection_id}/{myclassSubject_id}/{examdetail_id}', SubadminMarksEntryEntityComponent::class)
             ->name('subadmin.marksentryentity');
     
-        
+        Route::get('/changePassword', UserChangePasswordComponent::class)
+            ->name('subadmin.changePassword');
     
     }
 );

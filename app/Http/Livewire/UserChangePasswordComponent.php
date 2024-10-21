@@ -14,6 +14,7 @@ class UserChangePasswordComponent extends Component
     public $showModal;
     public $showWarningModal;
 
+    public $name;
     public $email;
     public $password;
     public $confirm_password;
@@ -38,6 +39,7 @@ class UserChangePasswordComponent extends Component
         $this->showModal = false;
         $this->showWarningModal = false;
 
+        $this->name = auth()->user()->name;
         $this->email = auth()->user()->email;
 
         $this->resetValues();
