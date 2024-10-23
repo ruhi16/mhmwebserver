@@ -17,7 +17,7 @@ class CreateStudentvlsTable extends Migration
             $table->id();
             $table->string('gurdian_name_en')->nullable();
             $table->string('gurdian_name_bn')->nullable();
-            $table->string('relataion')->nullable();            
+            $table->string('relation')->nullable();            
             $table->string('village')->nullable();
             $table->string('po')->nullable();
             $table->string('ps')->nullable();

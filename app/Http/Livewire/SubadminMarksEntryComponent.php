@@ -6,7 +6,7 @@ use App\Models\Answerscriptdistribution;
 use App\Models\Exam;
 use App\Models\Examdetails;
 use App\Models\Exammode;
-use App\Models\examtype;
+use App\Models\Examtype;
 use App\Models\Myclasssection;
 use App\Models\Myclasssubject;
 use Livewire\Component;
