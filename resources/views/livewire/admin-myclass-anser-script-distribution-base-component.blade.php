@@ -49,62 +49,6 @@
         </div>
         @endif
 
-        {{-- <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
-            <thead>
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">Sl</th>
-                    <th class="border border-gray-300 px-4 py-2">Class</th>
-                    <th class="border border-gray-300 px-4 py-2">Nos</th>
-                    <th class="border border-gray-300 px-4 py-2">Sections</th>
-                    @foreach ($exams as $exam)
-                    <th class="border border-gray-300 px-4 py-2">{{ $exam->name }}</th>
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($myclasses as $index => $myclass)
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $myclass->name }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        {{ $myclassSections->where('myclass_id', $myclass->id)->count() }}
-                    </td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        @php $sections = $myclassSections->where('myclass_id', $myclass->id) @endphp
-                        
-
-                        @if ($sections->count() > 0)
-                        
-                        @foreach ($sections as $section)
-                        {{ $section->section->name }},
-                        @endforeach
-                        @endif
-                    </td>
-                    @foreach ($exams as $exam)
-                    <td class="border border-gray-300 px-4 py-2"> --}}
-
-                        {{-- <a class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
-                            href="{{ route('admin.ansscrdistributioncw', [
-                                    'myclass_id' => $myclass->id,
-                                    'exam_id' => $exam->id
-                                    ]) }}">
-                            Ans Scr Dist - {{$exam->id}}
-                        </a> --}}
-                        {{-- <button 
-                            class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
-                            wire:click="showTable({{ $myclass->id }}, {{ $exam->id }})">
-                            Ans Scr Dist
-                        </button>
-
-                        
-
-                    </td>
-                    @endforeach
-                </tr>
-                @endforeach
-            </tbody>
-        </table> --}}
-        {{-- Class:{{ $myclass_id }} Exam:{{ $exam_id }} --}}
         @if($exam_id == 1)
             @switch($myclass_id)
                 @case(1) <livewire:admin-ansscr-distributioncw-component :myclass_id=1 :exam_id=1 /> @break

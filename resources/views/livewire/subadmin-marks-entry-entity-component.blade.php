@@ -141,7 +141,7 @@
                                                 class="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500" />
                                     </div>
                                 @else
-                                <h2 class="text-purple-500 text-sm">Assign Invegilator</h2>
+                                <h2 class="text-purple-500 text-sm">Done</h2>
                                 @endif
                             </th>
                         </tr>

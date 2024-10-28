@@ -15,23 +15,23 @@ class Examdetails extends Model
 
     
     public function exam(){
-        return $this->belongsTo(Exam::class);
+        return $this->belongsTo(Exam::class, 'exam_id', 'id');
     }
 
     public function examtype(){
-        return $this->belongsTo(Examtype::class);
+        return $this->belongsTo(Examtype::class, 'examtype_id', 'id');
     }
 
     public function exammode(){
-        return $this->belongsTo(Exammode::class);
+        return $this->belongsTo(Exammode::class, 'exammode_id', 'id');
     }
 
     public function myclass(){
-        return $this->belongsTo(Myclass::class);
+        return $this->belongsTo(Myclass::class, 'myclass_id', 'id');
     }
 
     public function subject(){
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
     
     public function marksentries(){

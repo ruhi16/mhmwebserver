@@ -28,51 +28,90 @@
             
             <tr class="text-sm">
                 <th rowspan="2" class="border border-gray-300 px-4 py-2">Sl</th>
-                <th rowspan="2" class="border border-gray-300 px-4 py-2">ExamType</th>
-                {{-- <th class="border border-gray-300 px-4 py-2">Class</th> --}}
-                {{-- <th class="border border-gray-300 px-4 py-2">Type</th> --}}
-                <th rowspan="2" class="border border-gray-300 px-4 py-2">Mode</th>
+                <th rowspan="2" class="border border-gray-300 px-4 py-2">ExamType</th>                
                 <th rowspan="2" class="border border-gray-300 px-4 py-2">Subject</th>
                 @foreach($exams as $exam)
-                <th colspan="3" class="border border-gray-300 px-4 py-2">{{ $exam->name }}</th>
+                    <th colspan="4" class="border border-gray-300 px-4 py-2">{{ $exam->name }}</th>
                 @endforeach
             </tr>
-            <tr>
-                
-                @foreach($exams as $exam)
-                {{-- <tr colspan=3><th>xx</th></tr> --}}
-                <th class="border border-gray-300 px-4 py-2">Full Mark</th>
-                <th class="border border-gray-300 px-4 py-2">Pass Mark</th>
-                <th class="border border-gray-300 px-4 py-2">Time Alloted</th>
+            <tr>                
+                @foreach($exams as $exam)                
+                    <th class="border border-gray-300 px-4 py-2">Mode</th>
+                    <th class="border border-gray-300 px-4 py-2">FM</th>
+                    <th class="border border-gray-300 px-4 py-2">PM</th>
+                    <th class="border border-gray-300 px-4 py-2">Time</th>
                 @endforeach
             </tr>
         </thead>
         <tbody class="text-sm">
-        @foreach($examtypes as $examtype)
+        
 
-            @foreach($examDetails->where('examtype_id', $examtype->id) as $index => $examDetail)
-                <tr class="{{ $examDetail->examtype->id == 1 ? 'text-red-600' : '' }}">
-                    <th class="border border-gray-300 px-4 py-2 text-left">{{ $loop->iteration }}-{{$examDetail->id}}</th>
-                    <th class="border border-gray-300 px-4 py-2 ">{{ $examDetail->examtype->name }}</th>
-                    {{-- <th class="border border-gray-300 px-4 py-2">{{ $examDetail->myclass->name}}</th> --}}
-                    {{-- <th class="border border-gray-300 px-4 py-2">{{ $examDetail->exam->name }}</th> --}}
-                    <th class="border border-gray-300 px-4 py-2">{{ $examDetail->exammode->name }} </th>
-                    <th class="border border-gray-300 px-4 py-2 text-left">{{ $examDetail->subject->name }} </th>
-                    @foreach($exams as $exam)
-                        @if($examDetail->examtype_id == $exam->id)
-                        <th class="border border-gray-300 px-4 py-2">{{ $examDetail->full_mark }} </th>
-                        <th class="border border-gray-300 px-4 py-2">{{ $examDetail->pass_mark }} </th>
-                        <th class="border border-gray-300 px-4 py-2">{{ $examDetail->time_alloted }} min</th>
-                        @endif
+        @foreach($myclassSubjects as $myclassSubject)        
+            
+            <tr class=" {{ $myclassSubject->examtype->id == 1 ? 'text-purple-600' : '' }}">
+                <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ $myclassSubject->examtype->name }}</td>                    
+                <td class="border border-gray-300 px-4 py-2">{{ $myclassSubject->subject->name }}</td>
+
+                    @foreach($exams as $exam)                                
+                        @php
+                            $examDetails = $this->examDetails
+                                ->where('exam_id', $exam->id)                                
+                                ->where('subject_id', $myclassSubject->subject_id)                                
+                                ;
+                        @endphp
+
+                        <td class="border border-gray-300 px-4 py-2">
+                            {{-- {{ $exam->id }}-{{ $myclassSubject->subject_id}}
+                            {{ $examDetails->count() }} --}}
+                            @foreach($examDetails as $examDetail)
+                                {{ $examDetail->exammode->name }}<br/>
+                            @endforeach
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            @foreach($examDetails as $key => $examDetail)
+                                {{ $examDetail->full_mark ?? 'X' }}<br/>
+                            @endforeach
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            @foreach($examDetails as $key => $examDetail)
+                                {{ $examDetail->pass_mark ?? 'X' }}<br/>
+                            @endforeach
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            @foreach($examDetails as $key => $examDetail)
+                                {{ $examDetail->time_alloted ?? 'X' }} min<br/>
+                            @endforeach
+                        </td>                                
+                    
                     @endforeach
-                </tr>
-            @endforeach
+            </tr>
 
         @endforeach
 
 
         </tbody>
     </table>
+
+
+    {{-- 
+    @foreach($examDetails->where('examtype_id', $examtype->id) as $index => $examDetail)
+                <tr class="{{ $examDetail->examtype->id == 1 ? 'text-red-600' : '' }}">
+                    <th class="border border-gray-300 px-4 py-2 text-left">{{ $loop->iteration }}-{{$examDetail->id}}</th>
+                    <th class="border border-gray-300 px-4 py-2 ">{{ $examDetail->examtype->name }}</th>
+                    
+                    <th class="border border-gray-300 px-4 py-2">{{ $examDetail->exammode->name }} </th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">{{ $examDetail->subject->name }} </th>
+                    @foreach($exams as $exam)
+                        @if($examDetail->exam_id == $exam->id)
+                            <th class="border border-gray-300 px-4 py-2">{{ $examDetail->full_mark }}-{{$examDetail->exam_id}} </th>
+                            <th class="border border-gray-300 px-4 py-2">{{ $examDetail->pass_mark }} </th>
+                            <th class="border border-gray-300 px-4 py-2">{{ $examDetail->time_alloted }} minxx{{$exam->id}}</th>
+                        @endif
+                    @endforeach
+                </tr>
+            @endforeach
+    --}}
 
 
 

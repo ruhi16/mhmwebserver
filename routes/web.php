@@ -29,16 +29,11 @@ use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 // use App\Http\Livewire\Admin;
 // use App\View\Components\AdminDashboard;
 
-
 Route::controller(App\Http\Controllers\NoticeController::class)->group(
     function () {
         Route::get('notices', 'index'); // all notices, in a tabluler form, add new notice, open create
         Route::get('notices/{id}', 'display'); //
-        Route::get('notices/create', 'create'); // create a new notice, display form for data entry
-        Route::post('notices/create', 'store'); // submit clicked from create, to save the notice, goto indexes
-        Route::get('notices/{id}/edit', 'edit'); // edit any existing notice, display existing notice, goto update
-        Route::put('notices/{id}/edit', 'update'); // save the edited notice, goto indexes
-        Route::get('notices/{id}/delete', 'destroy'); // delete any existing notice, goto inexes
+
     }
 );
 
@@ -95,6 +90,18 @@ Route::group(
         // Route::get('/admission/{myclassSection_id}', [App\Http\Controllers\AdminController::class, 'admission'])->name('admission');
         // Route::get('/dashboard', AdminDashboard::class)
         //     ->name('adminDash');
+
+        Route::controller(App\Http\Controllers\NoticeController::class)->group(
+            function () {
+                Route::get('notices', 'index'); // all notices, in a tabluler form, add new notice, open create
+                Route::get('notices/{id}', 'display'); //
+                Route::get('notices/create', 'create'); // create a new notice, display form for data entry
+                Route::post('notices/create', 'store'); // submit clicked from create, to save the notice, goto indexes
+                Route::get('notices/{id}/edit', 'edit'); // edit any existing notice, display existing notice, goto update
+                Route::put('notices/{id}/edit', 'update'); // save the edited notice, goto indexes
+                Route::get('notices/{id}/delete', 'destroy'); // delete any existing notice, goto inexes
+            }
+        );
 
         // --------------------- Admin Dashboard Management ---------------------------------------------
         Route::get('/userpreviledgemanagement', AdminUserPreviledgeControlComponent::class)

@@ -26,7 +26,7 @@
         <tbody>
             @foreach($users as $index => $user)
             <tr>
-                <td class="border border-gray-300 px-4 py-2">{{$user->id}}</td>
+                <td class="border border-gray-300 px-4 py-2">{{$loop->iteration}}-{{$user->id}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$user->name}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$user->email}}</td>
                 <td class="border border-gray-300 px-4 py-2">{{$user->role->description ?? 'XXX'}}</td>

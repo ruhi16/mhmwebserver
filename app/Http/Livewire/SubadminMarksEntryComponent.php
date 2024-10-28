@@ -41,16 +41,15 @@ class SubadminMarksEntryComponent extends Component
         $this->myclassSection_id = $myclassSection_id;
 
         $this->myclassSections = Myclasssection::find($myclassSection_id);
-        $this->myclassSubjects = Myclasssubject::where('myclass_id', $this->myclassSections->myclass_id)->get();
+        $this->myclassSubjects = Myclasssubject::where('myclass_id', $this->myclassSections->myclass_id)->orderBy('examtype_id', 'asc')->get();
 
         $this->exams = Exam::all();
         $this->examtypes = Examtype::all();
-        $this->examModes = Exammode::all();
+        $this->examModes = Exammode::where('name', 'Oral')->orWhere('name', 'Written')->get();
         $this->examDetails = Examdetails::where('myclass_id', $this->myclassSections->myclass_id)                        
             ->get();
 
-        $this->myclassSubjects = Myclasssubject::where('myclass_id', $this->myclassSections->myclass_id)
-            ->get();
+        
 
         $this->answerscriptdistribution = Answerscriptdistribution::where('myclass_id', $this->myclassSections->myclass_id)
             ->where('section_id', $this->myclassSections->section_id)
