@@ -40,6 +40,7 @@
                     <th class="border border-gray-300 px-4 py-2">Admission</th>
                     <th class="border border-gray-300 px-4 py-2">Students</th>
                     <th class="border border-gray-300 px-4 py-2">Action</th>
+                    <th class="border border-gray-300 px-4 py-2">Action</th>
 
                 </tr>
             </thead>
@@ -59,13 +60,13 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <button wire:click="showModal({{ $myclassSection->id }})"
                                 class="text-white bg-purple-500 hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
-                                Class Teacher </button>
+                                Cl Teacher </button>
                             {{-- {{ $myclassSection_id }} --}}
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-orange-500 hover:bg-orange-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.ansscrdistribution', ['myclassSection_id' => $myclassSection->id]) }}">
-                                Ans Sc Dist Status
+                                Ans Sc Dist
                             </a>
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
@@ -77,7 +78,18 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.marksentry', ['myclassSection_id' => $myclassSection->id]) }}">
-                                Marks Entry
+                                FM Status
+                            </a>
+                        </td>
+
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a class="text-white bg-lime-500 hover:bg-lime-700 focus:ring-4 focus:ring-bg-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                                href="{{ route('admin.formativemarksentryentity', [
+                                    'myclassSection_id' => $myclassSection->id,                                    
+                                    'examterm_id'=> 1,
+                                    'examtype_id'=> 1
+                                    ]) }}">
+                                Formative
                             </a>
                         </td>
 

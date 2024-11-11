@@ -20,14 +20,12 @@ use App\Http\Livewire\AdminTeacherWiseMarksEntryLinksComponent;
 use App\Http\Livewire\AdminUserPreviledgeControlComponent;
 use App\Http\Livewire\SubadminMarksEntryComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
+use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
 use App\Models\Notice;
 use App\Models\Studentvl;
-// use Barryvdh\DomPDF\Facade\Pdf;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
-// use App\Http\Livewire\Admin;
-// use App\View\Components\AdminDashboard;
 
 Route::controller(App\Http\Controllers\NoticeController::class)->group(
     function () {
@@ -134,6 +132,10 @@ Route::group(
 
         Route::get('/marksentryentityclasswise/{myclassSection_id}/{myclassSubject_id}/{examdetail_id}', SubadminMarksEntryEntityComponent::class)
             ->name('admin.marksentryentity');
+
+        Route::get('/formativemarksentryentityclasswise/{myclassSection_id}/{examterm_id}/{examtype_id}', SubadminFormativeMarksEntryEntityComponent::class)
+            ->name('admin.formativemarksentryentity');
+
 
         
             

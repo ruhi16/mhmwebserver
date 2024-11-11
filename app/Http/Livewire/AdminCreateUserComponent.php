@@ -72,8 +72,7 @@ class AdminCreateUserComponent extends Component
         } catch (\Exception $e) {
             session()->flash('error', 'Error saving user: ' . $e->getMessage());
         }
-
-
+        
         $this->closeModal();        
     }
 

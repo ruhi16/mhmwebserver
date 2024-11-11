@@ -145,7 +145,7 @@
         </aside>
 
         <main class="w-full mx-auto px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800 min-h-screen">
-            History: {{ $componentName }}
+            {{-- History: {{ $componentName }} --}}
             {{-- <ul>
                 @foreach ($history as $routeName)
                     <li>{{ $routeName }}</li>
@@ -253,18 +253,26 @@
 
             @elseif($selectedItem == 'item2') {{-- Profile Management --}}
                 <livewire:admin-user-previledge-control-component />
+
             @elseif($selectedItem == 'item3') {{-- Class Section Task --}}
                 <livewire:admin-myclass-section-component>
+
             @elseif($selectedItem == 'item4') {{-- Answer Script Distribution --}}
                 <livewire:admin-myclass-anser-script-distribution-base-component />
-            @elseif($selectedItem == 'item5') {{-- Teacher's Marks Entry --}}
-                <livewire:admin-teacher-wise-marks-entry-links-component />
-            @elseif($selectedItem == 'item6') {{-- Notice Board --}}
+            @elseif($selectedItem == 'item5') {{-- Finalize Status --}}
+                <livewire:admin-finalize-status-component />
+
+            @elseif($selectedItem == 'item6') {{-- Teacher's Marks Entry --}}
+                <livewire:admin-teacher-wise-marks-entry-status-component />
+
+            @elseif($selectedItem == 'item7') {{-- Notice Board --}}
                 Comming Soon
-            @elseif($selectedItem == 'item7') {{-- Voter List --}}
+
+            @elseif($selectedItem == 'item8') {{-- Voter List --}}
                 <livewire:admin-voter-list-component />
+
                 {{-- <livewire:admin-teacher-wise-marks-entry-links-component /> --}}
-            @elseif($selectedItem == 'item8')
+            @elseif($selectedItem == 'item9')
                 {{-- <livewire:admin-teacher-wise-marks-entry-links-component /> --}}
             @endif
 

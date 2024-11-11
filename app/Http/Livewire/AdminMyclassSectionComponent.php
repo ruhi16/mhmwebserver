@@ -97,7 +97,7 @@ class AdminMyclassSectionComponent extends Component
 
             $this->resetToNull();
             $this->myclassteachers = Myclassteacher::all();
-            session()->flash('message', 'Form submitted successfully!');
+            session()->flash('message', 'Form submitted successfully!'); 
         } catch (\Exception $e) {
             session()->flash('error', 'Error saving data: ' . $e->getMessage());
         }
