@@ -27,6 +27,12 @@
     }
 
     </style> --}}
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
 
     <title>Document</title>
 </head>
@@ -35,6 +41,20 @@
     <h2 align="center">Manikchak High Madrasah(H.S)</h2>
     <h3 align="center">Manikchak * Lalgola * Murshidabad</h3>
     <h4 align="center">Provitional Voter List - 2024</h4>
+    <h3 align="center">Section: {{ $page }}</h3>
+
+
+    @php
+        $slNo = 1;
+        if($page == 1) {
+            $slNo = 1;
+        }else if($page == 2) {
+            $slNo = 601;
+        }else if($page == 3) {
+            $slNo = 1201;
+        }
+
+    @endphp
     
     <table border="1">
         <thead>
@@ -53,7 +73,7 @@
         <tbody>
             @foreach($voters as $voter)        
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $slNo }}</td>
                 <td>{{ $voter->gurdian_name_en ?? 'N/A' }}<br/>{{ $voter->gurdian_name_bn ?? 'N/A' }}</td>
                 <td>{{ $voter->village ?? 'N/A' }}</td>
                 <td>{{ $voter->student_name_en ?? 'N/A' }}<br/>{{ $voter->student_name_bn ?? 'N/A' }}</td>
@@ -66,7 +86,7 @@
                 @foreach($voters_all->where('brother_id', '=', $voter->id) as $sibling)
                     <tr>
                         <td class="border border-gray-300 px-4 py-2"></td>
-                        <td class="border border-gray-300 px-4 py-2">{{$sibling->gurdian_name_en}}<br/>{{$sibling->gurdian_name_bn}}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{$sibling->gurdian_name_en}}<br/><span style="font-size: 12pt;">{{$sibling->gurdian_name_bn}}</span></td>
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->village}}</td>
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->student_name_en}}<br/>{{$sibling->student_name_bn}}</td>
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->myclass->name}}</td>
@@ -75,13 +95,14 @@
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->relataion}}</td>                     
                         <td class="border border-gray-300 px-4 py-2">{{ $voter->adm_sl_no ?? 'N/A' }} - {{ $voter->adm_date ?? 'N/A' }}</td>
                     </tr>
-                @endforeach   
+                @endforeach  
+                @php $slNo++; @endphp 
             @endforeach
         </tbody>
     </table>
 
-    @foreach($voters as $voter)
+    {{-- @foreach($voters as $voter)
         {{ $voter->student_name_en ?? 'NAME NOT FOUND'}}-{{ $voter->student_name_bn ?? 'NAME NOT FOUND'}}<br/>
-    @endforeach
+    @endforeach --}}
 </body>
 </html>

@@ -24,6 +24,7 @@ use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
 use App\Models\Notice;
 use App\Models\Studentvl;
+use GuzzleHttp\Psr7\Request;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
 
@@ -48,7 +49,7 @@ Route::group(
       
     }
 );
-Route::get('pdf', function(){
+Route::get('pdf', function() {
     // $data = [
     //     'foo' => 'bar'
     // ];
@@ -56,7 +57,8 @@ Route::get('pdf', function(){
     // $pdf = PDF::loadView('livewire.dompdf-testpage', [
     //     'data' => $data
     // ]);
-    $this->voters_all = Studentvl::whereColumn('brother_id','!=', 'id')             
+    $page = request()->query('page');
+    $voters_all = Studentvl::whereColumn('brother_id','!=', 'id')             
             ->with('myclass')
             ->with('section')           
             ->orderBy('id', 'asc')  
@@ -64,12 +66,19 @@ Route::get('pdf', function(){
 
     // return $pdf->stream('document.pdf');
     $mpdf = new \Mpdf\Mpdf([
-        'default_font_size' => 16,
+        'default_font_size' => 8,
         'default_font' => 'nikosh',
     ]);
+    $voters = Studentvl::whereColumn('brother_id','=', 'id')
+            ->with('myclass')
+            ->with('section')                       
+            ->orderBy('id', 'asc')  
+            ->paginate(600);
+
     $html = view('livewire.dompdf-testpage',[
-        'voters'    => Studentvl::all(),
-        'voters_all' => $this->voters_all
+        'voters'    => $voters,
+        'voters_all' => $voters_all,
+        'page' => $page
     ])->render();
     $mpdf->WriteHTML($html);
 

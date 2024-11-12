@@ -68,10 +68,19 @@
         </table>
     </div>
 
-    @foreach($examdetails as $examdetail)
+    {{-- @foreach($examdetails as $examdetail)
         {{ $examdetail->subject->name }}<br/>
-    @endforeach
-   
+    @endforeach --}}
+    {{-- {{ explode('-', $key) ?? 'X'}}-- --}}
+    {{ explode('-', $key)[0] ?? 'X' }}=
+    {{ explode('-', $key)[1] ?? 'X' }}
+    {{-- {{ $key ?? 'X'}} --}}
+    {{ gettype($key) ?? 'X'}}
+    @if(!empty($key))
+        {{-- @foreach($key as $k)
+            {{ $k }}
+        @endforeach --}}
+    @endif
 
     <div>
         <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">

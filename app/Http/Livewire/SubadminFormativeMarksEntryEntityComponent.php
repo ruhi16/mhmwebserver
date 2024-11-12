@@ -24,7 +24,7 @@ class SubadminFormativeMarksEntryEntityComponent extends Component
     public $formativeMarks = [];
     public $formativeAbsentMarks = [];
 
-    public $key, $value;
+    public $key=null, $value;
 
 
 
@@ -52,11 +52,11 @@ class SubadminFormativeMarksEntryEntityComponent extends Component
     }
 
     public function updatedFormativeMarks($value, $key){
-        // $this->k = $key;    // studentcr_id
-        // $this->v = $value;  // marks
+        $this->key = $key;    // studentcr_id
+        $this->value = $value;  // marks
         // $x = explode('-', $key);
     
-        dd('val:' . $value, '  key:' . $key);
+        // dd('val:' . $value, '  key:' . $key);
     }
 
 

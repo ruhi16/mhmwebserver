@@ -71,7 +71,7 @@
                                 <td class="border border-gray-300 px-4 py-2"></td>
                                 <td class="border border-gray-300 px-4 py-2">{{$sibling->gurdian_name_en}}<br/>{{$sibling->gurdian_name_bn}}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{$sibling->village}}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{$sibling->student_name_en}}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{$sibling->student_name_en}}<br/>{{$sibling->student_name_bn}}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{$sibling->myclass->name}}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{$sibling->section->name}}</td>
                                 <td class="border border-gray-300 px-4 py-2">{{$sibling->roll_no}}</td>
