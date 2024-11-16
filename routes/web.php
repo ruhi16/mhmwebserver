@@ -14,6 +14,7 @@ use App\Http\Livewire\AdminAdmissionComponent;
 use App\Http\Livewire\AdminAnsscrDistributionComponent;
 use App\Http\Livewire\AdminAnsscrDistributioncwComponent;
 use App\Http\Livewire\AdminCreateUserComponent;
+use App\Http\Livewire\AdminMarkRegisterComponent;
 use App\Http\Livewire\AdminMyclassAnserScriptDistributionBaseComponent;
 use App\Http\Livewire\AdminMyclassSectionComponent;
 use App\Http\Livewire\AdminTeacherWiseMarksEntryLinksComponent;
@@ -144,6 +145,9 @@ Route::group(
 
         Route::get('/formativemarksentryentityclasswise/{myclassSection_id}/{examterm_id}/{examtype_id}', SubadminFormativeMarksEntryEntityComponent::class)
             ->name('admin.formativemarksentryentity');
+
+        Route::get('/markregisterclasswise/{myclassSection_id}', AdminMarkRegisterComponent::class)
+            ->name('admin.markregister');
 
 
         

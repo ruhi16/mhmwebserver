@@ -14,6 +14,57 @@
             Generate PDF
         </button>
         {{ $pdf_msg }}  
+        <div class="flex justify-start">
+            <h>Hello</h><br/>
+            
+            {{-- Total Voters:{{ $this->test_voters_all->count() }}<br/> --}}
+            {{-- Voters only Brothers:{{ $this->test_voters_only_brothers->count() }}<br/>
+            Voters only Non Brothers:{{ $this->test_voters_only_non_brothers->count() }}<br/>
+            Voters only Brothers Alone:{{ $this->test_voters_only_brothers_alone->count() }}<br/>
+            Voters only Findings:{{ $this->findings->count() }}<br/> --}}
+            {{-- @foreach($this->test_voters as $brother)
+                {{ $brother->id }}=={{ $brother->student_name_en}}=={{$brother->brother_id}}<br/>
+            @endforeach --}}
+
+            @foreach($this->test_voters_all as $brother)
+                ({{ $brother->id }},{{$brother->brother_id}}),
+            @endforeach
+            ==============<br/>
+            @foreach($this->test_voters_only_brothers as $brother)
+                ({{ $brother->id }},{{$brother->brother_id}}),
+            @endforeach
+            <br/>==============<br/>
+
+            @foreach($this->studentvl_active_brothers as $brother)
+                ({{$brother->id}},{{$brother->brother_id}}),
+            @endforeach
+            <br/>==============<br/>
+            @foreach($this->test_voters_only_brothers_alone as $brother)
+                ({{ $brother->id }},{{$brother->brother_id}}),
+            @endforeach
+            <br/>==============<br/>
+            @foreach($this->test_voters_only_non_brothers as $brother)
+                ({{ $brother->id }},{{$brother->brother_id}}),
+            @endforeach
+            <br/>==============<br/>
+
+
+
+
+            {{-- @foreach($this->test_voters_only_brothers as $brother)
+                {{ $brother->id }}=={{ $brother->student_name_en}}=={{$brother->brother_id}}<br/>
+            @endforeach
+            ==============<br/>
+            @foreach($this->test_voters_only_brothers_alone as $brother)
+                {{ $brother->id }}=={{ $brother->student_name_en}}=={{$brother->brother_id}}<br/>
+            @endforeach
+            ==============<br/>
+            @foreach($this->findings as $finding)
+                {{ $finding->id }}=={{ $finding->student_name_en}}=={{$finding->roll_no}}=={{$finding->brother_id}}<br/>
+            @endforeach --}}
+
+
+        </div>
 
 
         <div class="h-auto  min-w-full mx-auto ">
@@ -44,13 +95,7 @@
                         <td class="border border-gray-300 px-4 py-2">{{ $voter->roll_no }}</td>
                         <td class="border border-gray-300 px-4 py-2">{{ $voter->brother_id }}</td>
                         <td class="border border-gray-300 px-4 py-2">
-                            {{-- 
-                            <button 
-                                wire:click="removeBrotherhood({{ $voter->id }})"
-                                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                                Remove
-                            </button> 
-                            --}}
+                            
                         </td>
 
                         <td class="border border-gray-300 px-4 py-2">

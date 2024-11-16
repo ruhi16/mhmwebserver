@@ -4,6 +4,7 @@
             {{ 'Formative Marks Entry: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}
         </h2>        
     @endsection
+    {{-- Exam::{{$this->examterm->name}} --}}
 
     <div class="h-fit min-w-full mx-auto">        
         @if (session()->has('message'))
@@ -27,6 +28,15 @@
         </div>
     </div>
     <div>
+        {{-- {{ $marksentry ?? "No Marks Entered!!" }} --}}
+        {{-- {{ 
+            ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks ?? false)
+            ? ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks < 0 
+                ? 'AB' : $marksentry->where('studentcr_id', $studentcr->id)->first()->marks) 
+            : ($marksentry->where('studentcr_id', $studentcr->id)->first() == Null ? '--' : 0) 
+        }} --}}
+    </div>
+    <div>
         <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
             <thead>
                 <tr>
@@ -34,6 +44,7 @@
                     <td class="border border-gray-300 px-4 py2">{{ $myclassSection->myclass->name }}/{{ $myclassSection->section->name}}</td>
                     <th class="border border-gray-300 px-4 py2"></th>
                     <th class="border border-gray-300 px-4 py2 font-bold">Subject</th>
+                    <td class="border border-gray-300 px-4 py2">All</td>
                     {{-- <td class="border border-gray-300 px-4 py2">{{ $myclassSubject->subject->name}}</td> --}}
                     <th class="border border-gray-300 px-4 py2"></th>
                     <th class="border border-gray-300 px-4 py2 font-bold">Pass Marks</th>
@@ -45,17 +56,18 @@
                 </tr>
                 <tr>
                     <th class="border border-gray-300 px-4 py2 font-bold">Exam</th>
-                    {{-- <td class="border border-gray-300 px-4 py2">{{ $examdetail->exam->name ?? 'X'}}</td> --}}
+                    <td class="border border-gray-300 px-4 py2">{{ $this->examterm->name ?? 'X'}}</td>
                     <th class="border border-gray-300 px-4 py2"></th>
-                    <th class="border border-gray-300 px-4 py2 font-bold"></th>
+                    {{-- <th class="border border-gray-300 px-4 py2 font-bold"></th> --}}
                     <th class="border border-gray-300 px-4 py2 font-bold">Exam Type</th>
-                    {{-- <td class="border border-gray-300 px-4 py2">{{ $examdetail->examtype->name ?? 'X'}}</td> --}}
+                    <td class="border border-gray-300 px-4 py2">Formative</td>
+                    {{-- <td class="border border-gray-300 px-4 py2">{{ $examterm->examtype->name ?? 'X'}}</td> --}}
                     <th class="border border-gray-300 px-4 py2"></th>
                     <th class="border border-gray-300 px-4 py2 font-bold">Exam Mode</th>
-                    {{-- <td class="border border-gray-300 px-4 py2">{{ $examdetail->exammode->name ?? 'X'}}</td> --}}
+                    {{-- <td class="border border-gray-300 px-4 py2">{{ $examterm->exammode->name ?? 'X'}}</td> --}}
                     <th class="border border-gray-300 px-4 py2"></th>
                     <th class="border border-gray-300 px-4 py2 font-bold">Teacher</th>
-                    <td class="border border-gray-300 px-4 py2">
+                    <td class="border border-gray-300 px-4 py2">Class Teacher
                         {{-- <span class="text-red-500 font-extrabold"> {{ $ansscriptdistribution->first()->teacher->name ?? 'NA' }}</span> --}}
                     </td>
     
@@ -72,15 +84,26 @@
         {{ $examdetail->subject->name }}<br/>
     @endforeach --}}
     {{-- {{ explode('-', $key) ?? 'X'}}-- --}}
-    {{ explode('-', $key)[0] ?? 'X' }}=
-    {{ explode('-', $key)[1] ?? 'X' }}
-    {{-- {{ $key ?? 'X'}} --}}
-    {{ gettype($key) ?? 'X'}}
-    @if(!empty($key))
-        {{-- @foreach($key as $k)
-            {{ $k }}
-        @endforeach --}}
-    @endif
+    {{-- StudentCR:{{ explode('-', $key)[0] ?? 'X' }}<br/>
+    Subject:{{ explode('-', $key)[1] ?? 'X' }}
+    Marks:{{$value ?? 'X'}}<br/>
+    ExamDetail:{{ $examdetail->id ?? 'X'}}<br/>
+    ClassSection:{{ $myclassSection->myclass->name ?? 'X'}}<br/>
+    ClassSection:{{ $myclassSection->section->name ?? 'X'}}<br/>
+    ClassSubject:{{ $myclassSubject->subject->name ?? 'X'}}<br/> --}}
+    
+    {{-- xx: {{ $this->myclassSubjects->pluck('id') }}
+    <br/>
+    @foreach($enteredMarks as $enteredMark)
+        Marks:{{ $enteredMark }}<br/>
+    @endforeach --}}
+    
+    {{-- @foreach($myclassSubjects as $myclassSubject)
+        ss:{{ $myclassSubject }}
+    @endforeach --}}
+    {{-- @foreach($examdetails as $examdetail)
+        {{$examdetail}}
+    @endforeach --}}
 
     <div>
         <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
@@ -90,15 +113,15 @@
                     <th class="border border-gray-300 px-4 py-2">Name<br/>Student Id</th>
                     
                     <th class="border border-gray-300 px-4 py-2">Roll</th>
-                    {{-- <th class="border border-gray-300 px-4 py-2">Marks</th> --}}
+                    
                     @foreach($examdetails as $examdetail)
                         <th class="border border-gray-300 px-4 py-2">
                             {{ $examdetail->subject->code }}<br/>
                             <span class="text-sm">{{ $examdetail->pass_mark ?? 'X' }}/{{ $examdetail->full_mark ?? 'X' }}</span>
                         </th>
                     @endforeach
-                    {{-- <th class="border border-gray-300 px-4 py-2">Marks</th> --}}
 
+                    
                 </tr>
             </thead>
             <tbody>
@@ -123,9 +146,23 @@
                                     {{-- wire:model.debounce.250ms="formativeMarks.[{{ $studentcr->id }},{{ $examdetail->subject_id }}]" --}}
                                     oninput="if (this.value < 0 || this.value> {{$examdetail->full_mark}}) this.value ='';"
                                     />
-                                    {{-- <input type="checkbox" wire:model="cbmarks.{{ $studentcr->id }}"
-                                        class="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500" /> --}}
-                            </div>
+                                    <input type="checkbox" 
+                                        {{-- wire:model="formativeAbsentMarks.{{ $studentcr->id }}-{{ $examdetail->subject_id }}" --}}
+                                        class="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500" />
+                            </div>                            
+                            {{
+                                $this->enteredMarks->where('studentcr_id', $studentcr->id)
+                                    ->where('myclasssubject_id', $myclassSubjects->where('subject_id', $examdetail->subject_id)->first()->id)
+                                    // ->where('examdetail_id', $examdetail->subject_id)
+                                    ->first()->marks 
+                                    ?? 'XXX'
+                            }}
+                            {{-- {{ 
+                                ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks ?? false)
+                                ? ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks < 0 
+                                    ? 'AB' : $marksentry->where('studentcr_id', $studentcr->id)->first()->marks) 
+                                : ($marksentry->where('studentcr_id', $studentcr->id)->first() == Null ? '--' : 0) 
+                            }} --}}
                         </th>
                     @endforeach
                     {{-- <th class="border border-gray-300 px-4 py-2"></th> --}}

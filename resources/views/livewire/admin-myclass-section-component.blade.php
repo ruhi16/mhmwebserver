@@ -40,7 +40,7 @@
                     <th class="border border-gray-300 px-4 py-2">Admission</th>
                     <th class="border border-gray-300 px-4 py-2">Students</th>
                     <th class="border border-gray-300 px-4 py-2">Action</th>
-                    <th class="border border-gray-300 px-4 py-2">Action</th>
+                    <th class="border border-gray-300 px-4 py-2">Formative</th>
 
                 </tr>
             </thead>
@@ -83,13 +83,31 @@
                         </td>
 
                         <td class="border border-gray-300 px-4 py-2">
-                            <a class="text-white bg-lime-500 hover:bg-lime-700 focus:ring-4 focus:ring-bg-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                            @foreach($exams as $exam)
+                                @php 
+                                    if($exam->id == 1) 
+                                        $color = 'lime'; 
+                                    else if($exam->id == 2)
+                                        $color = 'violet';
+                                    else 
+                                        $color = 'rose'; 
+                                @endphp 
+
+                            <a 
+                                class="text-white gap-2 bg-{{$color}}-500 hover:bg-{{$color}}-700 focus:ring-4 focus:ring-bg-{{$color}}-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.formativemarksentryentity', [
                                     'myclassSection_id' => $myclassSection->id,                                    
-                                    'examterm_id'=> 1,
+                                    'examterm_id'=> $exam->id,      // should varry for different term
                                     'examtype_id'=> 1
                                     ]) }}">
-                                Formative
+                                {{ $exam->details }}
+                            </a> 
+                            @endforeach
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a class="text-white bg-emerald-500 hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                                href="{{ route('admin.markregister', ['myclassSection_id' => $myclassSection->id]) }}">
+                                Register
                             </a>
                         </td>
 

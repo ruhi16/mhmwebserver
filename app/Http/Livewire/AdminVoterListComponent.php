@@ -5,8 +5,9 @@ namespace App\Http\Livewire;
 use App\Models\Myclass;
 use App\Models\Myclasssection;
 use App\Models\Studentvl;
-use Barryvdh\DomPDF\PDF as DomPDFPDF;
+// use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 // use Barryvdh\DomPDF\Facade\Pdf;
@@ -20,6 +21,7 @@ class AdminVoterListComponent extends Component{
     public $voters_all;
 
     public $studentvl;
+    public $studentvl_active_brothers;
 
     public $selectedStudent_id;
 
@@ -40,9 +42,83 @@ class AdminVoterListComponent extends Component{
 
     public $pdf_msg = "No Pdf Generated";
 
+    public $test_voters = null;
+    public $test_voters_all = null;
+    public $test_voters_only_brothers = null;
+    public $test_voters_only_non_brothers = null;
+    public $test_voters_only_brothers_alone = null;
+
+    public $findings = null;
+
+
     public function mount(  $class_id = null, $section_id = null){
         $this->class_id = $class_id;
         $this->section_id = $section_id;
+
+
+        // ------
+        $this->test_voters_all = Studentvl::where('myclass_id', 1)
+            ->where('section_id', 1)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        // $this->test_voters_all = $this->test_voters; 
+        
+        $this->test_voters_only_brothers = Studentvl::where('myclass_id', 1)
+            ->where('section_id', 1)
+            ->whereColumn('id', '!=', 'brother_id')
+            ->orderBy('id', 'asc')
+            ->get();
+        
+
+        $this->studentvl_active_brothers = Studentvl::
+            whereColumn('id', '!=', 'brother_id')
+            ->select('id','brother_id')
+            ->distinct()
+            ->orderBy('brother_id', 'asc')
+            ->get();
+        
+
+
+        $this->test_voters_only_brothers_alone = Studentvl::where('myclass_id', 1)
+            ->where('section_id', 1)
+            ->whereNotIn('id', $this->studentvl_active_brothers)            
+            ->get();
+
+
+
+        $this->test_voters_only_non_brothers = Studentvl::where('myclass_id', 1)
+            ->where('section_id', 1)
+            ->whereIn('id', $this->studentvl_active_brothers)            
+            ->orderBy('id', 'asc')
+            ->get();
+
+
+        
+
+        
+
+        $this->findings = Studentvl::where('myclass_id', 1)
+            ->where('section_id', 1)
+            ->whereNotIn('id', $this->test_voters_only_brothers_alone)
+            ->get()
+            ;
+       
+
+            // $activeUsers = DB::table('users')->select('id')->where('is_active', 1);
+ 
+            // $users = DB::table('comments')
+            //                     ->whereIn('user_id', $activeUsers)
+            //                     ->get();
+
+
+        // $this->test_voters_only_non_brothers = $this->test_voters->where('id','=', 'brother_id');
+
+
+        // ------
+
+
+
 
         // dd($this->class_id, $this->section_id);
         if($this->class_id != null ){
@@ -114,6 +190,12 @@ class AdminVoterListComponent extends Component{
             ->with('section')
             ->firstOrFail();
 
+        $this->studentvl_active_brothers = Studentvl::where('brother_id', $studentvl_id)
+            ->whereColumn('id', '!=', 'brother_id')
+            ->select('brother_id')
+            ->distinct()
+            ->get();
+
         $this->showModal = true;    
     }
 
@@ -129,12 +211,32 @@ class AdminVoterListComponent extends Component{
 
     public function updatedSelectedSection($selectedSection){
         $this->selectedSection = $selectedSection;
+        $brothers = Studentvl::where('id', '=', 'brother_id')
+            // ->distinct('brother_id')
+            ->get();
+        // dd($brothers);
 
-        $this->myclssecStudents = Studentvl::whereColumn('brother_id','=', 'id')
+        $this->myclssecStudents = Studentvl::where('myclass_id', $this->selectedMyclass)
+            ->where('section_id', $this->selectedSection)
             ->where('id', '!=', $this->selectedStudent_id)
-            ->where('myclass_id', $this->selectedMyclass)
-            ->where('section_id', $this->selectedSection)            
-            ->get();           
+            ->whereNotIn('id', $this->studentvl_active_brothers)      // ****      
+            ->get();  
+
+        // $this->myclssecStudents = $this->myclssecStudents->whereNotIn('id', $brothers->pluck('brother_id'));
+
+        // dd($brothers, $this->myclssecStudents);
+
+
+
+            // ->whereNotIn('id', DB::table('studentvls')
+            // ->where('id', '!=', 'brother_id')->pluck('brother_id'))
+
+            // ->whereNotIn('id', function ($query) {
+            //     $query->select('brother_id')->from('studentvls');
+            // })            
+            
+            // dd($this->myclssecStudents);
+            // dd( DB::table('studentvls')->where('id', '!=', 'brother_id')->pluck('brother_id'));         
         
     }
 
