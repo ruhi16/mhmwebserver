@@ -50,7 +50,7 @@ class Myclass extends Model
     }
 
     public function Answerscriptdistribution(){
-        return $this->hasMany(Answerscriptdistribution::class, 'subject_id', 'id');
+        return $this->hasMany(Answerscriptdistribution::class, 'myclass_id', 'id');
         // 'subject_id' is the foreign key in the Answerscriptdistribution table
         // 'id' is the primary key in the Myclass table
     }
@@ -60,6 +60,12 @@ class Myclass extends Model
         return $this->hasMany(Studentvl::class, 'myclass_id', 'id');
         // 'myclass_id' is the foreign key in the Studentvl table
         // 'id' is the primary key in the Myclass table
+    }
+
+    public function myclassdayperiods(){
+        return $this->hasMany(Myclassdayperiod::class, 'myclass_id', 'id');
+
+        
     }
         
     

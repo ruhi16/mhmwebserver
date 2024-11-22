@@ -62,7 +62,11 @@ Route::get('pdf', function() {
     $voters_all = Studentvl::whereColumn('brother_id','!=', 'id')             
             ->with('myclass')
             ->with('section')           
-            ->orderBy('id', 'asc')  
+            // ->orderBy('id', 'asc')  
+            ->orderBy('village', 'asc')
+            ->orderBy('myclass_id', 'asc')
+            ->orderBy('section_id', 'asc')
+            ->orderBy('roll_no', 'asc')
             ->get();
 
     // return $pdf->stream('document.pdf');
@@ -73,7 +77,11 @@ Route::get('pdf', function() {
     $voters = Studentvl::whereColumn('brother_id','=', 'id')
             ->with('myclass')
             ->with('section')                       
-            ->orderBy('id', 'asc')  
+            // ->orderBy('id', 'asc')  
+            ->orderBy('village', 'asc')
+            ->orderBy('myclass_id', 'asc')
+            ->orderBy('section_id', 'asc')
+            ->orderBy('roll_no', 'asc')
             ->paginate(600);
 
     $html = view('livewire.dompdf-testpage',[

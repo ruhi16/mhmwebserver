@@ -127,7 +127,11 @@ class AdminVoterListComponent extends Component{
             // ->where('section_id', $this->section_id)
             ->with('myclass')
             ->with('section')           
-            ->orderBy('id', 'asc')  
+            // ->orderBy('id', 'asc')  
+            ->orderBy('village', 'asc')
+            ->orderBy('myclass_id', 'asc')
+            ->orderBy('section_id', 'asc')
+            ->orderBy('roll_no', 'asc')
             ->get();
 
             $this->voters = Studentvl::whereColumn('brother_id','=', 'id')
@@ -135,7 +139,11 @@ class AdminVoterListComponent extends Component{
             // ->where('section_id', $this->section_id)
             ->with('myclass')
             ->with('section')                       
-            ->orderBy('id', 'asc')  
+            // ->orderBy('id', 'asc')  
+            ->orderBy('village', 'asc')
+            ->orderBy('myclass_id', 'asc')
+            ->orderBy('section_id', 'asc')
+            ->orderBy('roll_no', 'asc')
             ->get();    
         }else{
             $this->voters_all = Studentvl::whereColumn('brother_id','!=', 'id') 
@@ -143,7 +151,11 @@ class AdminVoterListComponent extends Component{
             // ->where('section_id', $this->section_id)
             ->with('myclass')
             ->with('section')           
-            ->orderBy('id', 'asc')  
+            // ->orderBy('id', 'asc')  
+            ->orderBy('village', 'asc')
+            ->orderBy('myclass_id', 'asc')
+            ->orderBy('section_id', 'asc')
+            ->orderBy('roll_no', 'asc')
             ->get();
 
         $this->voters = Studentvl::whereColumn('brother_id','=', 'id')
@@ -151,7 +163,11 @@ class AdminVoterListComponent extends Component{
             // ->where('section_id', $this->section_id)
             ->with('myclass')
             ->with('section')                       
-            ->orderBy('id', 'asc')  
+            // ->orderBy('id', 'asc')  
+            ->orderBy('village', 'asc')
+            ->orderBy('myclass_id', 'asc')
+            ->orderBy('section_id', 'asc')
+            ->orderBy('roll_no', 'asc')
             ->get();
         }
         

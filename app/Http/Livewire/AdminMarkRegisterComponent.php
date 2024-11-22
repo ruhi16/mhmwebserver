@@ -16,7 +16,9 @@ class AdminMarkRegisterComponent extends Component
 
     public $myclassSubjects = null;
     public $exams = null;
+    public $examdetails = null;
 
+    public $marksentries = null;
 
 
 
@@ -31,10 +33,15 @@ class AdminMarkRegisterComponent extends Component
             ->get();
 
         $this->exams = Exam::all();
+        $this->examdetails = $this->myclassSection->myclass->examdetails()->get();
 
         $this->studentcrs = Studentcr::where('myclass_id', $this->myclassSection->myclass_id)
             ->where('section_id', $this->myclassSection->section_id)
             ->orderBy('roll_no', 'asc')
+            ->get();
+
+        $this->marksentries = $this->myclassSection->marksentries()
+            // ->whereColumn('examdetail_id', $this->exams->find(1)->examdetails()->pluck('id'))
             ->get();
 
         

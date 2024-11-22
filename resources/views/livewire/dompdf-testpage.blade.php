@@ -93,7 +93,7 @@
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->section->name}}</td>
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->roll_no}}</td>
                         <td class="border border-gray-300 px-4 py-2">{{$sibling->relataion}}</td>                     
-                        <td class="border border-gray-300 px-4 py-2">{{ $voter->adm_sl_no ?? 'N/A' }} - {{ $voter->adm_date ?? 'N/A' }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ $sibling->adm_sl_no ?? 'N/A' }} - {{ $sibling->adm_date ?? 'N/A' }}</td>
                     </tr>
                 @endforeach  
                 @php $slNo++; @endphp 

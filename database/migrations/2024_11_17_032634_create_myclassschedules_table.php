@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubjectteachersTable extends Migration
+class CreateMyclassschedulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateSubjectteachersTable extends Migration
      */
     public function up()
     {
-        Schema::create('subjectteachers', function (Blueprint $table) {
-            $table->increments('id');            
+        Schema::create('myclassschedules', function (Blueprint $table) {
+            $table->id();
+            $table->integer('myclass_id');
+            $table->integer('section_id');
+            $table->integer('day_id');
+            $table->integer('period_id');
             $table->integer('subject_id');
-            $table->integer('teacher_id');    
-            $table->string('details')->nullable();  
-            $table->integer('subject_priority')->nullable();    //1: Main_subj, 2: 2nd_main_subj, 3: Gen_subj, 4: Secondary    
-            
-            
-            $table->string('remark')->nullable();
+            $table->integer('teacher_id');
+
             $table->string('status')->nullable();
+            $table->string('remark')->nullable();
             $table->integer('session_id')->nullable();
             $table->integer('school_id')->nullable();
-            $table->integer('prev_session_pk');           
             $table->timestamps();
         });
     }
@@ -37,6 +37,6 @@ class CreateSubjectteachersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subjectteachers');
+        Schema::dropIfExists('myclassschedules');
     }
 }

@@ -18,8 +18,11 @@ class CreateMyclassteachersTable extends Migration
             $table->integer('myclass_id')->nullable();
             $table->integer('section_id')->nullable();            
             $table->integer('teacher_id')->nullable();
-            $table->integer('subject_id')->nullable();
+            $table->integer('subject_id')->nullable();            
             $table->string('details')->nullable();
+
+
+            
             $table->string('remark')->nullable();
             $table->string('status')->nullable();
             $table->integer('session_id')->nullable();

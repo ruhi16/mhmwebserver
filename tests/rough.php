@@ -1,3 +1,114 @@
+<div class="grid md:grid-cols-3 auto-rows-[210px] gap-4">
+
+                    <div
+                        class="relative flex flex-col my-6 cursor-pointer bg-yellow-100 hover:bg-yellow-200 shadow-sm border border-slate-200 rounded-lg w-96">
+                        <div class="p-4">
+                            <h5 class="mb-2 text-slate-800 text-xl font-semibold text-ellipsis line-clamp-1">
+                                Website Review Check Update from Our Team in San Francisco
+                            </h5>
+                            <p class="text-slate-600 leading-normal font-light line-clamp-2">
+                                The place is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place
+                                is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place is close
+                                to Barceloneta Beach.
+                            </p>
+                        </div>
+                        <div class="mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
+                            <span class="text-sm text-slate-600 font-medium">
+                                Last updated: 4 hours ago
+                            </span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="relative flex flex-col my-6 cursor-pointer bg-yellow-100 hover:bg-yellow-200 shadow-sm border border-slate-200 rounded-lg w-96">
+                        <div class="p-4">
+                            <h5 class="mb-2 text-slate-800 text-xl font-semibold text-ellipsis line-clamp-1">
+                                Website Review Check Update from Our Team in San Francisco
+                            </h5>
+                            <p class="text-slate-600 leading-normal font-light line-clamp-2">
+                                The place is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place
+                                is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place is close
+                                to Barceloneta Beach.
+                            </p>
+                        </div>
+                        <div class="mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
+                            <span class="text-sm text-slate-600 font-medium">
+                                Last updated: 4 hours ago
+                            </span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="relative flex flex-col my-6 cursor-pointer bg-yellow-100 hover:bg-yellow-200 shadow-sm border border-slate-200 rounded-lg w-96">
+                        <div class="p-4">
+                            <h5 class="mb-2 text-slate-800 text-xl font-semibold text-ellipsis line-clamp-1">
+                                Website Review Check Update from Our Team in San Francisco
+                            </h5>
+                            <p class="text-slate-600 leading-normal font-light line-clamp-2">
+                                The place is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place
+                                is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place is close
+                                to Barceloneta Beach.
+                            </p>
+                        </div>
+                        <div class="mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
+                            <span class="text-sm text-slate-600 font-medium">
+                                Last updated: 4 hours ago
+                            </span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="relative md:col-span-2 flex flex-col my-6 cursor-pointer bg-purple-100 hover:bg-purple-200 shadow-sm border border-slate-200 rounded-lg min-w-96">
+                        <div class="p-4">
+                            <h5 class="mb-2 text-slate-800 text-xl font-semibold text-ellipsis line-clamp-1">
+                                Website Review Check Update from Our Team in San Francisco
+                            </h5>
+                            <p class="text-slate-600 leading-normal font-light line-clamp-2">
+                                The place is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place
+                                is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place is close
+                                to Barceloneta Beach.
+                            </p>
+                        </div>
+                        <div class="mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
+                            <span class="text-sm text-slate-600 font-medium">
+                                Last updated: 4 hours ago
+                            </span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="relative flex flex-col my-6 cursor-pointer bg-yellow-100 hover:bg-yellow-200 shadow-sm border border-slate-200 rounded-lg w-96">
+                        <div class="p-4">
+                            <h5 class="mb-2 text-slate-800 text-xl font-semibold text-ellipsis line-clamp-1">
+                                Website Review Check Update from Our Team in San Francisco
+                            </h5>
+                            <p class="text-slate-600 leading-normal font-light line-clamp-2">
+                                The place is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place
+                                is close to Barceloneta Beach. The place is close to Barceloneta Beach. The place is close
+                                to Barceloneta Beach.
+                            </p>
+                        </div>
+                        <div class="mx-3 border-t border-slate-200 pb-3 pt-2 px-1">
+                            <span class="text-sm text-slate-600 font-medium">
+                                Last updated: 4 hours ago
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <table class="min-w-auto mx-auto my-8 border-collapse border border-gray-600 ">
             <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">

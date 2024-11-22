@@ -10,8 +10,7 @@ use App\Models\Myclasssection;
 use App\Models\Studentcr;
 use Livewire\Component;
 
-class SubadminFormativeMarksEntryEntityComponent extends Component
-{
+class SubadminFormativeMarksEntryEntityComponent extends Component{
 
     public $myclassSection;
     public $examterm;
@@ -22,7 +21,7 @@ class SubadminFormativeMarksEntryEntityComponent extends Component
     public $examdetails;
 
     public $examdetail = null;
-    // public $myclassSection_id;
+    
     public $myclassSubject = null;
     public $enteredMarks = null;
 
@@ -56,13 +55,17 @@ class SubadminFormativeMarksEntryEntityComponent extends Component
             ->orderBy('id')
             ->get();
 
+        // $this->enteredMarks = $this->myclassSection->marksentries()
+            // ->whereColumn('examdetail_id', $this->examdetails->pluck('id'))
+            // ->get();
+
         $this->reloadData();
 
     }
 
     public function updatedFormativeMarks($value, $key){
-        $this->key = $key;    // studentcr_id
-        $this->value = $value;  // marks        
+        // $this->key = $key;    // studentcr_id
+        // $this->value = $value;  // marks        
 
         $this->examdetail = $this->examdetails
             ->where('subject_id', explode('-', $key)[1])
@@ -82,7 +85,24 @@ class SubadminFormativeMarksEntryEntityComponent extends Component
 
 
     public function updatedFormativeAbsentMarks($value, $key){
+        $this->key = $key;    // studentcr_id
+        $this->value = $value;  // marks  
 
+        $this->examdetail = $this->examdetails
+            ->where('subject_id', explode('-', $key)[1])
+            ->where('exammode_id', 1)   // Formative Exam Mode: 1(Oral)
+            ->first();
+
+        $this->myclassSubject = $this->myclassSubjects
+            ->where('subject_id', explode('-', $key)[1])
+            ->first();
+
+        $this->studentcr = Studentcr::find(explode('-', $key)[0]);
+
+        $studentcr_id = explode('-', $key)[0];
+        $this->submitMarks($studentcr_id);
+        
+        
     }
 
 
@@ -120,7 +140,7 @@ class SubadminFormativeMarksEntryEntityComponent extends Component
 
     public function reloadData(){
         $this->enteredMarks = Marksentry::where('myclasssection_id', $this->myclassSection->id)
-            ->where('examdetail_id', $this->examdetails->first()->id)
+            // ->where('examdetail_id', $this->examdetails->first()->id)
             ->whereIn('myclasssubject_id', $this->myclassSubjects->pluck('id'))
             ->get();
     }
