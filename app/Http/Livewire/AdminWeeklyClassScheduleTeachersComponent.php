@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use Livewire\Component;
+
 use App\Models\Day;
 use App\Models\Myclass;
 use App\Models\Myclassschedule;
@@ -10,9 +12,11 @@ use App\Models\Myclasssubject;
 use App\Models\Period;
 use App\Models\Section;
 use App\Models\Teacher;
-use Livewire\Component;
 
-class AdminWeeklyClassScheduleComponent extends Component{
+class AdminWeeklyClassScheduleTeachersComponent extends Component
+{
+
+    
 
     public $myclasses = null;
     public $myclassSubjects = null;
@@ -125,17 +129,7 @@ class AdminWeeklyClassScheduleComponent extends Component{
 
             // ]);
 
-            // Marksentry::updateOrCreate([
-            //     'examdetail_id' => $this->examdetail_id,
-            //     'myclasssection_id' => $this->myclassSection_id,
-            //     'myclasssubject_id' => $this->myclassSubject_id,
-            //     'studentcr_id' => (int) $studentcr_id,
-            //     'session_id' => 1,
-            //     'school_id' => 1,
-            // ],[
-            //     'marks' => (double) $mark_value,
-            //     'status' => 'Done',
-            // ]);
+            
 
             foreach($this->mydays as $day){
                 Myclassschedule::updateOrCreate([
@@ -186,10 +180,8 @@ class AdminWeeklyClassScheduleComponent extends Component{
         $this->mydays = [];
     }
 
-
-    public function render(){
-
-
-        return view('livewire.admin-weekly-class-schedule-component');
+    public function render()
+    {
+        return view('livewire.admin-weekly-class-schedule-teachers-component');
     }
 }

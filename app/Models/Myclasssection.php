@@ -30,5 +30,14 @@ class Myclasssection extends Model
         // 'myclasssection_id' is the foreign key in the Marksentry table
         // 'id' is the primary key in the Myclasssection table
     }
+
+    public function myclassschedules(){
+        return $this->hasMany(Myclassschedule::class, 'myclasssection_id', 'id');
+        // 'myclasssection_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Myclasssection table
+    }
+
+
+
     
 }

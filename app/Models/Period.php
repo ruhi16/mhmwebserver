@@ -24,4 +24,11 @@ class Period extends Model
         
     }
 
+
+    public function myclassschedules(){
+        return $this->hasMany(Myclassschedule::class, 'period_id', 'id');
+        // 'period_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Period table
+    }   
+
 }

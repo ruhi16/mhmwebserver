@@ -20,9 +20,14 @@ class Day extends Model
 
     public function myclassdayperiods(){
         return $this->hasMany(Myclassdayperiod::class, 'day_id', 'id');
-
-
     }
+
+
+    public function myclassschedules(){
+        return $this->hasMany(Myclassschedule::class, 'day_id', 'id');
+        // 'day_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Day table
+    }   
 
 
 }

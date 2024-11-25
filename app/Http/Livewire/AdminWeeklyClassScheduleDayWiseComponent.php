@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use Livewire\Component;
+
 use App\Models\Day;
 use App\Models\Myclass;
 use App\Models\Myclassschedule;
@@ -10,9 +12,11 @@ use App\Models\Myclasssubject;
 use App\Models\Period;
 use App\Models\Section;
 use App\Models\Teacher;
-use Livewire\Component;
 
-class AdminWeeklyClassScheduleComponent extends Component{
+
+class AdminWeeklyClassScheduleDayWiseComponent extends Component
+{
+
 
     public $myclasses = null;
     public $myclassSubjects = null;
@@ -33,6 +37,12 @@ class AdminWeeklyClassScheduleComponent extends Component{
     public $selectedPeriod = null;
     public $selectedMySubject = null;
     public $selectedMyTeacher = null;
+    
+    public $all_days = null;
+    public $all_days_selected = [];
+    public $show_allotment = null;
+
+
 
     public $mydays = [];
     
@@ -55,13 +65,47 @@ class AdminWeeklyClassScheduleComponent extends Component{
         'selectedMyTeacher.required' => 'Teacher is required',
     ];
 
+    public function updatedAllDaysSelected($value){
+        if($this->all_days_selected){
+            $this->days = Day::where('status', 'active')
+                    ->whereIn( 'id', $this->all_days_selected )
+                    ->get();
+        }else{
+            $this->days = Day::where('status', 'active')
+                    // ->whereIn( 'id', $this->all_days_selected )
+                    ->get();
+        }
+    }
+
+    public function updatedShowAllotment($value){
+        $this->show_allotment = $value;
+
+        // try{
+        //     $this->days = Day::find(7)
+        //         ->where('remark', 'active');
+
+
+        // }catch(\Exception $e){
+
+        // }
+
+    }
 
     public function mount(){
         $this->myclasses = Myclass::all();
         $this->myclassSections = Myclasssection::all();
         $this->myclassSubjects = Myclasssubject::all();
+
+        $this->show_allotment = false;
         
-        $this->days = Day::where('status', 'active')->get();
+
+        $this->all_days = Day::where('status', 'active')->get();
+    
+        $this->days = Day::where('status', 'active')
+            // ->whereIn( 'id', $this->all_days_selected )
+            ->get();
+    
+        
 
         $this->teachers = Teacher::all();
         $this->weeklySchedules = Myclassschedule::all();
@@ -69,17 +113,17 @@ class AdminWeeklyClassScheduleComponent extends Component{
     }
 
 
-    public function updatedChangedSelectedDays($key,  $value){
-        $this->key = $key;
-        $this->value = $value;
+    // public function updatedChangedSelectedDays($key,  $value){
+    //     $this->key = $key;
+    //     $this->value = $value;
 
-    }
+    // }
 
 
 
 
     public function showModal($myclass_id, $section_id, $day_id, $period_id){
-        // $this->refreshModals();
+        $this->refreshModals();
 
 
         $this->selectedMyclass = Myclass::find($myclass_id);
@@ -125,17 +169,7 @@ class AdminWeeklyClassScheduleComponent extends Component{
 
             // ]);
 
-            // Marksentry::updateOrCreate([
-            //     'examdetail_id' => $this->examdetail_id,
-            //     'myclasssection_id' => $this->myclassSection_id,
-            //     'myclasssubject_id' => $this->myclassSubject_id,
-            //     'studentcr_id' => (int) $studentcr_id,
-            //     'session_id' => 1,
-            //     'school_id' => 1,
-            // ],[
-            //     'marks' => (double) $mark_value,
-            //     'status' => 'Done',
-            // ]);
+            
 
             foreach($this->mydays as $day){
                 Myclassschedule::updateOrCreate([
@@ -185,11 +219,8 @@ class AdminWeeklyClassScheduleComponent extends Component{
     
         $this->mydays = [];
     }
-
-
-    public function render(){
-
-
-        return view('livewire.admin-weekly-class-schedule-component');
+    public function render()
+    {
+        return view('livewire.admin-weekly-class-schedule-day-wise-component');
     }
 }

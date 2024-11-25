@@ -37,4 +37,13 @@ class Section extends Model
     }
 
 
+    public function myclassschedules(){
+        return $this->hasMany(Myclassschedule::class, 'section_id', 'id');
+        // 'section_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Section table
+    }
+
+
+
+
 }

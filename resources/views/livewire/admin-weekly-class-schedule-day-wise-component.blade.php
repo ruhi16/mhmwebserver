@@ -20,7 +20,7 @@
     </div>
 
     <div class="min-w-full mx-auto bg-slate-200 text-center text-2xl font-bold my-4">
-        School Routine
+        School Routine, Day Wise
         
     </div>
 
@@ -30,14 +30,50 @@
     Selected Days: {{$changedSelectedDays ?? 'XXX'}}
     <br/>
     Selected myDays:{{var_export($mydays)}}, --}}
+    {{-- Days: {{ var_export( array_values($all_days_selected) ) }} --}}
+    {{-- X:{{var_export($all_days_selected)}},
+    @if(!empty($all_days_selected))
+        X ,{{ var_export(array_values($all_days_selected) )}}
+    @else
+        Y
+    @endif
+    @foreach($all_days_selected as $day_id => $selected)
+        {{ $selected }}
+    @endforeach --}}
+    {{-- x{{$show_allotment ? 'x':'y'}} --}}
+    <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
+        <thead>
+            <tr>
+                @foreach($all_days as $day)
+                    <th class="border border-gray-300 px-4 py2 font-bold">                        
+                        <div class="flex items-center m-4">
+                            <input id="default-checkbox" type="checkbox" value="{{$day->id}}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                wire:model="all_days_selected.{{ $day->id }}">
+                            <label for="default-checkbox" class="ms-2 text-lg font-bold text-gray-900 dark:text-gray-300">{{ $day->short_name }}</label>
+                        </div>
+                    </th>
+                @endforeach
 
+                <th class="border border-gray-300 px-4 py2">
+                    <label class="inline-flex items-center m-2 cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer"
+                            wire:model="show_allotment" @if($show_allotment) checked @endif>
+                        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600"></div>
+                        <span class="ms-3 text-lg font-bold text-rose-900 dark:text-gray-300">Allotment</span>
+                    </label>
+                </th>
+                
+            </tr>
+        </thead>
+    </table>
 
-    {{-- <div>
+    <div>
         <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
+            
             <thead>
                 <tr>
                     <th rowspan="2" class="border border-gray-300 px-4 py2 font-bold">Sl</th>
-                    <th rowspan="2" class="border border-gray-300 px-4 py2 font-bold">Class/Sec</th>
+                    <th rowspan="2" class="border border-gray-300 px-4 py2 font-bold">Cl/Sec</th>
                     <th class="border border-gray-300 px-4 py2 font-bold">Days</th>
                     @for($i=0; $i < 8; $i++)
                         <th class="border border-gray-300 px-4 py2 font-bold">{{$i+1}}th</th>
@@ -53,38 +89,66 @@
                     <td rowspan="{{ $days->count() }}" class="border border-gray-300 px-4 py2 font-bold">{{ $loop->iteration }}</td>
                     <td rowspan="{{ $days->count() }}" class="border border-gray-300 px-4 py2 font-bold">{{ $myclassSection->myclass->name }}-{{ $myclassSection->section->name }}</td>
                     @foreach($days as $day)
+                        @php 
+                            $myclassSection_schedule = $weeklySchedules
+                                ->where('myclass_id', $myclassSection->myclass->id)
+                                ->where('section_id', $myclassSection->section->id)
+                                ->where('day_id', $day->id);
+                        @endphp
+
                         @if($loop->first)
-                            <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->name }}-{{ $day->max_periods }}</td>
+                            <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}</td>
                             @for($i=0; $i < $day->max_periods; $i++)
                                 <td class="border border-gray-300 px-4 py2 text-sm">
+                                    @if( $myclassSection_schedule->where('period_id', $i+1) != null )                                
+                                        @foreach($myclassSection_schedule->where('period_id', $i+1) as $schedule)
+                                            {{ $schedule->subject->code }}:{{$schedule->teacher->nickName}}<br/>
+                                        @endforeach
+                                    @endif
+                                    @if($show_allotment)
                                     <button wire:click="showModal({{ $myclassSection->myclass->id }}, {{ $myclassSection->section->id }}, {{ $day->id }}, {{ $i+1 }})"
                                         class="text-white bg-{{$myclassSection->status}}-500 hover:bg-{{$myclassSection->status}}-700 focus:ring-4 focus:ring-{{$myclassSection->status}}-300 font-medium rounded-lg button-sm text-sm px-1 py-.5 focus:outline-none">
-                                        Assign 
+                                        Allot
                                     </button>
+                                    @endif
                                 </td>
                             @endfor
                             </tr>
                         @elseif(!$loop->last)
                             <tr>
-                                <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->name }}-{{ $day->max_periods }}</td>
+                                <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}</td>
                                 @for($i=0; $i < $day->max_periods; $i++)
                                     <td class="border border-gray-300 px-4 py2  text-sm">
+                                        @if( $myclassSection_schedule->where('period_id', $i+1) != null )                                
+                                            @foreach($myclassSection_schedule->where('period_id', $i+1) as $schedule)
+                                                {{ $schedule->subject->code }}:{{$schedule->teacher->nickName}}<br/>
+                                            @endforeach
+                                        @endif
+                                        @if($show_allotment)
                                         <button wire:click="showModal({{ $myclassSection->myclass->id }}, {{ $myclassSection->section->id }}, {{ $day->id }}, {{ $i+1 }})"
                                             class="text-white bg-{{$myclassSection->status}}-500 hover:bg-{{$myclassSection->status}}-700 focus:ring-4 focus:ring-{{$myclassSection->status}}-300 font-medium rounded-lg button-sm text-sm px-1 py-.5 focus:outline-none">
-                                            Assign 
+                                            Allot
                                         </button>
+                                        @endif
                                     </td>
                                 @endfor
                             </tr>
                         @else
                         <tr>
-                            <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->name }}-{{ $day->max_periods }}</td>                            
+                            <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}</td>                            
                             @for($i=0; $i < $day->max_periods; $i++)
                                 <td class="border border-gray-300 px-4 py2  text-sm">
+                                    @if( $myclassSection_schedule->where('period_id', $i+1) != null )                                
+                                        @foreach($myclassSection_schedule->where('period_id', $i+1) as $schedule)
+                                            {{ $schedule->subject->code }}:{{$schedule->teacher->nickName}}<br/>
+                                        @endforeach
+                                    @endif
+                                    @if($show_allotment)
                                     <button wire:click="showModal({{ $myclassSection->myclass->id }}, {{ $myclassSection->section->id }}, {{ $day->id }}, {{ $i+1 }})"
                                         class="text-white bg-{{$myclassSection->status}}-500 hover:bg-{{$myclassSection->status}}-700 focus:ring-4 focus:ring-{{$myclassSection->status}}-300 font-medium rounded-lg button-sm text-sm px-1 py-.5 focus:outline-none">
-                                        Assign 
+                                        Allot
                                     </button>
+                                    @endif
                                 </td>
                             @endfor
                         @endif
@@ -95,131 +159,10 @@
                 @endforeach
             </tbody>
         </table>
-    </div> --}}
-
-
-    
-
-    <div>
-        <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
-            <thead>
-                <tr>
-                    <th rowspan="2" class="border border-gray-300 px-4 py2 font-bold">Sl</th>
-                    <th rowspan="2" class="border border-gray-300 px-4 py2 font-bold">Class/Sec</th>                   
-                    @foreach($days as $day)
-                        <th colspan={{$day->max_periods}} class="border border-gray-300 px-4 py2 font-bold">{{ $day->name }}-{{ $day->max_periods }}</th>
-                        
-
-                    @endforeach
-                </tr>
-                <tr>                
-                    @foreach($days as $day)
-                    @for($i=0; $i < $day->max_periods; $i++)
-                        <td class="border border-gray-300 px-4 py2 font-bold">{{$i+1}}</td>
-                    @endfor
-                    @endforeach
-                </tr>
-
-
-            </thead>
-            
-            <tbody>
-                @foreach($myclassSections as $myclassSection)
-                <tr>
-                    <td class="border border-gray-300 px-4 py2 font-bold">{{ $loop->iteration }}</td>
-                    <td class="border border-gray-300 px-4 py2 font-bold">{{ $myclassSection->myclass->name }}-{{ $myclassSection->section->name }}</td>
-                    @foreach($days as $day)
-                        @for($i=0; $i < $day->max_periods; $i++)
-                            <td class="border border-gray-300 px-4 py2">
-                                <button wire:click="showModal({{ $myclassSection->myclass->id }}, {{ $myclassSection->section->id }}, {{ $day->id }}, {{ $i+1 }})"
-                                    class="text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg button-sm text-sm px-1 py-.5 focus:outline-none">
-                                    Assign 
-                                </button>
-                            </td>
-                        @endfor
-                    @endforeach
-
-                </tr>
-                @endforeach
-            </tbody>
-            
-            <tbody>
-                @foreach($teachers as $teacher)
-                <tr>
-                    <td class="border border-gray-300 px-4 py2 text-sm">{{ $loop->iteration }}</td>
-                    <td class="border border-gray-300 px-4 py2 text-sm">{{ $teacher->nickName }}</td>
-
-                    @foreach($days as $day)
-                        @for($i=0; $i < $day->max_periods; $i++)
-                            <td class="border border-gray-300 px-4 py2 text-sm">
-                                {{ $weeklySchedules
-                                    ->where('day_id', $day->id)
-                                    ->where('period_id', $i+1)
-                                    ->where('teacher_id', $teacher->id)
-                                    ->first()
-                                    ->myclass->name
-                                    ?? '--' 
-                                }}{{ $weeklySchedules
-                                    ->where('day_id', $day->id)
-                                    ->where('period_id', $i+1)
-                                    ->where('teacher_id', $teacher->id)
-                                    ->first()
-                                    ->section->name
-                                    ?? '--' 
-                                }}:
-                                {{ $weeklySchedules
-                                    ->where('day_id', $day->id)
-                                    ->where('period_id', $i+1)
-                                    ->where('teacher_id', $teacher->id)
-                                    ->first()
-                                    ->subject->code
-                                    ?? '--' 
-                                }}
-                            </td>
-                        @endfor
-                    @endforeach
-
-                </tr>
-                @endforeach
-            </tbody>
-
-
-        </table>
     </div>
 
-        {{-- @php $class_id = 1; $myclass_test = $myclass->where('id', $class_id); @endphp
-        <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
-            <thead>
-                <tr>
-                    <th class="border border-gray-300 px-4 py2 font-bold">Sl</th>
-                    <th class="border border-gray-300 px-4 py2 font-bold">Subject</th>
 
-                    @foreach($myclassSections->where('myclass_id',1) as $myclassSection)
-                    <th class="border border-gray-300 px-4 py2 font-bold">
-                        {{$myclassSection->myclass->name}}-{{$myclassSection->section->name}}
-                    </th>
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($myclassSubjects->where('myclass_id',1) as $myclassSubject)
-                    <tr>
-                    <td class="border border-gray-300 px-4 py2 font-bold">{{ $loop->iteration }}</td>
-                    <td class="border border-gray-300 px-4 py2 font-bold">{{ $myclassSubject->subject->name }}</td>
-
-                        @foreach($myclassSections->where('myclass_id',1) as $myclass)
-                        <td class="border border-gray-300 px-4 py2 font-bold">
-                            
-                        </td>
-                        @endforeach
-                    </tr>
-                @endforeach
-            </tbody>
-        </table> --}}
-
-   
-
-    {{-- Modal for Class-Section: Teacher Selection --}}
+    {{-- Modal Window --}}
     <div class=" {{ $showModal ? '' : 'hidden' }}">
         <div wire:ignore.self class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto" id="modal"
             aria-labelledby="modal-title" aria-modal="true" role="dialog" aria-hidden="true">
@@ -298,7 +241,20 @@
                                     {{-- {{ $selectedMyclass ? $selectedMyclass->id : 'x' }} --}}
                                     @if($selectedMyclass)
                                         {{-- <option>Select One-{{ $myclasses->find($selectedMyclass->id)->myclasssubjects }}</option> --}}
-                                        @foreach ($myclasses->find($selectedMyclass->id)->myclasssubjects->where('examtype_id', 2) as $myclassSubject)
+                                        @php
+                                            $modal_selectedSubjects = $weeklySchedules
+                                                ->where('day_id', $selectedDay->id)
+                                                ->where('myclass_id', $selectedMyclass->id)
+                                                ->where('section_id', $selectedSection->id)
+                                                ->pluck('subject_id')->toArray();
+
+                                            $modal_myclassSubject = $myclasses->find($selectedMyclass->id)
+                                                ->myclasssubjects
+                                                ->where('examtype_id', 2)
+                                                ->whereNotIn('subject_id', $modal_selectedSubjects);
+
+                                        @endphp
+                                        @foreach ( $modal_myclassSubject as $myclassSubject)
                                             <option value="{{ $myclassSubject->subject->id }}">{{ $myclassSubject->subject->id }}-{{ $myclassSubject->subject->name }}</option>
                                         @endforeach
                                     @endif
@@ -310,8 +266,17 @@
 
                             
                             <div class="col-span-3 mb-6">
-                                <label for="teachers"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select teacher</label>
+                                <label for="teachers" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select teacher</label>
+                                @php
+                                    $modal_selectedTeachers = $weeklySchedules
+                                        // ->where('day_id', $selectedDay->id)
+                                        // ->where('period_id', $selectedPeriod->id)
+                                        ->pluck('teacher_id')->toArray();
+                                    $modal_teachers = $teachers
+                                        ->whereNotIn('id', $modal_selectedTeachers);
+                                @endphp
+                                
+
                                 <select id="teachers" wire:model="selectedMyTeacher"
                                     class="bg-gray-50 border mb-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option>Select One</option>
@@ -345,9 +310,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 
 

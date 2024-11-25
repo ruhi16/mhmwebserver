@@ -39,5 +39,13 @@ class Subject extends Model
         // 'id' is the primary key in the Subject table
     }
 
+    public function myclassschedule(){
+        return $this->hasMany(Myclasssubject::class, 'subject_id', 'id');
+        // 'subject_id' is the foreign key in the Myclasssubject table
+        // 'id' is the primary key in the Subject table
+    }
+
+    
+
     
 }

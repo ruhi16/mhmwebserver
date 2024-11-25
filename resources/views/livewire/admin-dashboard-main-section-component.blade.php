@@ -151,9 +151,10 @@
                     <li>{{ $routeName }}</li>
                 @endforeach
             </ul> --}}
-            @if($selectedItem == 'item1') {{-- Dashboard --}}1
-
-                <livewire:admin-weekly-class-schedule-component>
+            @if($selectedItem == 'item1') {{-- Dashboard --}}
+                <livewire:admin-weekly-class-schedule-container-component>
+                {{-- <livewire:admin-weekly-class-schedule-day-wise-component> --}}
+                {{-- <livewire:admin-weekly-class-schedule-component> --}}
 
             @elseif($selectedItem == 'item2') {{-- Profile Management --}}
                 <livewire:admin-user-previledge-control-component />
