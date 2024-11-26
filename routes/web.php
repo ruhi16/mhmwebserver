@@ -187,6 +187,9 @@ Route::group(
     
         Route::get('/changePassword', UserChangePasswordComponent::class)
             ->name('subadmin.changePassword');
+        
+        Route::get('/formativemarksentryentityclasswise/{myclassSection_id}/{examterm_id}/{examtype_id}', SubadminFormativeMarksEntryEntityComponent::class)
+            ->name('subadmin.formativemarksentryentity');
     
     }
 );

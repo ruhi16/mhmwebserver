@@ -33,8 +33,8 @@
             <thead>
                 <tr>
                     <th class="border border-gray-300 px-4 py-2">Sl</th>
-                    <th class="border border-gray-300 px-4 py-2">Class</th>
-                    <th class="border border-gray-300 px-4 py-2">Section</th>
+                    <th class="border border-gray-300 px-4 py-2">Cls-Sec</th>
+                    {{-- <th class="border border-gray-300 px-4 py-2">Section</th> --}}
                     <th class="border border-gray-300 px-4 py-2">Class Teacher</th>
                     <th class="border border-gray-300 px-4 py-2">Action</th>
                     <th class="border border-gray-300 px-4 py-2">Admission</th>
@@ -48,8 +48,10 @@
                 @foreach ($myclassSections as $index => $myclassSection)
                     <tr>
                         <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $myclassSection->myclass->name }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $myclassSection->section->name }}</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            {{ $myclassSection->myclass->name }}-{{ $myclassSection->section->name }}
+                        </td>
+                        {{-- <td class="border border-gray-300 px-4 py-2"></td> --}}
 
 
                         <td class="border border-gray-300 px-4 py-2">
@@ -84,17 +86,9 @@
 
                         <td class="border border-gray-300 px-4 py-2">
                             @foreach($exams as $exam)
-                                @php 
-                                    if($exam->id == 1) 
-                                        $color = 'lime'; 
-                                    else if($exam->id == 2)
-                                        $color = 'violet';
-                                    else 
-                                        $color = 'rose'; 
-                                @endphp 
-
+                                @php $colors = ['lime', 'violet', 'rose'];  @endphp 
                             <a 
-                                class="text-white gap-2 bg-{{$color}}-500 hover:bg-{{$color}}-700 focus:ring-4 focus:ring-bg-{{$color}}-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                                class="text-white gap-2 bg-{{$colors[$exam->id-1]}}-500 hover:bg-{{$colors[$exam->id-1]}}-700 focus:ring-4 focus:ring-bg-{{$colors[$exam->id-1]}}-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.formativemarksentryentity', [
                                     'myclassSection_id' => $myclassSection->id,                                    
                                     'examterm_id'=> $exam->id,      // should varry for different term

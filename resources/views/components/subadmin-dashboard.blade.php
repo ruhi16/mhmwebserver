@@ -13,13 +13,60 @@
             Teacher Dashboard
         </div>
         <livewire:users-profile-detais-component >
-            {{-- {{auth()->user()->teacher->id}} --}}
+            {{-- {{auth()->user()->teacher->myclassteachers }} --}}
+        
+
+        @if($myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->count() > 0)
+
+            @php
+            if($myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->count() > 0 ){
+                $myclassSection = $myclassSections
+                    ->where('myclass_id', $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->first()->myclass_id)
+                    ->where('section_id', $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->first()->section_id)
+                    ->first();
+                }
+                $colors = ['purple', 'orange', 'rose'];
+            @endphp
+                {{-- <livewire:subadmin-marks-entry-entity-component :myclassSection_id='{{ $myclassSection->id }}' :examterm_id='1' :examtype_id='1' > --}}
+            <table class="min-w-auto mx-auto my-8 border-collapse border border-gray-600 ">
+                <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">
+                    Formative Marks
+                </caption>
+                <thead>
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2">Sl</th>                        
+                        <th class="border border-gray-300 px-4 py-2 font-bold">Formative Exam Term</th>                        
+                        <th class="border border-gray-300 px-4 py-2">Action</th>
             
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($exams as $exam)
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
+                        
+                        <td class="border border-gray-300 px-4 py-2">{{ $exam->name }}</td>
+                        
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a class="bg-{{$colors[$exam->id-1]}}-500 hover:bg-{{$colors[$exam->id-1]}}-700 text-white font-bold py-2 px-4 rounded"
+                                href="{{ route('subadmin.formativemarksentryentity', [
+                                    'myclassSection_id' => $myclassSection->id, 
+                                    'examterm_id' => $exam->id, 
+                                    'examtype_id' => 1,
+                                ]) }}">Formative {{ $exam->name }}</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+    
+        @endif
+
         <livewire:admin-teacher-wise-marks-entry-links-component :teacher_id="auth()->user()->teacher->id" >
 
         {{-- <livewire:admin-teacher-wise-marks-entry-links-component> --}}
 
-
+        
         {{-- <livewire: user-change-password-component > --}}
 
 

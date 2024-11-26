@@ -1,0 +1,189 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 26, 2024 at 03:31 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `mhmwebserver`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `examdetails`
+--
+
+CREATE TABLE `examdetails` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `examtype_id` int(11) NOT NULL,
+  `exammode_id` int(11) NOT NULL,
+  `myclass_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `full_mark` int(11) NOT NULL,
+  `pass_mark` int(11) NOT NULL,
+  `time_alloted` int(11) NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `session_id` int(11) DEFAULT NULL,
+  `school_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `examdetails`
+--
+
+INSERT INTO `examdetails` (`id`, `exam_id`, `examtype_id`, `exammode_id`, `myclass_id`, `subject_id`, `full_mark`, `pass_mark`, `time_alloted`, `status`, `remark`, `session_id`, `school_id`, `created_at`, `updated_at`) VALUES
+
+(136, 2, 1, 1, 1, 16, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(137, 2, 1, 1, 1, 17, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(138, 2, 1, 1, 1, 18, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(139, 2, 1, 1, 1, 19, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(140, 2, 1, 1, 1, 20, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(141, 2, 2, 2, 1, 1, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(142, 2, 2, 2, 1, 2, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(143, 2, 2, 2, 1, 3, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(144, 2, 2, 2, 1, 4, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(145, 2, 2, 2, 1, 5, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(146, 2, 2, 2, 1, 9, 15, 2, 10, NULL, NULL, NULL, NULL, NULL, NULL),
+(147, 2, 2, 2, 1, 10, 15, 2, 10, NULL, NULL, NULL, NULL, NULL, NULL),
+(148, 2, 2, 2, 1, 15, 30, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(149, 2, 1, 1, 2, 16, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(150, 2, 1, 1, 2, 17, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(151, 2, 1, 1, 2, 18, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(152, 2, 1, 1, 2, 19, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(153, 2, 1, 1, 2, 20, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(154, 2, 2, 2, 2, 1, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(155, 2, 2, 2, 2, 2, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(156, 2, 2, 2, 2, 3, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(157, 2, 2, 2, 2, 4, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(158, 2, 2, 2, 2, 5, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(159, 2, 2, 2, 2, 6, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(160, 2, 2, 2, 2, 7, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(161, 2, 2, 2, 2, 8, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(162, 2, 2, 2, 2, 9, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(163, 2, 2, 2, 2, 10, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(164, 2, 2, 2, 2, 15, 40, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(165, 2, 1, 1, 3, 16, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(166, 2, 1, 1, 3, 17, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(167, 2, 1, 1, 3, 18, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(168, 2, 1, 1, 3, 19, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(169, 2, 1, 1, 3, 20, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(170, 2, 2, 2, 3, 1, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(171, 2, 2, 2, 3, 2, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(172, 2, 2, 2, 3, 3, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(173, 2, 2, 2, 3, 4, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(174, 2, 2, 2, 3, 5, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(175, 2, 2, 2, 3, 6, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(176, 2, 2, 2, 3, 7, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(177, 2, 2, 2, 3, 8, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(178, 2, 2, 2, 3, 9, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(179, 2, 2, 2, 3, 10, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(180, 2, 2, 2, 3, 15, 40, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(181, 2, 1, 1, 4, 16, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(182, 2, 1, 1, 4, 17, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(183, 2, 1, 1, 4, 18, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(184, 2, 1, 1, 4, 19, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(185, 2, 1, 1, 4, 20, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(186, 2, 2, 2, 4, 1, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(187, 2, 2, 2, 4, 2, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(188, 2, 2, 2, 4, 3, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(189, 2, 2, 2, 4, 4, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(190, 2, 2, 2, 4, 5, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(191, 2, 2, 2, 4, 6, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(192, 2, 2, 2, 4, 7, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(193, 2, 2, 2, 4, 8, 25, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(194, 2, 2, 2, 4, 9, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(195, 2, 2, 2, 4, 10, 20, 4, 20, NULL, NULL, NULL, NULL, NULL, NULL),
+(196, 2, 2, 2, 4, 15, 40, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(197, 2, 2, 1, 5, 1, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(198, 2, 2, 2, 5, 1, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(199, 2, 2, 1, 5, 2, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(200, 2, 2, 2, 5, 2, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(201, 2, 2, 1, 5, 3, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(202, 2, 2, 2, 5, 3, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(203, 2, 2, 1, 5, 4, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(204, 2, 2, 2, 5, 4, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(205, 2, 2, 1, 5, 8, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(206, 2, 2, 2, 5, 8, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(207, 2, 2, 1, 5, 10, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(208, 2, 2, 2, 5, 10, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(209, 2, 2, 1, 5, 11, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(210, 2, 2, 2, 5, 11, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(211, 2, 2, 1, 5, 12, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(212, 2, 2, 2, 5, 12, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(213, 2, 2, 1, 5, 13, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(214, 2, 2, 2, 5, 13, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(215, 2, 2, 1, 5, 14, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(216, 2, 2, 2, 5, 14, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(217, 2, 2, 1, 5, 15, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(218, 2, 2, 2, 5, 15, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(219, 2, 2, 1, 5, 9, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(220, 2, 2, 2, 5, 9, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(221, 2, 2, 1, 6, 1, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(222, 2, 2, 2, 6, 1, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(223, 2, 2, 1, 6, 2, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(224, 2, 2, 2, 6, 2, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(225, 2, 2, 1, 6, 3, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(226, 2, 2, 2, 6, 3, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(227, 2, 2, 1, 6, 4, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(228, 2, 2, 2, 6, 4, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(229, 2, 2, 1, 6, 8, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(230, 2, 2, 2, 6, 8, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(231, 2, 2, 1, 6, 9, 5, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL),
+(232, 2, 2, 2, 6, 9, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(233, 2, 2, 1, 6, 10, 5, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL),
+(234, 2, 2, 2, 6, 10, 20, 8, 40, NULL, NULL, NULL, NULL, NULL, NULL),
+(235, 2, 2, 1, 6, 15, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(236, 2, 2, 2, 6, 15, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(237, 2, 2, 1, 6, 11, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(238, 2, 2, 2, 6, 11, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(239, 2, 2, 1, 6, 12, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(240, 2, 2, 2, 6, 12, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(241, 2, 2, 1, 6, 13, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(242, 2, 2, 2, 6, 13, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+(243, 2, 2, 1, 6, 14, 10, 4, 5, NULL, NULL, NULL, NULL, NULL, NULL),
+(244, 2, 2, 2, 6, 14, 40, 16, 80, NULL, NULL, NULL, NULL, NULL, NULL),
+
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `examdetails`
+--
+ALTER TABLE `examdetails`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `examdetails`
+--
+ALTER TABLE `examdetails`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
