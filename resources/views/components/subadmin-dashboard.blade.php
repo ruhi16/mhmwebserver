@@ -15,22 +15,31 @@
         <livewire:users-profile-detais-component >
             {{-- {{auth()->user()->teacher->myclassteachers }} --}}
         
+        {{-- Count: {{ $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->count() }} --}}
 
         @if($myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->count() > 0)
 
+        @foreach($myclassTeachers->where('teacher_id', auth()->user()->teacher->id) as $myclassTeacher)
+            {{-- {{ $myclassTeacher->myclass->name }}-{{  $myclassTeacher->section->name }} --}}
+        
+
             @php
-            if($myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->count() > 0 ){
+            // if($myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->count() > 0 ){
                 $myclassSection = $myclassSections
-                    ->where('myclass_id', $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->first()->myclass_id)
-                    ->where('section_id', $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->first()->section_id)
-                    ->first();
-                }
+                    ->where('myclass_id', $myclassTeacher->myclass->id)
+                    ->where('section_id', $myclassTeacher->section->id)
+                    // ->where('myclass_id', $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->first()->myclass_id)
+                    // ->where('section_id', $myclassTeachers->where('teacher_id', auth()->user()->teacher->id)->first()->section_id)
+                    ->first()
+                    ;
+                // }
                 $colors = ['purple', 'orange', 'rose'];
             @endphp
-                {{-- <livewire:subadmin-marks-entry-entity-component :myclassSection_id='{{ $myclassSection->id }}' :examterm_id='1' :examtype_id='1' > --}}
+            
+            {{-- <livewire:subadmin-marks-entry-entity-component :myclassSection_id='{{ $myclassSection->id }}' :examterm_id='1' :examtype_id='1' > --}}
             <table class="min-w-auto mx-auto my-8 border-collapse border border-gray-600 ">
                 <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">
-                    Formative Marks
+                    Formative Marks Entry For: {{ $myclassSection->myclass->name }}-{{  $myclassSection->section->name }}
                 </caption>
                 <thead>
                     <tr>
@@ -59,6 +68,8 @@
                     @endforeach
                 </tbody>
             </table>
+
+            @endforeach
     
         @endif
 

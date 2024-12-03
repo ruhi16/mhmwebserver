@@ -84,7 +84,7 @@
 
 
             <tbody>
-                @foreach($myclassSections as $myclassSection)                
+                @foreach($myclassSections as $myclassSection)
                 <tr>
                     <td rowspan="{{ $days->count() }}" class="border border-gray-300 px-4 py2 font-bold">{{ $loop->iteration }}</td>
                     <td rowspan="{{ $days->count() }}" class="border border-gray-300 px-4 py2 font-bold">{{ $myclassSection->myclass->name }}-{{ $myclassSection->section->name }}</td>

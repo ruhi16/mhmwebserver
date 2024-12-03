@@ -15,12 +15,13 @@ class CreateMyclassschedulesTable extends Migration
     {
         Schema::create('myclassschedules', function (Blueprint $table) {
             $table->id();
-            $table->integer('myclass_id');
-            $table->integer('section_id');
-            $table->integer('day_id');
-            $table->integer('period_id');
-            $table->integer('subject_id');
-            $table->integer('teacher_id');
+            $table->integer('myclass_id')->nullable();
+            $table->integer('section_id')->nullable();
+            $table->integer('day_id')->nullable();
+            $table->integer('period_id')->nullable();
+            $table->integer('subject_id')->nullable();
+            $table->integer('teacher_id')->nullable();
+            $table->integer('wtperiods')->nullable();
 
             $table->string('status')->nullable();
             $table->string('remark')->nullable();

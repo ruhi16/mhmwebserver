@@ -33,9 +33,9 @@
             <thead>
                 <tr>
                     <th class="border border-gray-300 px-4 py-2">Sl</th>
-                    <th class="border border-gray-300 px-4 py-2">Cls-Sec</th>
+                    <th class="border border-gray-300 px-4 py-2">Cls-Sec<br/>Cl Teacher</th>
                     {{-- <th class="border border-gray-300 px-4 py-2">Section</th> --}}
-                    <th class="border border-gray-300 px-4 py-2">Class Teacher</th>
+                    {{-- <th class="border border-gray-300 px-4 py-2">Class Teacher</th> --}}
                     <th class="border border-gray-300 px-4 py-2">Action</th>
                     <th class="border border-gray-300 px-4 py-2">Admission</th>
                     <th class="border border-gray-300 px-4 py-2">Students</th>
@@ -49,15 +49,15 @@
                     <tr>
                         <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
                         <td class="border border-gray-300 px-4 py-2">
-                            {{ $myclassSection->myclass->name }}-{{ $myclassSection->section->name }}
+                            {{ $myclassSection->myclass->name }}-{{ $myclassSection->section->name }}<br/>
+                            {{ $myclassteachers->where('myclass_id', $myclassSection->myclass_id)->where('section_id', $myclassSection->section_id)->first()->teacher->name ?? 'NA' }}
                         </td>
                         {{-- <td class="border border-gray-300 px-4 py-2"></td> --}}
 
 
-                        <td class="border border-gray-300 px-4 py-2">
+                        {{-- <td class="border border-gray-300 px-4 py-2">
                             {{ $myclassteachers->where('myclass_id', $myclassSection->myclass_id)->where('section_id', $myclassSection->section_id)->first()->teacher->name ?? 'NA' }}
-
-                        </td>
+                        </td> --}}
 
                         <td class="border border-gray-300 px-4 py-2">
                             <button wire:click="showModal({{ $myclassSection->id }})"
@@ -84,7 +84,8 @@
                             </a>
                         </td>
 
-                        <td class="border border-gray-300 px-4 py-2">
+                        <td class="border border-gray-300 px-4 py-2 font-bold">
+                            @if($myclassSection->myclass->id <= 4)
                             @foreach($exams as $exam)
                                 @php $colors = ['lime', 'violet', 'rose'];  @endphp 
                             <a 
@@ -97,6 +98,7 @@
                                 {{ $exam->details }}
                             </a> 
                             @endforeach
+                            @endif
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-emerald-500 hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
