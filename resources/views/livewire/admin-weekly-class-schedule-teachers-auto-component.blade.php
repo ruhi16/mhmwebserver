@@ -30,6 +30,7 @@
                 <th class="border border-gray-300 px-4 py2 font-bold">Sl</th>
                 <th class="border border-gray-300 px-4 py2 font-bold">Cl/Sec</th>
                 <th class="border border-gray-300 px-4 py2 font-bold">Days</th>
+                <th class="border border-gray-300 px-4 py2 font-bold">Details</th>
                 @for($i=0; $i < 8; $i++)
                     <th class="border border-gray-300 px-4 py2 font-bold">{{$i+1}}th</th>
                 @endfor
@@ -43,7 +44,7 @@
                     <td rowspan="{{ $days->count() }}" class="border border-gray-300 px-4 py2 font-bold">{{ $loop->iteration }}</td>
                     <td rowspan="{{ $days->count() }}" class="border border-gray-300 px-4 py2 font-bold">
                         {{ $teacher->name }}
-                        <button type="button" wire:click="openModal" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <button type="button" wire:click="openModal({{ $teacher->id }})" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                             Add
                         </button>
                         
@@ -51,33 +52,62 @@
                             <thead>
                             <tr>
                                 <th class="border border-gray-300 px-4 py-2 font-bold text-xs">Sl</th>
-                                <th class="border border-gray-300 px-4 py-2 font-bold text-xs">Class</th>
-                                <th class="border border-gray-300 px-4 py-2 font-bold text-xs">Sec</th>
+                                <th class="border border-gray-300 px-4 py-2 font-bold text-xs">C/Sec</th>
+                                <th class="border border-gray-300 px-4 py-2 font-bold text-xs">Subj</th>
                                 <th class="border border-gray-300 px-4 py-2 font-bold text-xs">WTP</th>
                                 <th class="border border-gray-300 px-4 py-2 font-bold text-xs">Ac</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <td class="border border-gray-300 px-2 py-1 text-xs">Sl</td>
-                                <td class="border border-gray-300 px-2 py-1 text-xs">Class</td>
-                                <td class="border border-gray-300 px-2 py-1 text-xs">Sec</td>
-                                <td class="border border-gray-300 px-2 py-1 text-xs">WTP</td>
-                                <td class="border border-gray-300 px-2 py-1 text-xs"></td>
+                                @foreach($myclassSchedules->where('teacher_id', $teacher->id)->where('day_id', null) as $myclassSchedule)
+                                <tr>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ $loop->iteration }}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ $myclassSchedule->myclass->name ?? '-' }}-{{ $myclassSchedule->section->name ?? '-'}}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ Str::title($myclassSchedule->subject->code ?? '-') }}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ $myclassSchedule->wtperiods ?? '-' }}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">
+                                        <button wire:click="removeMyclassSchedule({{ $myclassSchedule->id }})" class="flex items-center justify-center cursor-pointer px-2 py-1 bg-red-300 hover:bg-red-400 rounded-full">
+                                            <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         {{-- <button type="button" wire:click="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                             Generate
                         </button> --}}
                     </td>
+                    
 
                     @foreach($days as $day)
                         @if(!$loop->first) <tr> @endif
-
                         <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}</td>
+                        <td class="border border-gray-300 px-4 py2 font-bold text-xs">
+                            @foreach($myclassSchedules->where('teacher_id', $teacher->id) as $myclassScheduleTeacher)
+                                    
+                                @if($myclassScheduleTeacher->day_id == $day->id )
+                                    {{ Str::title($myclassScheduleTeacher->subject->code) ?? '--' }}
+                                @endif
+                            @endforeach
+                        </td>
 
                         @for($i=1; $i <= 8; $i++)                            
                             {{-- @if($i <= $day->max_periods) --}}
                             <td class="border border-gray-300 px-4 py2">
+                                
+                                {{-- @if(isset($myclassSchedules->where('teacher_id', $teacher->id))) --}}
+
+                                {{-- @foreach($myclassSchedules->where('teacher_id', $teacher->id) as $myclassScheduleTeacher)
+                                    
+                                    @if($myclassScheduleTeacher->day_id == $day->id )
+                                        {{ $myclassScheduleTeacher->subject->code ?? '--' }}
+                                    @endif
+                                @endforeach --}}
+
+                                {{-- @endif --}}
                                 
                                 {{-- @if(isset($myclassDayWiseRandomSubjects[$myclassSection->myclass->id][$myclassSection->section->id][$day->id][$i-1]))
                                 {{$myclassSubjects->where('myclass_id', $myclassSection->myclass_id)
@@ -118,7 +148,8 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-2 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white">
-                        Add Class Section Wise Teacher's Subject
+                        Add Class Section Wise Teacher's Subject 
+                        {{ $teacher_id }}, {{ $myclass_id}}, {{ $section_id }}, {{ $subject_id }},{{ $wtperiods}}
                     </h3>
                     <button type="button" wire:click="closeModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="medium-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -139,7 +170,7 @@
                             The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
                         </p>                        
                     </div> --}}
-                    <div class="grid gap-4 mb-4 grid-cols-4">
+                    <div class="grid gap-4 mb-4 grid-cols-6">
                         {{-- <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                             <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required="">
@@ -148,22 +179,19 @@
                             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                             <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="">
                         </div> --}}
-                        <div class="col-span-4 sm:col-span-2">
-                            <label for="myclass_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Class {{$myclass_id ?? 'CI'}}:{{ $key ?? 'X' }}{{$value ?? 'Y'}}</label>
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="myclass_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Class </label>
                             <select id="myclass_id" wire:model="myclass_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option selected="">Select any class</option>
                                 @foreach($myclasses as $myclass)
                                     <option value="{{$myclass->id}}">{{$myclass->name}}</option>
                                 @endforeach
-                                {{-- <option value="TV">TV/Monitors</option>
-                                <option value="PC">PC</option>
-                                <option value="GA">Gaming/Console</option>
-                                <option value="PH">Phones</option> --}}
+                                
                             </select>
                         </div>
-                        <div class="col-span-4 sm:col-span-2">
+                        <div class="col-span-6 sm:col-span-2">
                             <label for="section_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
-                            <select id="section_id" wire:model="section_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="section_id" @if($myclass_id == null) disabled @endif wire:model="section_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option selected="">Select category</option>
                                 @foreach($myclassSections->where('myclass_id', $myclass_id) as $myclassSection)
                                     <option value="{{$myclassSection->section_id}}">{{$myclassSection->section->name}}</option>
@@ -179,30 +207,46 @@
                             <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write product description here"></textarea>                    
                         </div> --}}
 
-                        <div class="col-span-4 sm:col-span-2">
+                        <div class="col-span-6 sm:col-span-2">
                             <label for="subject_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
-                            <select id="subject_id" wire:model="subject_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <select id="subject_id" @if($myclass_id == null || $section_id == null) disabled @endif wire:model="subject_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                 <option selected="">Select category</option>
-                                @foreach($myclassSubjects->where('myclass_id', $myclass_id) as $myclassSubject)
+                                @foreach($myclassSubjects->where('myclass_id', $myclass_id)->where('examtype_id', 2) as $myclassSubject)
                                     <option value="{{$myclassSubject->subject_id}}">{{$myclassSubject->subject->name}}</option>
                                 @endforeach
 
-                                {{-- <option value="TV">TV/Monitors</option>
-                                <option value="PC">PC</option>
-                                <option value="GA">Gaming/Console</option>
-                                <option value="PH">Phones</option> --}}
+                                
                             </select>
                         </div>
-                        <div class="col-span-4 sm:col-span-2">
-                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teacher</label>
-                            <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select category</option>
-                                <option value="TV">TV/Monitors</option>
-                                <option value="PC">PC</option>
-                                <option value="GA">Gaming/Console</option>
-                                <option value="PH">Phones</option>
-                            </select>
-                        </div>
+                        {{-- <div class="col-span-6 sm:col-span-2">
+                            <label for="wtperiods" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No of Periods</label>
+                            <input type="number" id="wtperiods" wire:model="wtperiods" min="0" max="99" value="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Weekly Total Periods" required="">
+                            
+                            
+                        </div> --}}
+                        {{-- <div class="grid grid-cols-6 gap-4">                             --}}
+                            @foreach($days as $day)
+                            <div class="col-span-1 mb-4">
+                                <label for="day.{{$day->id}}" class="inline-flex items-center ">
+                                    <input id="day.{{$day->id}}" type="checkbox" 
+                                        
+                                        wire:model="mydays" value="{{$day->id}}"
+
+                                        {{-- wire:model="changedSelectedDays.{{$day->id}}" value="{{$day->id}}" --}}
+                                        class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+                                        {{-- {{ $selectedDay ? ($selectedDay->id == $day->id ? 'checked disabled':''):'' }} --}}
+                                        {{-- @if($selectedDay && $selectedDay->id == $day->id) checked readonly  @endif --}}
+
+                                        >
+                                    <span class="ml-2 text-sm text-gray-900">{{ __($day->short_name) }}</span>
+                                </label>
+                            </div>
+                            @endforeach
+                            @error('mydays')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+
+                        {{-- </div> --}}
 
                         {{-- <div class="col-span-2">
                             <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Description</label>

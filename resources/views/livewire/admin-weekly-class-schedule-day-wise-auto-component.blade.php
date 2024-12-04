@@ -56,7 +56,7 @@
     </table> --}}
 
     <div>
-        <table class="min-w-full mx-auto my-6 border-collapse border border-gray-300">            
+        <table class="min-w-full mx-auto my-6 text-sm border-collapse border border-gray-300">            
             <thead>
             <tr>
                 <th class="border border-gray-300 px-4 py2 font-bold">Sl</th>
@@ -97,7 +97,7 @@
                                 @if(isset($myclassDayWiseRandomSubjects[$myclassSection->myclass->id][$myclassSection->section->id][$day->id][$i-1]))
                                 {{$myclassSubjects->where('myclass_id', $myclassSection->myclass_id)
                                     ->where('subject_id', $myclassDayWiseRandomSubjects[$myclassSection->myclass->id][$myclassSection->section->id][$day->id][$i-1])
-                                    ->first()->subject->name ?? 'x'
+                                    ->first()->subject->code ?? 'x'
                                 }}
                                 @endif
                                 {{-- @endif --}}
