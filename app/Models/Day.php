@@ -29,5 +29,11 @@ class Day extends Model
         // 'id' is the primary key in the Day table
     }   
 
+    public function myclasssectionteachers(){
+        return $this->hasMany(Myclasssectionteacher::class, 'day_id', 'id');
+        // 'section_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Section table
+    }
+
 
 }

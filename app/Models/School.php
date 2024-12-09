@@ -93,6 +93,13 @@ class School extends Model
     public function marksentries(){
         return $this->hasMany(Marksentry::class, 'school_id', 'id');        
     }
+
+
+    public function myclasssectionteachers(){
+        return $this->hasMany(Myclasssectionteacher::class, 'school_id', 'id');
+        // 'section_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Section table
+    }
     
 
 }

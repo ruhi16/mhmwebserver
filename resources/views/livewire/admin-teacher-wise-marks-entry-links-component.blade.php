@@ -78,7 +78,7 @@
                                             'myclassSubject_id' => $clssub_id->id, 
                                             'examdetail_id' => $teachersAnswerScript->examdetail_id
                                         ]) }}">
-                                    {{ $teachersAnswerScript->finalize_dt ? 'Finalized': $teachersAnswerScript->exammode->name . ' Entry' }}
+                                    {{ $teachersAnswerScript->finalize_dt ? 'Finalized xx': $teachersAnswerScript->exammode->name . ' Entry' }}
                                 </a>
                                 @elseif(auth()->user()->role_id == 3) {{-- Admin --}}
                                     {{-- @if($teachersAnswerScript->finalize_dt == null)
@@ -108,7 +108,7 @@
                                                 'myclassSubject_id' => $clssub_id->id, 
                                                 'examdetail_id' => $teachersAnswerScript->examdetail_id
                                             ]) }}">                                                    
-                                            <span class="text-white font-bold ">Finalized</span>
+                                            <span class="text-white font-bold ">Finalized xx</span>
                                         </a>
                                         
                                     @endif
@@ -119,7 +119,7 @@
 
                             </td> --}}
 
-                            <td class="border border-gray-300 px-4 py-2">
+                            <td class="border border-gray-300 px-4 py-2">xx
                                 @if(auth()->user()->role_id == 3 && $teachersAnswerScript->finalize_dt != null)
                                 {{-- Admin --}}
                                 <button

@@ -39,15 +39,15 @@ class AdminTeacherWiseMarksEntryStatusComponent extends Component
     }
 
     
-    // public function adminUnfinalizeMarksEntry($teachersAnswerScript_id){
-    //     $this->teachersAnswerScript_id = $teachersAnswerScript_id;
+    public function adminUnfinalizeMarksEntry($teachersAnswerScript_id){
+        $this->teachersAnswerScript_id = $teachersAnswerScript_id;
 
-    //     $teacherAnswerScript = Answerscriptdistribution::find($this->teachersAnswerScript_id);
-    //     $teacherAnswerScript->finalize_dt = null;
-    //     $teacherAnswerScript->save();
+        $teacherAnswerScript = Answerscriptdistribution::find($this->teachersAnswerScript_id);
+        $teacherAnswerScript->finalize_dt = null;
+        $teacherAnswerScript->save();
 
-    //     $this->initialize();
-    // }
+        $this->initialize();
+    }
 
     public function updatedTeacherId($teacher_id){
         // $this->msg = $teacher_id . "Teacher Id: " . Teacher::where('id', $this->teacherId)->first();

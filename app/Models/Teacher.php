@@ -50,6 +50,12 @@ class Teacher extends Model
         // 'id' is the primary key in the Teacher table
     }
 
+    public function myclasssectionteachers(){
+        return $this->hasMany(Myclasssectionteacher::class, 'myclass_id', 'id');
+        // 'section_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Section table
+    }
+
 
 
 }

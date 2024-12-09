@@ -17,18 +17,18 @@
 
             {{-- message: --}}
             @if (session()->has('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
             @endif
 
             @if (session()->has('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
             @endif
 
-           
+
 
             <table class="min-w-auto mx-auto border-collapse border border-gray-600 ">
                 <thead>
@@ -37,7 +37,7 @@
                         <th class="border border-gray-300 px-4 py-2">Exam Type</th>
                         <th class="border border-gray-300 px-4 py-2">Subjects</th>
                         @foreach ($myclasssections as $myclasssection)
-                            <th class="border border-gray-300 px-4 py-2">{{ $myclasssection->section->name }}</th>
+                        <th class="border border-gray-300 px-4 py-2">{{ $myclasssection->section->name }}</th>
                         @endforeach
                     </tr>
                 </thead>
@@ -46,70 +46,72 @@
                     {{-- Only for Summative Exam, with all its Mode (Oral, Written) options --}}
                     @foreach ($examtypes->where('id', '!=', 1) as $examtype)
                     {{-- @foreach ($examtypes as $examtype) --}}
-                        @foreach ($myclasssubjects->where('examtype_id', $examtype->id) as $myclasssubject)
-                        
-                        @php 
-                            $examdetail = $examdetails                                
-                                ->where('examtype_id', $examtype->id)                                
-                                ->where('subject_id', $myclasssubject->subject->id)
-                        @endphp
+                    @foreach ($myclasssubjects->where('examtype_id', $examtype->id) as $myclasssubject)
 
-                        <tr>
-                            <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $examtype->name }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $myclasssubject->subject->name}}({{$myclasssubject->subject->id}})</td>
+                    @php
+                    $examdetail = $examdetails
+                    ->where('examtype_id', $examtype->id)
+                    ->where('subject_id', $myclasssubject->subject->id)
+                    @endphp
+
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{ $examtype->name }}</td>
+                        <td class="border border-gray-300 px-4 py-2">{{
+                            $myclasssubject->subject->name}}({{$myclasssubject->subject->id}})</td>
+
+
+                        @foreach ($myclasssections as $myclasssection)
+                        <td class="border border-gray-300 px-4 py-2">
+
+                            @foreach($exammodes as $exammode)
+
+                            @if($examdetail->where('exammode_id', $exammode->id)->first() != null &&
+                            $examdetail->where('exammode_id', $exammode->id)->first()->exammode_id == $exammode->id)
+
+                            {{$exammode->name}}:
+                            {{--
+                            FM:{{$examdetail->where('exammode_id', $exammode->id)->first()->full_mark }}
+                            PM:{{$examdetail->where('exammode_id', $exammode->id)->first()->pass_mark }}
+                            TM:{{$examdetail->where('exammode_id', $exammode->id)->first()->time_alloted }}
+                            exdetail_id:{{$examdetail->where('exammode_id', $exammode->id)->first()->id }}
+                            exdetail_subj_id:{{$examdetail->where('exammode_id', $exammode->id)->first()->subject_id }}
+                            --}}
+
+                            @php
+                            $anscrdist = $answerscriptdistributions
+                                ->where('examtype_id', $examtype->id)
+                                ->where('section_id', $myclasssection->section_id)
+                                ->where('exammode_id', $exammode->id)
+                                ->where('subject_id', $myclasssubject->subject_id)
+                                ->first();
+                            @endphp
                             
+                            <span class="text-red-500 font-bold">
+                                {{ $anscrdist ? $anscrdist->teacher->name : '--' }}
+                            </span>
+                            {{-- {{$exam->details}}- {{ $examtype->name }}- {{ $myclasssection->section->name }} --}}
+                            <button
+                                wire:click="showModal({{ $myclasssection->section_id }}, {{ $myclasssubject->subject_id }}, {{ $examtype->id }}, {{ $exammode->id }})"
+                                class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
+                                Teacher
+                            </button>
+                            <span class="text-green-500 font-bold">
+                                {{ $anscrdist ? ($anscrdist->finalize_dt ? 'Finalized': 'Not Finalized') : '--' }}
+                            </span>
 
-                            @foreach ($myclasssections as $myclasssection)
-                                <td class="border border-gray-300 px-4 py-2">
-                                    
-                                    @foreach($exammodes as $exammode)
-                                        
-                                        @if($examdetail->where('exammode_id', $exammode->id)->first() != null && 
-                                            $examdetail->where('exammode_id', $exammode->id)->first()->exammode_id == $exammode->id)
-                                             
-                                            {{$exammode->name}}: 
-                                                {{--
-                                                FM:{{$examdetail->where('exammode_id', $exammode->id)->first()->full_mark }}
-                                                PM:{{$examdetail->where('exammode_id', $exammode->id)->first()->pass_mark }}
-                                                TM:{{$examdetail->where('exammode_id', $exammode->id)->first()->time_alloted }}
-                                                exdetail_id:{{$examdetail->where('exammode_id', $exammode->id)->first()->id }}
-                                                exdetail_subj_id:{{$examdetail->where('exammode_id', $exammode->id)->first()->subject_id }} --}}
+                            {{-- {{ $myclasssection->myclass->name }} --}}
+                            {{-- {{ $myclasssection->section->name }} --}}
+                            {{-- {{ $myclasssubject->subject->id }} --}}
+                            <br />
 
-                                                @php
-                                                    $anscrdist = $answerscriptdistributions
-                                                        ->where('examtype_id', $examtype->id)
-                                                        ->where('section_id', $myclasssection->section_id)
-                                                        ->where('exammode_id', $exammode->id)
-                                                        ->where('subject_id', $myclasssubject->subject_id)
-                                                        ->first()
-
-                                                @endphp
-                                                <span class="text-red-500 font-bold">
-                                                    {{ $anscrdist ? $anscrdist->teacher->name : '--' }}
-                                                </span>
-                                            {{-- {{$exam->details}}- {{ $examtype->name }}- {{ $myclasssection->section->name }} --}}
-                                            <button
-                                                wire:click="showModal({{ $myclasssection->section_id }}, {{ $myclasssubject->subject_id }}, {{ $examtype->id }}, {{ $exammode->id }})"
-                                                class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
-                                                Teacher
-                                            </button> 
-                                            <span class="text-green-500 font-bold">
-                                                {{ $anscrdist ? ($anscrdist->finalize_dt ? 'Finalized': 'Not Finalized') : '--' }}
-                                            </span>   
-                                            
-                                            {{-- {{ $myclasssection->myclass->name }} --}}
-                                            {{-- {{ $myclasssection->section->name }} --}}
-                                            {{-- {{ $myclasssubject->subject->id }} --}}
-                                            <br/>    
-                                        
-                                        @endif                                
-                                    @endforeach
-                                </td>
+                            @endif
                             @endforeach
-
-                        </tr>
+                        </td>
                         @endforeach
+
+                    </tr>
+                    @endforeach
                     @endforeach
 
                 </tbody>

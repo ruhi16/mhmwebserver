@@ -15,7 +15,7 @@ use App\Models\Period;
 use App\Models\Section;
 use App\Models\Teacher;
 use App\Models\Myclassdayperiod;
-
+use App\Models\Myclasssectionteacher;
 
 class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
 {
@@ -35,9 +35,11 @@ class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
 
     public $key, $value;
     public $myclassSchedules;
+    public $myclasssectionteachers;
 
     public $mydays = [];
 
+    
 
 
     protected $rules = [
@@ -89,7 +91,7 @@ class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
         // dd($this->mydays);
 
         try{
-            Myclassschedule::updateOrCreate([
+            Myclasssectionteacher::updateOrCreate([
                 'myclass_id'    => $this->myclass_id,
                 'section_id'    => $this->section_id,
                 'subject_id'    => $this->subject_id,
@@ -97,8 +99,7 @@ class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
                 
             ],[
                 'wtperiods'     => $this->wtperiods ? $this->wtperiods : count($this->mydays),
-                'day_id'        => null,
-                'period_id'     => null,
+                'day_id'        => null,                
                 'status'        => 'active',
                 'school_id'     => 1,
                 'session_id'    => 1,
@@ -106,22 +107,21 @@ class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
 
             for($i=0; $i < count($this->mydays); $i++){
 
-                Myclassschedule::updateOrCreate([
+                Myclasssectionteacher::updateOrCreate([
                     'myclass_id'    => $this->myclass_id,
                     'section_id'    => $this->section_id,
                     'subject_id'    => $this->subject_id,
                     'teacher_id'    => $this->teacher_id,
                     'day_id'        => $this->mydays[$i],
                 ],[
-                    'wtperiods'     => 1,                    
-                    'period_id'     => null,
+                    'wtperiods'     => 1,
                     'status'        => 'active',
                     'school_id'     => 1,
                     'session_id'    => 1,
                 ]);
             }
 
-            session()->flash('message', 'Class Schedule Updated Successfully');
+            session()->flash('message', 'Teacher Allotment Updated Successfully');
         }catch(\Exception $e){
             session()->flash('error', 'Error saving class schedule: ' . $e->getMessage());
         }
@@ -133,12 +133,12 @@ class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
 
 
 
-    public function removeMyclassSchedule($schedule_id){
+    public function removeMyclasssectionteacher($myclasssectionteacher_id){
         try{
-            Myclassschedule::where('id', $schedule_id)->delete();
+            Myclasssectionteacher::find($myclasssectionteacher_id)->delete();
             $this->refreshModal();
 
-            session()->flash('message', 'Class Schedule Removed Successfully');
+            session()->flash('message', 'Teacher Allotment Removed Successfully');
         }catch(\Exception $e){
             session()->flash('error', 'Error removing class schedule: ' . $e->getMessage());
         }
@@ -155,6 +155,7 @@ class AdminWeeklyClassScheduleTeachersAutoComponent extends Component
         $this->mydays = [];
 
         $this->myclassSchedules = Myclassschedule::all();
+        $this->myclasssectionteachers = Myclasssectionteacher::all();
     }
 
     

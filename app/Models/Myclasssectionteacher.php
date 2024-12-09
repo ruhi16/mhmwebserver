@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Myclassschedule extends Model
+class Myclasssectionteacher extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
 
 
@@ -27,12 +28,6 @@ class Myclassschedule extends Model
         return $this->belongsTo(Day::class, 'day_id', 'id');
         // 'day_id' is the foreign key in the Myclassschedule table
         // 'id' is the primary key in the Day table
-    }
-
-    public function period(){
-        return $this->belongsTo(Period::class, 'period_id', 'id');
-        // 'period_id' is the foreign key in the Myclassschedule table
-        // 'id' is the primary key in the Period table
     }
 
     public function subject(){
@@ -58,8 +53,5 @@ class Myclassschedule extends Model
         // 'school_id' is the foreign key in the Myclassschedule table
         // 'id' is the primary key in the School table
     }
-
-
-
 
 }

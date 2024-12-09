@@ -17,6 +17,7 @@ use App\Http\Livewire\AdminCreateUserComponent;
 use App\Http\Livewire\AdminMarkRegisterComponent;
 use App\Http\Livewire\AdminMyclassAnserScriptDistributionBaseComponent;
 use App\Http\Livewire\AdminMyclassSectionComponent;
+use App\Http\Livewire\AdminMyclassSectionIndividualMarksheetComponent;
 use App\Http\Livewire\AdminTeacherWiseMarksEntryLinksComponent;
 use App\Http\Livewire\AdminUserPreviledgeControlComponent;
 use App\Http\Livewire\SubadminMarksEntryComponent;
@@ -169,6 +170,10 @@ Route::group(
 
         Route::get('/createUser', AdminCreateUserComponent::class)
             ->name('admin.createUser');
+
+        Route::get('/individualMarksheet/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class)
+            ->name('admin.createIndividualMarksheet');
+
 
     }
 );

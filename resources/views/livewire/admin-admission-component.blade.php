@@ -46,6 +46,7 @@
                     {{-- {{ $message[$studentdb->id] ?? 'XX' }} --}}
 
                 </td>
+                
             </tr>
 
 
@@ -79,6 +80,7 @@
             </table>     --}}
 
     {{-- <table class="mx-auto my-6 border-collapse border border-gray-600 "> --}}
+
     <table class="mx-auto my-6 border-collapse border border-gray-300">
         <thead>
             <tr>
@@ -90,11 +92,12 @@
                 <th class="border border-gray-300 px-4 py-2">Section</th>
                 <th class="border border-gray-300 px-4 py-2">Roll</th>
                 <th class="border border-gray-300 px-4 py-2">Action</th>
+                <th class="border border-gray-300 px-4 py-2">Marksheet</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($studentcrs as $index => $studentcr)
-                <tr>
+                <tr class="py-2">
                     <td class="border border-gray-300 px-4 py-2">{{ $index + 1 }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->studentdb_id }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->id }}</td>
@@ -103,6 +106,15 @@
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->section->name }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->roll_no }}</td>
                     <td class="border border-gray-300 px-4 py-2"></td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <a class="text-white bg-violet-500 hover:bg-violet-700 focus:ring-4 focus:ring-violet-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                            href="{{ route('admin.createIndividualMarksheet', [
+                                'myclassSection_id' => $myclssec->id, 
+                                'studentcr_id' => $studentcr->id
+                            ]) }}">
+                            Marksheet
+                        </a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

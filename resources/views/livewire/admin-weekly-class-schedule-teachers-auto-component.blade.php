@@ -59,14 +59,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($myclassSchedules->where('teacher_id', $teacher->id)->where('day_id', null) as $myclassSchedule)
+                                @foreach($myclasssectionteachers->where('teacher_id', $teacher->id)->where('day_id', null) as $myclasssectionteacher)
                                 <tr>
                                     <td class="border border-gray-300 px-2 py-1 text-xs">{{ $loop->iteration }}</td>
-                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ $myclassSchedule->myclass->name ?? '-' }}-{{ $myclassSchedule->section->name ?? '-'}}</td>
-                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ Str::title($myclassSchedule->subject->code ?? '-') }}</td>
-                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ $myclassSchedule->wtperiods ?? '-' }}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ $myclasssectionteacher->myclass->name ?? '-' }}-{{ $myclasssectionteacher->section->name ?? '-'}}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs">{{ Str::title($myclasssectionteacher->subject->code ?? '-') }}</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs text-right">{{ $myclasssectionteacher->wtperiods ?? '-' }}</td>
                                     <td class="border border-gray-300 px-2 py-1 text-xs">
-                                        <button wire:click="removeMyclassSchedule({{ $myclassSchedule->id }})" class="flex items-center justify-center cursor-pointer px-2 py-1 bg-red-300 hover:bg-red-400 rounded-full">
+                                        <button wire:click="removeMyclasssectionteacher({{ $myclasssectionteacher->id }})" class="flex items-center justify-center cursor-pointer px-2 py-1 bg-red-300 hover:bg-red-400 rounded-full">
                                             <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                             </svg>
@@ -74,6 +74,15 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                <tr>
+                                    <td colspan="3" class="border border-gray-300 px-2 py-1 text-xs text-right">Total</td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs text-right">
+                                        {{ $myclasssectionteachers->where('teacher_id', $teacher->id)->where('day_id', null)->sum('wtperiods') }}
+                                    </td>
+                                    <td class="border border-gray-300 px-2 py-1 text-xs"></td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                         {{-- <button type="button" wire:click="" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
@@ -83,50 +92,41 @@
                     
 
                     @foreach($days as $day)
+                        @php $mySchedules = $myclassSchedules->where('teacher_id', $teacher->id)    @endphp
+
                         @if(!$loop->first) <tr> @endif
                         <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}</td>
                         <td class="border border-gray-300 px-4 py2 font-bold text-xs">
-                            @foreach($myclassSchedules->where('teacher_id', $teacher->id) as $myclassScheduleTeacher)
+                            @foreach($myclasssectionteachers->where('teacher_id', $teacher->id) as $myclasssectionteacher)
                                     
-                                @if($myclassScheduleTeacher->day_id == $day->id )
-                                    {{ Str::title($myclassScheduleTeacher->subject->code) ?? '--' }}
+                                @if($myclasssectionteacher->day_id == $day->id )
+                                    {{ $myclasssectionteacher->myclass->name ?? '-' }}{{ $myclasssectionteacher->section->name ?? '-'}}:
+                                    {{ Str::title($myclasssectionteacher->subject->code) ?? '--' }}<br/>
                                 @endif
                             @endforeach
                         </td>
 
                         @for($i=1; $i <= 8; $i++)                            
-                            {{-- @if($i <= $day->max_periods) --}}
-                            <td class="border border-gray-300 px-4 py2">
-                                
-                                {{-- @if(isset($myclassSchedules->where('teacher_id', $teacher->id))) --}}
-
-                                {{-- @foreach($myclassSchedules->where('teacher_id', $teacher->id) as $myclassScheduleTeacher)
-                                    
-                                    @if($myclassScheduleTeacher->day_id == $day->id )
-                                        {{ $myclassScheduleTeacher->subject->code ?? '--' }}
-                                    @endif
-                                @endforeach --}}
-
-                                {{-- @endif --}}
-                                
-                                {{-- @if(isset($myclassDayWiseRandomSubjects[$myclassSection->myclass->id][$myclassSection->section->id][$day->id][$i-1]))
-                                {{$myclassSubjects->where('myclass_id', $myclassSection->myclass_id)
-                                    ->where('subject_id', $myclassDayWiseRandomSubjects[$myclassSection->myclass->id][$myclassSection->section->id][$day->id][$i-1])
-                                    ->first()->subject->name ?? 'x'
-                                }}
-                                @endif --}}
-                                    
+                            @if($i <= $day->max_periods)
+                            @php 
+                                $teacherSchedule = $mySchedules->where('day_id', $day->id)->where('period_id', $i);
+                            @endphp
+                            <td class="border border-gray-300 px-4  font-bold text-sm {{$teacherSchedule->count() > 1 ? 'bg-red-200' : ''}}">
+                                @foreach($mySchedules->where('day_id', $day->id)->where('period_id', $i) as $mySchedule)
+                                    {{ $mySchedule->myclass->name }}{{ $mySchedule->section->name }}:{{ $mySchedule->subject->code }} <br/>
+                                @endforeach
                             </td>
-                            {{-- @else
+                            @else
                             <td class="border border-gray-300 px-4 py2 bg-rose-100">
-
+                                
                             </td>
-                            @endif --}}
+                            @endif
                         @endfor
 
                         {{-- @if(!$loop->last) </tr> @endif --}}
                         
                     @endforeach
+
                 </tr>
                 @endforeach
             </tbody>
@@ -143,13 +143,13 @@
     <div class=" {{ $showModal ? '' : 'hidden' }}">
         <div wire:ignore.self class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto" id="modal"
             aria-labelledby="modal-title" aria-modal="true" role="dialog" aria-hidden="true">
-            <div class="relative w-full max-w-2xl max-h-full px-4 py-6 bg-white rounded-lg shadow-lg">
+            <div class="relative w-full max-w-2xl max-h-full px-6 py-6 bg-white rounded-lg shadow-lg">
 
                 <!-- Modal header -->
-                <div class="flex items-center justify-between p-2 md:p-5 border-b rounded-t dark:border-gray-600">
+                <div class="flex items-center justify-between p-2 mb-6 md:py-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white">
-                        Add Class Section Wise Teacher's Subject 
-                        {{ $teacher_id }}, {{ $myclass_id}}, {{ $section_id }}, {{ $subject_id }},{{ $wtperiods}}
+                        Assign Classes for <span class=" text-orange-600">{{ $teacher_id ? $teachers->where('id', $teacher_id)->first()->name : '' }}</span>
+                        {{-- {{ $teacher_id }}, {{ $myclass_id}}, {{ $section_id }}, {{ $subject_id }},{{ $wtperiods}} --}}
                     </h3>
                     <button type="button" wire:click="closeModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="medium-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -179,20 +179,20 @@
                             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
                             <input type="number" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="">
                         </div> --}}
-                        <div class="col-span-6 sm:col-span-2">
+                        <div class="col-span-6 sm:col-span-1">
                             <label for="myclass_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Class </label>
                             <select id="myclass_id" wire:model="myclass_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select any class</option>
+                                <option selected="">Select</option>
                                 @foreach($myclasses as $myclass)
                                     <option value="{{$myclass->id}}">{{$myclass->name}}</option>
                                 @endforeach
                                 
                             </select>
                         </div>
-                        <div class="col-span-6 sm:col-span-2">
+                        <div class="col-span-6 sm:col-span-1">
                             <label for="section_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Section</label>
                             <select id="section_id" @if($myclass_id == null) disabled @endif wire:model="section_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select category</option>
+                                <option selected="">Select</option>
                                 @foreach($myclassSections->where('myclass_id', $myclass_id) as $myclassSection)
                                     <option value="{{$myclassSection->section_id}}">{{$myclassSection->section->name}}</option>
                                 @endforeach
@@ -210,33 +210,38 @@
                         <div class="col-span-6 sm:col-span-2">
                             <label for="subject_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subject</label>
                             <select id="subject_id" @if($myclass_id == null || $section_id == null) disabled @endif wire:model="subject_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Select category</option>
-                                @foreach($myclassSubjects->where('myclass_id', $myclass_id)->where('examtype_id', 2) as $myclassSubject)
-                                    <option value="{{$myclassSubject->subject_id}}">{{$myclassSubject->subject->name}}</option>
-                                @endforeach
+                                <option selected="">Select any subject</option>
+                                @if($myclass_id < 7) {{-- for Class V to X, Summative type subjects --}}
+                                    @foreach($myclassSubjects->where('myclass_id', $myclass_id)->where('examtype_id', 2) as $myclassSubject)
+                                        <option value="{{$myclassSubject->subject_id}}">{{$myclassSubject->subject->name}}</option>
+                                    @endforeach
+                                @else {{-- for class XI & XII --}}
+                                    @foreach($myclassSubjects->where('myclass_id', $myclass_id) as $myclassSubject)
+                                        <option value="{{$myclassSubject->subject_id}}">{{$myclassSubject->subject->name}}</option>
+                                    @endforeach
+                                @endif
 
                                 
                             </select>
                         </div>
-                        {{-- <div class="col-span-6 sm:col-span-2">
+                        <div class="col-span-6 sm:col-span-2">
                             <label for="wtperiods" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No of Periods</label>
                             <input type="number" id="wtperiods" wire:model="wtperiods" min="0" max="99" value="0" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Weekly Total Periods" required="">
                             
                             
-                        </div> --}}
-                        {{-- <div class="grid grid-cols-6 gap-4">                             --}}
+                        </div>
+                        {{-- <div class="col-span-6 sm:col-span-2"> --}}
+                        
+                            {{-- <div class="col-span-6 mt-4">
+                            <label for="wtperiods" class="block text-sm font-medium text-gray-900 dark:text-white">You can select days in week, optionally</label>
+                            </div>
+                        
                             @foreach($days as $day)
-                            <div class="col-span-1 mb-4">
+                            <div class="col-span-1 mb-2">
                                 <label for="day.{{$day->id}}" class="inline-flex items-center ">
-                                    <input id="day.{{$day->id}}" type="checkbox" 
-                                        
-                                        wire:model="mydays" value="{{$day->id}}"
-
-                                        {{-- wire:model="changedSelectedDays.{{$day->id}}" value="{{$day->id}}" --}}
+                                    <input id="day.{{$day->id}}" type="checkbox"
+                                        wire:model="mydays" value="{{$day->id}}"                                        
                                         class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
-                                        {{-- {{ $selectedDay ? ($selectedDay->id == $day->id ? 'checked disabled':''):'' }} --}}
-                                        {{-- @if($selectedDay && $selectedDay->id == $day->id) checked readonly  @endif --}}
-
                                         >
                                     <span class="ml-2 text-sm text-gray-900">{{ __($day->short_name) }}</span>
                                 </label>
@@ -244,7 +249,10 @@
                             @endforeach
                             @error('mydays')
                                 <span class="text-red-500">{{ $message }}</span>
-                            @enderror
+                            @enderror --}}
+                            {{-- wire:model="changedSelectedDays.{{$day->id}}" value="{{$day->id}}" --}}
+                            {{-- {{ $selectedDay ? ($selectedDay->id == $day->id ? 'checked disabled':''):'' }} --}}
+                                        {{-- @if($selectedDay && $selectedDay->id == $day->id) checked readonly  @endif --}}
 
                         {{-- </div> --}}
 

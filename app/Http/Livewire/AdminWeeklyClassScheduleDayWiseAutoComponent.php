@@ -14,6 +14,7 @@ use App\Models\Period;
 use App\Models\Section;
 use App\Models\Teacher;
 use App\Models\Myclassdayperiod;
+use App\Models\Myclasssectionteacher;
 
 class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
 {
@@ -23,10 +24,25 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
     public $randomNumbers;
     public $myclassDayWiseRandomSubjects;
 
+
+    public $myclassSchedules;
+
+
+
+    public $test_myclasssectionteachers;
+    public $test_classSchedules;
+
+
+
+
+
     public function mount(){
         $this->days = Day::where('status', 'active')->get();
         $this->myclassSections = Myclasssection::all();
         $this->myclassSubjects = Myclasssubject::all();
+
+
+        $this->refreshMyclassSchedules();
     }
 
     public function uniqueDayMyclassRandomSubjects($myclass_id, $day_id){
@@ -53,16 +69,130 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
         // foreach($this->myclassSections->where('myclass_id', $myclass_id) as $myclassSection){
 
             foreach($this->days as $day){
-                $this->uniqueDayMyclassRandomSubjects($myclass_id, $day->id);
-                
+                $this->uniqueDayMyclassRandomSubjects($myclass_id, $day->id);                
                 $this->myclassDayWiseRandomSubjects[$myclass_id][$section_id][$day->id] = $this->randomNumbers;
             }
 
         // }
+
+    }
+
+    public function saveMyclassSectionSubjectsWeeklySchedule($myclass_id, $section_id){
+        foreach($this->days as $day){            
+            // dd($day->id, $this->myclassDayWiseRandomSubjects[$myclass_id][$section_id][$day->id]);
+            try{
+                for($i=0; $i < count($this->myclassDayWiseRandomSubjects[$myclass_id][$section_id][$day->id]); $i++){
+
+                    Myclassschedule::updateOrCreate([
+                        'myclass_id'    => $myclass_id,
+                        'section_id'    => $section_id,
+                        'day_id'        => $day->id,
+                        'period_id'     => $i+1,
+                        'subject_id'    => $this->myclassDayWiseRandomSubjects[$myclass_id][$section_id][$day->id][$i],
+                        
+                    ],[
+                        'teacher_id'    => null,
+                        'wtperiods'     => null,
+                        
+                        'status'        => 'active',
+                        'school_id'     => 1,
+                        'session_id'    => 1,
+                    ]);
+                }
+    
+                
+    
+                session()->flash('message', 'Class Schedule Updated Successfully');
+            }catch(\Exception $e){
+                session()->flash('error', 'Error saving class schedule: ' . $e->getMessage());
+            }
+        }
+        
+    }
+
+
+    public function assignMyclassScheduleTeachers($myclass_id, $section_id){
+
+        // $myclassschedules = Myclassschedule::where('myclass_id', $myclass_id)->where('section_id', $section_id)->get();
+        $this->test_myclasssectionteachers = Myclasssectionteacher::where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            ->where('day_id', null) 
+            ->get();
+        // dd($myclassSchedules);
+        $this->test_classSchedules = Myclassschedule::where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            // ->orderBy('day_id', 'asc')
+            ->inRandomOrder()
+            ->get()
+            ;
+
+        // shuffle($this->test_classSchedules);
+
+        foreach($this->test_myclasssectionteachers as $myclasssectionteacher){
+            // dd($myclasssectionteacher->wtperiods);
+            
+            $this->test_classSchedules = Myclassschedule::where('myclass_id', $myclass_id)
+                ->where('section_id', $section_id)
+                ->where('subject_id', $myclasssectionteacher->subject_id)
+                ->get()
+                // ->pluck('subject_id')->toArray()
+                ;
+            
+
+            for($i=0; $i < $myclasssectionteacher->wtperiods; $i++){
+
+                $this->test_classSchedules[$i]->update([
+                    'teacher_id'    => $myclasssectionteacher->teacher_id,
+                    'status'        => 'active',
+                    'school_id'     => 1,
+                    'session_id'    => 1,
+                ]); 
+
+            //     Myclassschedule::where('myclass_id', $myclass_id)
+            //         ->where('section_id', $section_id)
+            //         ->where('subject_id', $myclasssectionteacher->subject_id)
+            //         ->where('day_id', 3) // ???????
+            //         // ->where('day_id', $myclasssectionteacher->day_id)
+            //         // ->where('period_id', $i+1)
+            //     ->update([
+            //         // 'teacher_id'    => null,
+            //         'teacher_id'    => $myclasssectionteacher->teacher_id,
+            //         'status'        => 'active',
+            //         'school_id'     => 1,
+            //         'session_id'    => 1,
+            //     ]);
+            }
+
+        }
+
+
+        $this->refreshMyclassSchedules();
     }
 
 
 
+    public function clearMyclassSectionSchedule($myclass_id, $section_id){
+        
+        try{
+            Myclassschedule::where('myclass_id', $myclass_id)
+                ->where('section_id', $section_id)
+                ->delete();
+
+
+            session()->flash('message', 'Class Section Weekly Schedules Deleted Successfully');
+        }catch(\Exception $e){
+            session()->flash('error', 'Error saving class schedule: ' . $e->getMessage());
+        }
+        
+        $this->refreshMyclassSchedules();
+    }
+
+
+
+
+    public function refreshMyclassSchedules(){
+        $this->myclassSchedules = Myclassschedule::all();
+    }
 
 
     public function render()
