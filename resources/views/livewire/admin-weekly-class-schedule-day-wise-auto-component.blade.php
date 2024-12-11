@@ -20,7 +20,7 @@
     </div>
 
     <div class="min-w-full mx-auto bg-slate-200 text-center text-2xl font-bold my-4">
-        School Routine, Day Wise, Auto Generated        
+        School Routine, "Day Wise", Auto Generated        
     </div>
 
     {{-- <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300">
@@ -59,16 +59,16 @@
     @endforeach --}}
 
     {{-- {{ print_r($test_classSchedules) ?? 'X' }} --}}
-    {{-- @if($test_myclasssectionteachers)
+    @if($test_myclasssectionteachers)
         @foreach($test_myclasssectionteachers as $test_myclasssectionteacher)
             {{ $test_myclasssectionteacher->teacher->nickName }}:{{ $test_myclasssectionteacher->subject->code }}-{{ $test_myclasssectionteacher->wtperiods }}<br/>
-
+            {{ $test_classSchedules->where('subject_id', $test_myclasssectionteacher->subject_id)->count() }}:<br/>
                 @foreach($test_classSchedules->where('subject_id', $test_myclasssectionteacher->subject_id) as $test_classSchedule)
-                {{ $test_classSchedule->day_id }}-{{ $test_classSchedule->period_id }}:{{ $test_classSchedule->subject->code }}<br/>
+                    {{ $test_classSchedule->day_id }}-{{ $test_classSchedule->period_id }}:{{ $test_classSchedule->subject->code }}<br/>
                 @endforeach
             ====<br/>
         @endforeach
-    @endif --}}
+    @endif
 
     <div>
         <table class="min-w-full mx-auto my-6 text-sm border-collapse border border-gray-300">            
@@ -104,6 +104,9 @@
                         <button type="button" wire:click="clearMyclassSectionSchedule( {{ $myclassSection->myclass->id }}, {{ $myclassSection->section->id }} )" class="px-3 py-2 text-xs font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                             Clear DB
                         </button>
+                        <button type="button" wire:click="deleteMyclassSectionWeeklyExtraPeriods( {{ $myclassSection->myclass->id }}, {{ $myclassSection->section->id }} )" class="px-3 py-2 text-xs font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
+                            Del Extras
+                        </button>
                         {{-- {{ $randomNumbers ? print_r($randomNumbers) : 'X' }} --}}
                         {{-- @foreach($myclassSubjects->where('myclass_id', $myclassSection->myclass_id)->where('examtype_id', 2) as $myclassSubject)
                             {{ $myclassSubject->subject->id }},
@@ -121,7 +124,8 @@
                                     $data = $myclassSchedules->where('myclass_id', $myclassSection->myclass_id)
                                         ->where('section_id', $myclassSection->section_id)
                                         ->where('day_id', $day->id)
-                                        ->where('period_id', $i);
+                                        ->where('period_id', $i)
+                                        ;
                                 @endphp
                                 @php
                                     $arrayDayPeriodSubject = null;
@@ -131,18 +135,22 @@
                                 @endphp
 
                                 
-                                @if(isset($arrayDayPeriodSubject))
+                                @if(($arrayDayPeriodSubject))
                                     {{-- From Temporary Array --}}                                    
                                     <td class="border border-gray-300 px-4 py2 bg-teal-100">
                                         {{-- {{ $myclassDayWiseRandomSubjects[$myclassSection->myclass_id][$myclassSection->section_id][$day->id][$i-1] ?? 'x'}} --}}
                                         {{-- {{ $myclassDayWiseRandomSubjects[$myclassSection->myclass_id][$myclassSection->section_id][$day->id][$i-1] ? --}}
-                                        {{ $arrayDayPeriodSubject->first()->subject->code ?? 'X' }}
+                                        {{-- {{ $arrayDayPeriodSubject->first()->subject->code ?? 'X' }} --}}
+
+                                        @foreach($arrayDayPeriodSubject as $arrayDayPeriodSubj)
+                                            {{ $arrayDayPeriodSubj->subject->code ?? 'x'}}
+                                        @endforeach
                                     </td>
                                 
                                 @elseif( ($data->first()) )
                                     {{-- From DataBase --}}
                                     <td class="border border-gray-300 px-4 py2 text-red-500 font-bold">                                                                        
-                                        {{ $data->first() ? Str::title($data->first()->subject->code) : '' }}:
+                                        {{ $data->first()->subject ? Str::title($data->first()->subject->code) : '' }}:
                                         {{ $data->first()->teacher ? Str::upper($data->first()->teacher->nickName) : '' }}<br/>                                
                                     </td>
                                     

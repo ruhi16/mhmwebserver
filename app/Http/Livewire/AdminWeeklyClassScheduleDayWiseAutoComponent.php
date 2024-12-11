@@ -47,7 +47,7 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
 
     public function uniqueDayMyclassRandomSubjects($myclass_id, $day_id){
 
-        $count = Myclassdayperiod::where('myclass_id', $myclass_id)->where('day_id', $day_id)->count(); 
+        $count_periods = Myclassdayperiod::where('myclass_id', $myclass_id)->where('day_id', $day_id)->count(); 
 
         $subjects = Myclasssubject::where('myclass_id', $myclass_id)
             ->where('examtype_id', 2)
@@ -55,7 +55,7 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
             ->pluck('subject_id')
             ->toArray();
         // $numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        $randomNumbers = array_rand($subjects, $count);
+        $randomNumbers = array_rand($subjects, $count_periods);
 
         // Convert the array keys (indices) to the actual values
         $this->randomNumbers = array_map(function($index) use ($subjects) {
@@ -72,6 +72,7 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
                 $this->uniqueDayMyclassRandomSubjects($myclass_id, $day->id);                
                 $this->myclassDayWiseRandomSubjects[$myclass_id][$section_id][$day->id] = $this->randomNumbers;
             }
+
 
         // }
 
@@ -118,49 +119,33 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
             ->where('section_id', $section_id)
             ->where('day_id', null) 
             ->get();
-        // dd($myclassSchedules);
+        
         $this->test_classSchedules = Myclassschedule::where('myclass_id', $myclass_id)
             ->where('section_id', $section_id)
-            // ->orderBy('day_id', 'asc')
+
             ->inRandomOrder()
             ->get()
             ;
 
-        // shuffle($this->test_classSchedules);
+        
 
-        foreach($this->test_myclasssectionteachers as $myclasssectionteacher){
-            // dd($myclasssectionteacher->wtperiods);
+        foreach($this->test_myclasssectionteachers as $myclasssectionteacher){            
             
             $this->test_classSchedules = Myclassschedule::where('myclass_id', $myclass_id)
                 ->where('section_id', $section_id)
                 ->where('subject_id', $myclasssectionteacher->subject_id)
-                ->get()
-                // ->pluck('subject_id')->toArray()
+                ->get()                
                 ;
             
-
-            for($i=0; $i < $myclasssectionteacher->wtperiods; $i++){
+            // for($i=0; $i < $myclasssectionteacher->wtperiods; $i++){
+            for($i=0; $i < $this->test_classSchedules->count(); $i++){
 
                 $this->test_classSchedules[$i]->update([
                     'teacher_id'    => $myclasssectionteacher->teacher_id,
                     'status'        => 'active',
                     'school_id'     => 1,
                     'session_id'    => 1,
-                ]); 
-
-            //     Myclassschedule::where('myclass_id', $myclass_id)
-            //         ->where('section_id', $section_id)
-            //         ->where('subject_id', $myclasssectionteacher->subject_id)
-            //         ->where('day_id', 3) // ???????
-            //         // ->where('day_id', $myclasssectionteacher->day_id)
-            //         // ->where('period_id', $i+1)
-            //     ->update([
-            //         // 'teacher_id'    => null,
-            //         'teacher_id'    => $myclasssectionteacher->teacher_id,
-            //         'status'        => 'active',
-            //         'school_id'     => 1,
-            //         'session_id'    => 1,
-            //     ]);
+                ]);            
             }
 
         }
@@ -168,6 +153,75 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
 
         $this->refreshMyclassSchedules();
     }
+
+
+
+    public function deleteMyclassSectionWeeklyExtraPeriods($myclass_id, $section_id){
+        $myclassSectionWeeklySchedules = Myclassschedule::where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            ->inRandomOrder()
+            ->get()
+            ;
+            
+        $myclassSectionWeeklyTeacherAllotments = Myclasssectionteacher::where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            ->get()
+            ;
+
+
+        foreach($myclassSectionWeeklyTeacherAllotments as $myclassSectionWeeklyTeacherAllotment){
+            // $myclassSectionWeeklyTeacherAllotment->subject->code;
+            $myclassSectionWeeklySubjectTotalPeriods = $myclassSectionWeeklyTeacherAllotment->wtperiods;
+
+            foreach($myclassSectionWeeklySchedules->where('subject_id', $myclassSectionWeeklyTeacherAllotment->subject_id) as $myclassSectionWeeklySchedule){
+                if($myclassSectionWeeklySubjectTotalPeriods < 1){
+                    $myclassSectionWeeklySchedule->update([
+                        'subject_id'     => null,
+                        'teacher_id'    => null,
+                        'status'        => 'active',
+                        'school_id'     => 1,
+                        'session_id'    => 1,
+                    ]);
+                }else{
+                    $myclassSectionWeeklySubjectTotalPeriods--;
+                }
+            }
+            
+        }
+
+        $this->refreshMyclassSchedules();
+    }
+
+
+    public function adjustMyclassSectionWeeklyNotAssignedPeriods($myclass_id, $section_id){
+        $myclassSectionWeeklySchedules = Myclassschedule::where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            ->inRandomOrder()
+            ->get()
+            ;
+            
+        $myclassSectionWeeklyTeacherAllotments = Myclasssectionteacher::where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            ->get()
+            ;
+
+        foreach($myclassSectionWeeklyTeacherAllotments as $myclassSectionWeeklyTeacherAllotment){
+            // $myclassSectionWeeklyTeacherAllotment->subject->code;
+            $myclassSectionWeeklySubjectTotalPeriods = $myclassSectionWeeklyTeacherAllotment->wtperiods;
+
+            foreach($myclassSectionWeeklySchedules->where('subject_id', $myclassSectionWeeklyTeacherAllotment->subject_id) as $myclassSectionWeeklySchedule){
+            
+
+
+            }
+
+        }
+
+        $this->refreshMyclassSchedules();
+
+    }
+
+
 
 
 
