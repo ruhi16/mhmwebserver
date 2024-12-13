@@ -785,9 +785,6 @@ select {
 .top-\[9\%\] {
   top: 9%;
 }
-.right-2 {
-  right: 0.5rem;
-}
 .z-0 {
   z-index: 0;
 }
@@ -1424,6 +1421,10 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
+.border-gray-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(107 114 128 / var(--tw-border-opacity));
+}
 .border-gray-600 {
   --tw-border-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-border-opacity));
@@ -1446,10 +1447,6 @@ select {
 }
 .border-transparent {
   border-color: transparent;
-}
-.border-gray-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity));
 }
 .bg-\[\#a6c1ee\] {
   --tw-bg-opacity: 1;
@@ -1551,6 +1548,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(249 115 22 / var(--tw-bg-opacity));
 }
+.bg-orange-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(194 65 12 / var(--tw-bg-opacity));
+}
 .bg-pink-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(251 207 232 / var(--tw-bg-opacity));
@@ -1629,10 +1630,6 @@ select {
 .bg-yellow-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 252 232 / var(--tw-bg-opacity));
-}
-.bg-orange-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(194 65 12 / var(--tw-bg-opacity));
 }
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
@@ -1806,12 +1803,6 @@ select {
 }
 .text-right {
   text-align: right;
-}
-.text-justify {
-  text-align: justify;
-}
-.align-middle {
-  vertical-align: middle;
 }
 .font-sans {
   font-family: Nunito, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -2236,6 +2227,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(194 65 12 / var(--tw-bg-opacity));
 }
+.hover\:bg-orange-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(154 52 18 / var(--tw-bg-opacity));
+}
 .hover\:bg-purple-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 232 255 / var(--tw-bg-opacity));
@@ -2291,10 +2286,6 @@ select {
 .hover\:bg-violet-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(109 40 217 / var(--tw-bg-opacity));
-}
-.hover\:bg-orange-800:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(154 52 18 / var(--tw-bg-opacity));
 }
 .hover\:text-blue-700:hover {
   --tw-text-opacity: 1;
@@ -2842,6 +2833,11 @@ select {
     background-color: rgb(22 163 74 / var(--tw-bg-opacity));
   }
 
+  .dark\:bg-orange-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(234 88 12 / var(--tw-bg-opacity));
+  }
+
   .dark\:bg-purple-600 {
     --tw-bg-opacity: 1;
     background-color: rgb(147 51 234 / var(--tw-bg-opacity));
@@ -2855,11 +2851,6 @@ select {
   .dark\:bg-slate-700 {
     --tw-bg-opacity: 1;
     background-color: rgb(51 65 85 / var(--tw-bg-opacity));
-  }
-
-  .dark\:bg-orange-600 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(234 88 12 / var(--tw-bg-opacity));
   }
 
   .dark\:text-black {
@@ -2956,6 +2947,11 @@ select {
     background-color: rgb(21 128 61 / var(--tw-bg-opacity));
   }
 
+  .dark\:hover\:bg-orange-700:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(194 65 12 / var(--tw-bg-opacity));
+  }
+
   .dark\:hover\:bg-purple-700:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(126 34 206 / var(--tw-bg-opacity));
@@ -2964,11 +2960,6 @@ select {
   .dark\:hover\:bg-red-700:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(185 28 28 / var(--tw-bg-opacity));
-  }
-
-  .dark\:hover\:bg-orange-700:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(194 65 12 / var(--tw-bg-opacity));
   }
 
   .dark\:hover\:text-gray-300:hover {
@@ -3031,6 +3022,11 @@ select {
     --tw-ring-color: rgb(22 101 52 / var(--tw-ring-opacity));
   }
 
+  .dark\:focus\:ring-orange-800:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(154 52 18 / var(--tw-ring-opacity));
+  }
+
   .dark\:focus\:ring-purple-800:focus {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(107 33 168 / var(--tw-ring-opacity));
@@ -3039,11 +3035,6 @@ select {
   .dark\:focus\:ring-red-800:focus {
     --tw-ring-opacity: 1;
     --tw-ring-color: rgb(153 27 27 / var(--tw-ring-opacity));
-  }
-
-  .dark\:focus\:ring-orange-800:focus {
-    --tw-ring-opacity: 1;
-    --tw-ring-color: rgb(154 52 18 / var(--tw-ring-opacity));
   }
 
   .group:hover .dark\:group-hover\:text-white {

@@ -129,25 +129,45 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
 
         
 
-        foreach($this->test_myclasssectionteachers as $myclasssectionteacher){            
+        foreach($this->test_myclasssectionteachers as $myclasssectionteacher){         
             
-            $this->test_classSchedules = Myclassschedule::where('myclass_id', $myclass_id)
+            $test_classSchedules_count = Myclassschedule::where('myclass_id', $myclass_id)
                 ->where('section_id', $section_id)
                 ->where('subject_id', $myclasssectionteacher->subject_id)
-                ->get()                
+                // ->where('teacher_id', null)
+                ->count()
                 ;
-            
-            // for($i=0; $i < $myclasssectionteacher->wtperiods; $i++){
-            for($i=0; $i < $this->test_classSchedules->count(); $i++){
 
-                $this->test_classSchedules[$i]->update([
-                    'teacher_id'    => $myclasssectionteacher->teacher_id,
-                    'status'        => 'active',
-                    'school_id'     => 1,
-                    'session_id'    => 1,
-                ]);            
-            }
+            // if($test_classSchedules_count <= $myclasssectionteacher->wtperiods){
+                
+                $this->test_classSchedules = Myclassschedule::where('myclass_id', $myclass_id)
+                    ->where('section_id', $section_id)
+                    ->where('subject_id', $myclasssectionteacher->subject_id)
+                    ->where('teacher_id', null)
+                    ->get()                
+                    ;
+                
+                for($i=0; $i < $myclasssectionteacher->wtperiods; $i++){
+                // for($i=0; $i < $this->test_classSchedules->count(); $i++){
+                    if( isset($this->test_classSchedules[$i]) ){
 
+                        $this->test_classSchedules[$i]->update([
+                            'teacher_id'    => $myclasssectionteacher->teacher_id,
+                            'status'        => 'active',
+                            'school_id'     => 1,
+                            'session_id'    => 1,
+                        ]);
+
+                    }            
+                }
+            // }
+
+        }
+
+        foreach($this->test_classSchedules->where('teacher_id', null) as $myclassSchedule){
+            $myclassSchedule->update([
+                'subject_id'    => null
+            ]);
         }
 
 
@@ -172,8 +192,11 @@ class AdminWeeklyClassScheduleDayWiseAutoComponent extends Component
         foreach($myclassSectionWeeklyTeacherAllotments as $myclassSectionWeeklyTeacherAllotment){
             // $myclassSectionWeeklyTeacherAllotment->subject->code;
             $myclassSectionWeeklySubjectTotalPeriods = $myclassSectionWeeklyTeacherAllotment->wtperiods;
-
-            foreach($myclassSectionWeeklySchedules->where('subject_id', $myclassSectionWeeklyTeacherAllotment->subject_id) as $myclassSectionWeeklySchedule){
+            $myclassSectionWeeklyTeacherSchedules = $myclassSectionWeeklySchedules
+                ->where('subject_id', $myclassSectionWeeklyTeacherAllotment->subject_id)
+                ->where('teacher_id', $myclassSectionWeeklyTeacherAllotment->teacher_id)
+                ;
+            foreach($myclassSectionWeeklyTeacherSchedules as $myclassSectionWeeklySchedule){
                 if($myclassSectionWeeklySubjectTotalPeriods < 1){
                     $myclassSectionWeeklySchedule->update([
                         'subject_id'     => null,

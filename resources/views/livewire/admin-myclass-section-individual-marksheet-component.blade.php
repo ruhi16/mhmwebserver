@@ -106,28 +106,60 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php 
+                                    $grandTotal = 0; 
+                                    $grandTotalFM = 0;
+                                    $active_subject_ids = $myclassSubjects->where('examtype_id', 2)->where('is_additional', 0)->pluck('id');
+                                @endphp                                    
                                 @foreach($myclassSubjects->where('examtype_id', 2) as $myclassSubject)
                                     <tr>
                                         <td class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300">
                                             {{ $myclassSubject->subject->code }}
                                         </td>
+                                        
                                         @foreach($exams as $exam)
                                             <td class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300">
                                                 @php
                                                     $examDetail_id = $examDetails->where('exam_id', $exam->id)->where('subject_id', $myclassSubject->subject->id)->first()->id;
                                                 @endphp
-                                                {{ $markEntries->where('examdetail_id', $examDetail_id)->first()->marks ?? 'X' }}                                            
+                                                @if($markEntries->where('examdetail_id', $examDetail_id)->first())
+                                                    {{-- {{ $markEntries->where('examdetail_id', $examDetail_id)->first()->marks >= 0 ?
+                                                    $markEntries->where('examdetail_id', $examDetail_id)->first()->marks : 'AB' }} --}}
+                                                    @if( $markEntries->where('examdetail_id', $examDetail_id)->first()->marks >= 0)
+                                                        {{ $markEntries->where('examdetail_id', $examDetail_id)->first()->marks}}
+                                                        @php $grandTotal += $markEntries->where('examdetail_id', $examDetail_id)->first()->marks; @endphp
+                                                    @else
+                                                        <span class="text-red-500">AB</span>
+                                                    @endif
+                                                                                               
+                                                @else
+                                                    <span class="text-green-500">NA</span>
+                                                @endif
+                                                /{{ $examDetails->where('id', $examDetail_id)->first()->full_mark ?? 'X' }}
                                             </td>
                                         @endforeach
                                         <td class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300">                                            
-                                            {{ $markEntries->where('myclasssubject_id', $myclassSubject->id)->sum('marks') ?? 'X' }}
+                                            {{ $markEntries->where('myclasssubject_id', $myclassSubject->id)->where('marks', '>=', '0')->sum('marks') ?? 'X' }}
+                                            /{{ $examDetails->where('examtype_id', 2)->where('subject_id', $myclassSubject->subject_id)->sum('full_mark') ?? 'X' }}
+
+                                            @php $grandTotalFM += $examDetails->where('examtype_id', 2)->where('subject_id', $myclassSubject->subject_id)->sum('full_mark'); @endphp
+                                            {{-- -{{ $myclassSubjects->where('examtype_id', 2)->where('is_additional', 0)->pluck('id') ?? 'X' }} --}}
                                         </td>
                                         <td class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300">
                                             
                                         </td>
                                     </tr>
-
                                 @endforeach
+                                <tr>
+                                    <td colspan="4" class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300">
+                                        Grand Total
+                                    </td>
+                                    <td class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300">
+                                        {{ $grandTotal >= 0 ? $grandTotal : 'AB' }}/{{ $grandTotalFM }} {{-- have to ninus additional subjects fm --}}
+                                    </td>
+                                    <td class="py-3 px-6 text-lg font-extrabold tracking-wider text-center text-gray-700 uppercase bg-gray-50 border border-gray-300"></td>
+                                </tr>
+                                
                             </tbody>
                         </table>
                     </td>

@@ -10,7 +10,7 @@
                         <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                         <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                     </svg>
-                    <span class="ml-3">{{ $item['title'] }}-{{$selectedItem}}</span>
+                    <span class="ml-3">{{ $item['title'] }}</span>
                 </button>
                 {{-- <a href="#" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">WTPerios</a> --}}
             </li>
@@ -32,8 +32,8 @@
                 <livewire:admin-weekly-class-schedule-teachers-component>
             @elseif($selectedItem == 'item4')
                 <livewire:admin-weekly-class-schedule-day-wise-auto-component>
-            {{-- @elseif($selectedItem == 'item5') --}}
-                
+            @elseif($selectedItem == 'item5')
+                <livewire:admin-weekly-class-schedule-teacher-wise2-component>
             @endif
         </div>
 

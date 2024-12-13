@@ -7,7 +7,7 @@ use Livewire\Component;
 class AdminWeeklyClassScheduleContainerComponent extends Component
 {
 
-    public $selectedItem = 'item4';
+    public $selectedItem = 'item5';
     public $componentName;
 
     public $items = [
@@ -25,6 +25,10 @@ class AdminWeeklyClassScheduleContainerComponent extends Component
         ], 
         'item4' => [
             'title' => 'TW Schedule',
+            'component' => 'admin-item-four-component',
+        ],
+        'item5' => [
+            'title' => 'TW Schedule 2',
             'component' => 'admin-item-four-component',
         ],
 

@@ -63,6 +63,7 @@
         @foreach($test_myclasssectionteachers as $test_myclasssectionteacher)
             {{ $test_myclasssectionteacher->teacher->nickName }}:{{ $test_myclasssectionteacher->subject->code }}-{{ $test_myclasssectionteacher->wtperiods }}<br/>
             {{ $test_classSchedules->where('subject_id', $test_myclasssectionteacher->subject_id)->count() }}:<br/>
+            
                 @foreach($test_classSchedules->where('subject_id', $test_myclasssectionteacher->subject_id) as $test_classSchedule)
                     {{ $test_classSchedule->day_id }}-{{ $test_classSchedule->period_id }}:{{ $test_classSchedule->subject->code }}<br/>
                 @endforeach
