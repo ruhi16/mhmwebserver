@@ -157,6 +157,9 @@ Route::group(
 
         Route::get('/markregisterclasswise/{myclassSection_id}', AdminMarkRegisterComponent::class)
             ->name('admin.markregister');
+        
+        Route::get('/markregisterclasswisepdf/{myclassSection_id}', AdminMarkRegisterComponent::class.'@exportMarkregisterPdf')
+            ->name('admin.markregisterpdf');
 
 
         
@@ -174,7 +177,14 @@ Route::group(
         Route::get('/individualMarksheet/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class)
             ->name('admin.createIndividualMarksheet');
 
+        // Route::get('/individualMarksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetPdfComponent::class)
+        //     ->name('admin.createIndividualMarksheetPDF');
 
+        Route::get('/generate-upr-marksheetpdf', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
+            ->name('livewire.generate-upr-marksheetpdf');
+        
+        Route::get('/generate-sec-marksheetpdf', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportSecMarksheetPdf')
+            ->name('livewire.generate-sec-marksheetpdf');
     }
 );
 

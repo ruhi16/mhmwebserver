@@ -26,11 +26,8 @@ class AdminWeeklyClassScheduleTeacherWise2Component extends Component
     public $randomNumbers;
     public $myclassDayWiseRandomSubjects;
     public $weeklymyclasssubjects;
-
-
+    
     public $myclassSchedules;
-
-
 
     public $test_myclasssectionteachers;
     public $test_classSchedules;

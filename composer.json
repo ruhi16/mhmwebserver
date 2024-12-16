@@ -15,7 +15,8 @@
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.12",
-        "mpdf/mpdf": "^8.2"
+        "mpdf/mpdf": "^8.2",
+        "simplesoftwareio/simple-qrcode": "~4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

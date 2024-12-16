@@ -3,6 +3,7 @@
     <div class="flex flex-row items-start gap-2 my-4">
 
         <aside class="w-64" aria-label="Sidebar">
+            {{ QrCode::size(200)->generate('Hello Ayantika, I Love you') }}
             <div class="min-h-screen px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800">
                 <div class="flex flex-col items-start justify-center">
                     <div>

@@ -6,7 +6,13 @@ use App\Models\Exam;
 use App\Models\Myclasssection;
 use App\Models\Myclasssubject;
 use App\Models\Studentcr;
+use Illuminate\Http\Request;
 use Livewire\Component;
+
+
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class AdminMarkRegisterComponent extends Component
 {
@@ -42,9 +48,54 @@ class AdminMarkRegisterComponent extends Component
 
         $this->marksentries = $this->myclassSection->marksentries()
             // ->whereColumn('examdetail_id', $this->exams->find(1)->examdetails()->pluck('id'))
-            ->get();
+            ->get();        
+    }
 
-        
+
+
+
+    public function exportMarkregisterPdf(Request $request){
+        $request->myclassSection_id;
+        $this->mount($request->myclassSection_id);
+
+        $data = ['title' => 'My PDF Title', 'content' => 'This is the content of the PDF.'];
+
+        $pdf = PDF::loadView('pdfs.tmp_marksregister', [
+            'data' => $data,
+            'clsSec_id' => $request->myclassSection_id,
+
+            'classSection' => $this->myclassSection,
+            'myclassSubjects' => $this->myclassSubjects,
+            'studentcrs' => $this->studentcrs,
+            'exams' => $this->exams,
+            'examdetails' => $this->examdetails,
+            'marksentries' => $this->marksentries,
+
+        ], [], [
+            'title' => 'Another Title',
+            'format' => 'A4-L',
+            'orientation' => 'L',
+            'margin_top' => 0]);
+
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'document.pdf');
+
+
+        // $mpdf = new \Mpdf\Mpdf([
+        //     'default_font_size' => 8,
+        //     'default_font' => 'nikosh',
+        // ]);
+        // $html = view('pdfs.tmp_marksregister',[
+        //     'clsSec_id' => $request->myclassSection_id,
+        // ])->render();
+
+        // $mpdf->WriteHtml($html);
+        // // $mpdf->WriteHTML('<h1>আমি আছি Hello World</h1>');
+        // // $mpdf->Output('marksregister.pdf', \Mpdf\Output\Destination::INLINE);
+        // $mpdf->Output();
+
     }
 
 

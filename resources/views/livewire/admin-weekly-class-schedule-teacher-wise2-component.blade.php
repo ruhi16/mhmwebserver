@@ -21,7 +21,7 @@
     </div>
 
     <div class="min-w-full mx-auto bg-slate-200 text-center text-2xl font-bold my-4">
-        School Routine, "Day Wise", Auto Generated        
+        School Routine, "Teacher Wise 2", Auto Generated        
     </div>
 
     <div>
@@ -68,7 +68,7 @@
                     @foreach($days as $day)
                         @if(!$loop->first) <tr> @endif
 
-                        <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}</td>
+                        <td class="border border-gray-300 px-4 py2 font-bold">{{ $day->short_name }}({{$day->id}})</td>
 
                         @for($i=1; $i <= 8; $i++)                            
                             @if($i <= $day->max_periods)                                
