@@ -45,8 +45,6 @@
                         <td rowspan="{{$exams->count()+1}}"class="border border-gray-300 px-4 py-2">{{ $studentcr->roll_no  ?? 'X'}}</td>
                     @endif
                 
-                    
-                
                     <tr>
                     @foreach($myclassSubjects as $myclassSubject)
                     @if($loop->first)

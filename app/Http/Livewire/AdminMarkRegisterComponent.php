@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Exam;
+use App\Models\Grade;
 use App\Models\Myclasssection;
 use App\Models\Myclasssubject;
 use App\Models\Studentcr;
@@ -26,6 +27,8 @@ class AdminMarkRegisterComponent extends Component
 
     public $marksentries = null;
 
+    public $grades = null;
+
 
 
 
@@ -44,11 +47,16 @@ class AdminMarkRegisterComponent extends Component
         $this->studentcrs = Studentcr::where('myclass_id', $this->myclassSection->myclass_id)
             ->where('section_id', $this->myclassSection->section_id)
             ->orderBy('roll_no', 'asc')
-            ->get();
+            ->get()
+            ;
 
         $this->marksentries = $this->myclassSection->marksentries()
             // ->whereColumn('examdetail_id', $this->exams->find(1)->examdetails()->pluck('id'))
-            ->get();        
+            ->get()
+            ;  
+            
+            
+        $this->grades = Grade::all();
     }
 
 
@@ -70,12 +78,15 @@ class AdminMarkRegisterComponent extends Component
             'exams' => $this->exams,
             'examdetails' => $this->examdetails,
             'marksentries' => $this->marksentries,
-
+            'grades' => $this->grades,
         ], [], [
             'title' => 'Another Title',
             'format' => 'A4-L',
             'orientation' => 'L',
             'margin_top' => 0]);
+        
+        // $pdf->setFooter('{PAGENO} of {nbpg}');
+        // $pdf->SetHTMLFooter('<div style="text-align: center">{PAGENO} of {nbpg}</div>');
 
 
         return response()->streamDownload(function () use ($pdf) {

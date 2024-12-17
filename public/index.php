@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 set_time_limit(300);
+ini_set("pcre.backtrack_limit", "5000000");
 /*
 |--------------------------------------------------------------------------
 | Check If The Application Is Under Maintenance
