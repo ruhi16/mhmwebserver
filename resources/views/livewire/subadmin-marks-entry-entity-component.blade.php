@@ -111,8 +111,7 @@
                         oninput="if (this.value < 0 || this.value > {{$examdetail->full_mark}}) this.value = '';" />
                     --}}
 
-                    @if($ansscriptdistribution->first() && $ansscriptdistribution->first()->finalize_dt ==
-                    null)
+                    @if( ($ansscriptdistribution->first() && $ansscriptdistribution->first()->finalize_dt == null) || auth()->user()->role->id == 3  )
                         <div class="relative">
                             <input type="number"
                                 placeholder="{{ isset($cbmarks[$studentcr->id]) && $cbmarks[$studentcr->id] ? 'AB' : 'Number' }}"

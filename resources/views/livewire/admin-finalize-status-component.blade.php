@@ -87,13 +87,33 @@
                                         ->where('section_id', $myclasssection->section_id)
                                         ->where('exammode_id', $exammode->id)
                                         ->where('subject_id', $myclasssubject->subject_id)
-                                        ->first()
+                                        ->first();
                                     @endphp
 
                                     <span class="text-red-500 font-bold">
                                         {{-- {{ $anscrdist ? $anscrdist->teacher->name : '--' }} --}}
-                                        {{ $anscrdist ? ($anscrdist->finalize_dt ? 'Finalized': '--' ) : 'XX'}}
-                                        
+                                        {{-- {{ $anscrdist ? ($anscrdist->finalize_dt ? 'Finalized ' : '--' ) : 'XX'}} --}}
+                                        {{-- {{ $examdetail ? $examdetail->first()->id : 'E' }} --}}
+                                        @if($anscrdist)
+                                            @if($anscrdist->finalize_dt)
+                                            <a href="{{ route('admin.marksentryentity', [
+                                                'myclassSection_id' => $myclasssection->id,
+                                                'myclassSubject_id' => $myclasssubject->id,
+                                                'examdetail_id' => $examdetail->first()->id
+
+                                            ])}}" class="font-bold text-red-600 dark:text-red-500 hover:underline">
+                                            Finalized
+                                            </a>
+                                            @else
+                                            --
+                                            @endif
+                                        @else
+                                            X
+                                        @endif
+                                    </span>
+                                    <span class="text-green-500 font-bold">
+                                        {{ $anscrdist ? $anscrdist->teacher->nickName : ''}}
+
                                     </span>
                                     @endif                                
                                 @endforeach
