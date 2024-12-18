@@ -31,6 +31,7 @@
             @foreach ($teachers as $teacher)
                 <option value="{{ $teacher->id }}">{{$teacher->id}}-{{ $teacher->name }}</option>
             @endforeach
+            <option value="-99">All Teachers at once</option>
         </select>
 
         @if( !$this->teacherId )

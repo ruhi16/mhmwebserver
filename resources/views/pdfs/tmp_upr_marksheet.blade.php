@@ -43,13 +43,14 @@
         
         .school-title {
             width: 100%;
-            display: flex;
+            display: flexbox;
 
         }
 
         .school-title #left-logo {
             float: left;
             width: 10%;
+            margin-left: 50px;
             /* background-color: #6b856b; */
         
         }
@@ -57,7 +58,7 @@
             width: 100%;
             margin-bottom: 5px;
             text-align: center;
-            float: left;
+            float: right;
             /* background-color: #867373; */
             /* display: flex; */
         }
@@ -137,8 +138,18 @@
             
             padding: 5px;
             text-align: center;
-            font-size: 13.5px;
+            font-size: 13px;
         }
+
+        #student-marks td span{
+            border: 1px solid black;
+            
+            padding: 5px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        
 
         #student-marks table, th, td{            
             display: table-row-group;
@@ -153,8 +164,8 @@
 
         .summary{
             margin: 0px;
-            padding-top: 15px;
-            padding-bottom: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
         }
 
 
@@ -167,7 +178,7 @@
 
         .bottom-page-info td{
             /* width: 100%; */
-            height: 50px;
+            height: 45px;
             text-align:center;
             /* height: 200px; */
             /* background-color: #8eb6b123; */
@@ -186,6 +197,7 @@
         
         
     </style>
+
 </head>
 
 <body>
@@ -206,6 +218,7 @@
         <div class="school-title" style="display: flex">
             <div id="left-logo">
                 {{-- Hello Left --}}
+                {{-- <img src="https://www.w3schools.com/tags/img_girl.jpg" alt="logo" width="100px" height="100px"> --}}
                 {{-- <img src="{{ url('/img/myimage.jpg') }}" alt="logo" width="100px" height="100px"> --}}
             </div>
             <div class="school-description">            
@@ -223,7 +236,11 @@
             <div class="student-details">
                 <p id="student-name">Student Name: {{ $studentcr->studentdb->name ?? 'x'}}</p>
                 <p>Student Id: 031245829</p>
-                <p>Class: VIII, Section: A, Roll No: 1</p>
+                <p>
+                    Class: {{ $studentcr->myclass->name ?? 'x'}}, 
+                    Section: {{ $studentcr->section->name ?? 'x'}}, 
+                    Roll No: {{ $studentcr->roll_no ?? 'x'}}
+                </p>
                 
             </div>
             <div class="student-qrcode">
@@ -243,153 +260,164 @@
             <tbody>
                 <tr>
                     <td>
-                        <table id="formative-marks">
+                        <table id="formative-marks">                            
+                            {{-- @foreach($myclassSubjects->where('examtype_id', 1) as $myclassSubject)                                 --}}
                             <tr>
                                 <th>Subject</th>
-                                <th>Term 1</th>
-                                <th>Term 2</th>
-                                <th>Term 3</th>
-                                <th>Total</th>
+                                @php $for_fm_total = 0; @endphp
+                                @foreach($exams as $exam)
+                                    <th>{{ strtok($exam->name," ") }}<br/>
+                                    FM:{{ $examDetails->where('examtype_id', 1)->where('exam_id', $exam->id)->first()->full_mark }}
+                                        @php $for_fm_total += $examDetails->where('examtype_id', 1)->where('exam_id', $exam->id)->first()->full_mark ?? 0; @endphp
+                                    </th>
+                                @endforeach
+                                <th>Total<br/>FM:{{ $for_fm_total }}</th>
                                 <th>Grade</th>
                             </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>B+</td>
-                            </tr>
-                            
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>B+</td>
-                            </tr>
-                            
+                            <tbody>
+                                @foreach($myclassSubjects->where('examtype_id', 1) as $myclassSubject)
+                                <tr>
+                                    <td>{{ $myclassSubject->subject->code }}</td>
+                                    @foreach($exams as $exam)
+                                    <td>
+                                        @php
+                                            $examDetail_id = $examDetails->where('exam_id', $exam->id)->where('subject_id',
+                                            $myclassSubject->subject->id)->first()->id;
+                                        @endphp
+                                        {{ $markEntries->where('examdetail_id', $examDetail_id)->first()->marks ?? 'X'}}
+                                    </td>
+                                    @endforeach
+                                    
+                                    <td>
+                                        {{ $markEntries->where('myclasssubject_id', $myclassSubject->id)->sum('marks') ?? 'X' }}
+                                        /{{ $examDetails->where('examtype_id', 1)->where('subject_id', $myclassSubject->subject_id)->sum('full_mark') }}
+                                    </td>
+                                    <td>
+                                        @php 
+                                            $for_ob_marks = $markEntries->where('myclasssubject_id', $myclassSubject->id)->where('marks', '>=', '0')->sum('marks');
+                                            $for_fl_marks = $examDetails->where('examtype_id', 1)->where('subject_id', $myclassSubject->subject_id)->sum('full_mark');
+                                            $for_percentage = ($for_ob_marks / $for_fl_marks) * 100;
+                                            $for_percentage = round($for_percentage, 0);
+                                            $for_percentage = $for_percentage >= 0 ? $for_percentage : 0;
+                                            $for_grade = $grades->where('examtype_id', 1)
+                                                ->where('stpercentage', '<=', $for_percentage)
+                                                ->where('enpercentage', '>=', $for_percentage)
+                                                ->first()->gradeparticular->name
+                                        @endphp
+
+                                        {{ $for_grade ?? 'X' }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>                            
                         </table>
+                        <span style="align-self: left;">
+                            Formative Subjects:
+                            <div style="font-size: 10px;">
+                                @foreach($myclassSubjects->where('examtype_id', 1) as $myclassSubject)
+                                {{ $myclassSubject->subject->code}}:{{ $myclassSubject->subject->name}},
+                                @endforeach
+                            </div>
+                            Summative Subjects:
+                            <div style="font-size: 10px;">
+                                @foreach($myclassSubjects->where('examtype_id', 2) as $myclassSubject)
+                                {{ $myclassSubject->subject->code}}:{{ $myclassSubject->subject->name}},
+                                @endforeach
+                            </div>
+                        </span>
                     </td>
 
                     <td>
                         <table id="summative-marks">
                             <tr>
                                 <th>Subject</th>
-                                <th>Term 1</th>
-                                <th>Term 2</th>
-                                <th>Term 3</th>
+                                @foreach($exams as $exam)
+                                <th>{{ $exam->name }}</th>
+                                @endforeach
+                                
                                 <th>Total</th>
                                 <th>Average</th>
                                 <th>Grade</th>
                             </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
+                            <tbody>
+                                @php
+                                    $grandTotal = 0;
+                                    $grandTotalFM = 0;
+                                    $total_d_counts = 0;
+                                    $active_subject_ids = $myclassSubjects->where('examtype_id', 2)->where('is_additional', 0)->pluck('id');
+                                @endphp
+                                @foreach($myclassSubjects->where('examtype_id', 2) as $myclassSubject)
+                                <tr>
+                                    <td>{{ $myclassSubject->subject->code }}
+                                        <br />
+                                        <span class="text-xs">{{ $myclassSubject->is_additional > 0 ? '(Additional)' : '' }}</span>
+                                    </td>
+                                    @foreach($exams as $exam)
+                                    <td>
+                                        @php
+                                            $examDetail_id = $examDetails->where('exam_id', $exam->id)->where('subject_id',
+                                            $myclassSubject->subject->id)->first()->id;
+                                        @endphp
+                                        @if($markEntries->where('examdetail_id', $examDetail_id)->first())
+                                            
+                                            @if( $markEntries->where('examdetail_id', $examDetail_id)->first()->marks >= 0)
+                                                {{ $markEntries->where('examdetail_id', $examDetail_id)->first()->marks}}
+                                                @php 
+                                                    $grandTotal += $markEntries->where('examdetail_id', $examDetail_id)->first()->marks; 
+                                                @endphp
+                                            @else
+                                                <span class="text-red-500">AB</span>
+                                            @endif
+
+                                        @else
+                                            <span class="text-green-500">NA</span>
+                                        @endif
+                                        /{{ $examDetails->where('id', $examDetail_id)->first()->full_mark ?? 'X' }}
+                                    </td>
+                                    @endforeach
+                                    
+                                    <td>
+                                        {{ $markEntries->where('myclasssubject_id', $myclassSubject->id)
+                                            ->where('marks', '>=', '0')->sum('marks') ?? 'X' }}
+                                        
+                                        /{{ $examDetails->where('examtype_id', 2)
+                                            ->where('subject_id', $myclassSubject->subject_id)
+                                            ->sum('full_mark') ?? 'X' }}
+
+                                        @php
+                                        if($myclassSubject->is_additional == 0) {
+                                            $grandTotalFM += $examDetails->where('examtype_id', 2)
+                                                ->where('subject_id', $myclassSubject->subject_id)
+                                                ->sum('full_mark');
+                                        }
+                                        @endphp
+                                    </td>
+                                    <td>
+                                        @php
+                                        $ob_marks = $markEntries->where('myclasssubject_id', $myclassSubject->id)->where('marks', '>=', '0')->sum('marks');
+                                        $fl_marks = $examDetails->where('examtype_id', 2)
+                                            ->where('subject_id',$myclassSubject->subject_id)
+                                            ->sum('full_mark');
+                                        $percentage = ($ob_marks / $fl_marks) * 100;
+                                        $percentage = round($percentage, 0);
+                                        $percentage = $percentage >= 0 ? $percentage : 0;
+                                        if($percentage < 25) {
+                                            $total_d_counts++;
+                                        }
+
+                                    @endphp
+                                    {{ $percentage }}%
+                                    </td>
+                                    <td>
+                                        {{ $grades->where('examtype_id', 2)
+                                            ->where('stpercentage', '<=', $percentage)
+                                            ->where('enpercentage', '>=', $percentage)
+                                            ->first()->gradeparticular->name ?? 'X' }}
+
+                                    </td>
+                                </tr>
+                                @endforeach
                             
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>60</td>
-                                <td>160</td>
-                                <td>80</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
-                            <tr>
-                                <td>Mathmatics</td>
-                                <td>80</td>
-                                <td>20</td>
-                                <td>65</td>
-                                <td>165</td>
-                                <td>84.89</td>
-                                <td>B+</td>
-                            </tr>
                             
                                 
                         </table>
@@ -402,12 +430,40 @@
             <p>Results: Pass</p>
         </div> --}}
         <div class="summary">
+            @php
+            $words = '';
+
+            function numToWords($number) {
+                $units = array('', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine');
+
+                $tens = array('', 'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety');
+
+                $special = array('eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen');
+
+                $words = '';
+                if ($number < 10) {
+                    $words .= $units[$number];
+                } elseif ($number < 20) {
+                    $words .= $special[$number - 11];
+                } else {
+                    $words .= $tens[(int)($number / 10)] . ' '
+                            . $units[$number % 10];
+                }
+
+                // return $words;
+            }
+            @endphp
+
             <table class="top-page-info" id="top-page-info">
                 <tr>
-                    <td>Obtained Marks: 802 <br/>[In Word: Eight Hundred Two]</td>
-                    <td>Full Marks: </td>
-                    <td>Percentage: </td>
-                    <td>Results: </td>
+                    <td>Obtained Marks: <span style="font-weight: bold">{{ $grandTotal >= 0 ? $grandTotal : 'AB' }}</span><br/>
+                        [In Word: <span style="font-weight: bold"></span>]
+                        {{-- {{ $this->numberToWords($grandTotal) }} --}}
+                        {{-- <span id="words">{{ numToWords($grandTotal) }}</span> --}}
+                    </td>
+                    <td>Full Marks: <span style="font-weight: bold">{{ $grandTotalFM }}</span> </td>
+                    <td>Percentage: <span style="font-weight: bold">{{ $grandTotal >= 0 ? round(($grandTotal / $grandTotalFM) * 100, 0).'%' : 'AB' }}</span></td>
+                    <td>Results: <span style="font-weight: bold">Promoted</span></td>
                 </tr>
             </table>
         </div>
@@ -426,6 +482,25 @@
             </tr>
         </table>
     </div>
+
+
+    <script >
+        var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+        var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+        function inWords (num) {
+            if ((num = num.toString()).length > 9) return 'overflow';
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return; var str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+            return str;
+        }
+
+    </script>
 
 </body>
 

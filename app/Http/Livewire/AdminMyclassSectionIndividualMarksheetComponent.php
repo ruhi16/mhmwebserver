@@ -90,9 +90,10 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
 
             'studentcr' => $this->studentcr,
             'myclassSection' => $this->myclassSection,
-            'markentries'   => $this->markEntries,
-            'exam' => $this->exams,
-            'examdetails' => $this->examDetails,
+            'myclassSubjects' => $this->myclassSubjects,
+            'markEntries'   => $this->markEntries,
+            'exams' => $this->exams,
+            'examDetails' => $this->examDetails,
             'grades' => $this->grades,
 
         ], [], [
