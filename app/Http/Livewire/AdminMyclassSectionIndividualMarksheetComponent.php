@@ -7,6 +7,7 @@ use App\Models\Grade;
 use App\Models\Myclasssection;
 use App\Models\Myclasssubject;
 use App\Models\Studentcr;
+use Illuminate\Http\Request;
 use Livewire\Component;
 
 // use PDF;
@@ -71,15 +72,16 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
             'margin_top' => 0]);
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'document.pdf');
+        }, 'xxx.pdf');
     }
 
-    public function exportUprMarksheetPdf()
+    public function exportUprMarksheetPdf(Request $request)
     {
         $data = ['title' => 'My UPR PDF Title', 'content' => 'This is the content of the Upper Primary PDF.'];
-        $this->mount(7,217);
-
-        $qrcode = QrCode::size(80)->generate('Hello Ayantika, I Love you');
+        $this->mount($request->myclassSection_id, $request->studentcr_id);
+        $url = url('/');
+        $qrcode_str = $url.'/'.'generate-upr-marksheetpdf'.'/'. $request->myclassSection_id.'/'. $request->studentcr_id;
+        $qrcode = QrCode::size(80)->generate($qrcode_str);
         
         // $studentcr = Studentcr::where('id', $this->studentcr_id)->firstOrFail();
 
@@ -97,14 +99,20 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
             'grades' => $this->grades,
 
         ], [], [
-            'title' => 'Another Title',
+            'title' => 'Another Title',            
             'format' => 'A4-L',
             'orientation' => 'L',
             'margin_top' => 0]);
 
+        $file_name = 'MS-2024 '.$this->myclassSection->myclass->name.' - '.$this->myclassSection->section->name.' - '.$this->studentcr->studentdb->name.'.pdf';
+        
+        // $pdf->setFilename($file_name);
         return response()->streamDownload(function () use ($pdf) {
-            echo $pdf->stream();
-        }, 'document.pdf', ['Content-Type' => 'application/pdf']);
+            // echo $pdf->stream();
+            echo $pdf->Output('', 'S'); // Output the PDF content as a string
+        }, $file_name, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="ccc.pdf"']);
     }
 
     public function exportSecMarksheetPdf(){
@@ -116,9 +124,11 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
             'orientation' => 'L',
             'margin_top' => 0]);
 
+        
+
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'document.pdf', ['Content-Type' => 'application/pdf']);
+        }, 'yyy.pdf', ['Content-Type' => 'application/pdf']);
     }
 
 
