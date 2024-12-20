@@ -183,7 +183,7 @@ Route::group(
         Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
             ->name('livewire.generate-upr-marksheetpdf');
         
-        Route::get('/generate-sec-marksheetpdf', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportSecMarksheetPdf')
+        Route::get('/generate-sec-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportSecMarksheetPdf')
             ->name('livewire.generate-sec-marksheetpdf');
     }
 );
@@ -223,6 +223,9 @@ Route::group(
 
 Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
         ->name('user.livewire.generate-upr-marksheetpdf');
+
+Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
+        ->name('user.livewire.generate-sec-marksheetpdf');
 
 // Route::resource('/teachers', [TeacherController::class, 'index']);
 Route::resource('/teachers', TeacherController::class);

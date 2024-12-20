@@ -80,7 +80,7 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
         $data = ['title' => 'My UPR PDF Title', 'content' => 'This is the content of the Upper Primary PDF.'];
         $this->mount($request->myclassSection_id, $request->studentcr_id);
         $url = url('/');
-        $qrcode_str = $url.'/'.'generate-upr-marksheetpdf'.'/'. $request->myclassSection_id.'/'. $request->studentcr_id;
+        $qrcode_str = $url.'/'.'generate-sec-marksheetpdf'.'/'. $request->myclassSection_id.'/'. $request->studentcr_id;
         $qrcode = QrCode::size(80)->generate($qrcode_str);
         
         // $studentcr = Studentcr::where('id', $this->studentcr_id)->firstOrFail();
@@ -102,9 +102,10 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
             'title' => 'Another Title',            
             'format' => 'A4-L',
             'orientation' => 'L',
-            'margin_top' => 0]);
+            'margin_top' => 0
+        ]);
 
-        $file_name = 'MS-2024 '.$this->myclassSection->myclass->name.' - '.$this->myclassSection->section->name.' - '.$this->studentcr->studentdb->name.'.pdf';
+        $file_name = 'MS-2024 '.$this->myclassSection->myclass->name.' - '.$this->myclassSection->section->name.' - '.$this->studentcr->roll_no.' - '.$this->studentcr->studentdb->name.'.pdf';
         
         // $pdf->setFilename($file_name);
         return response()->streamDownload(function () use ($pdf) {
@@ -112,23 +113,49 @@ class AdminMyclassSectionIndividualMarksheetComponent extends Component
             echo $pdf->Output('', 'S'); // Output the PDF content as a string
         }, $file_name, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="ccc.pdf"']);
+            'Content-Disposition' => 'inline; filename="ccc.pdf"'
+        ]);
     }
 
-    public function exportSecMarksheetPdf(){
+    public function exportSecMarksheetPdf(Request $request){
         $data = ['title' => 'My SEC PDF Title', 'content' => 'This is the content of the Secondary PDF.'];
+        $this->mount($request->myclassSection_id, $request->studentcr_id);
+        $url = url('/');
+        $qrcode_str = $url.'/'.'generate-upr-marksheetpdf'.'/'. $request->myclassSection_id.'/'. $request->studentcr_id;
+        $qrcode = QrCode::size(80)->generate($qrcode_str);
 
-        $pdf = PDF::loadView('pdfs.tmp_sec_marksheet', $data, [], [
+        $pdf = PDF::loadView('pdfs.tmp_sec_marksheet', [
+            'data' => $data,
+            'qrcode' => $qrcode,
+
+            'studentcr' => $this->studentcr,
+            'myclassSection' => $this->myclassSection,
+            'myclassSubjects' => $this->myclassSubjects,
+            'markEntries'   => $this->markEntries,
+            'exams' => $this->exams,
+            'examDetails' => $this->examDetails,
+            'grades' => $this->grades,
+
+        ], [], [
             'title' => 'Another Title',
             'format' => 'A4-L',
             'orientation' => 'L',
-            'margin_top' => 0]);
+            'margin_top' => 0
+        ]);         
 
-        
+        $file_name = 'MS-2024 '.$this->myclassSection->myclass->name.' - '.$this->myclassSection->section->name.' - '.$this->studentcr->roll_no.' - '.$this->studentcr->studentdb->name.'.pdf';
 
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'yyy.pdf', ['Content-Type' => 'application/pdf']);
+            // echo $pdf->Output('', 'S'); // Output the PDF content as a string
+        }, $file_name, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="ccc.pdf"'
+        ]);
+
+        // return response()->streamDownload(function () use ($pdf) {
+        //     echo $pdf->stream();
+        // }, 'yyy.pdf', ['Content-Type' => 'application/pdf']);
     }
 
 

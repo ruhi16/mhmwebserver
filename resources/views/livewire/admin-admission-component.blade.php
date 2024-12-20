@@ -118,13 +118,24 @@
                         </a>
                     </td>
                     <td class="border border-gray-300 px-4 py-2">
-                        <a class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
-                            href="{{ route('livewire.generate-upr-marksheetpdf', [
-                                'myclassSection_id' => $myclssec->id, 
-                                'studentcr_id' => $studentcr->id
-                            ]) }}" download>
-                            PDF
-                        </a>
+                        @if($myclssec->myclass->id < 5)
+                            <a class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                                href="{{ route('livewire.generate-upr-marksheetpdf', [
+                                    'myclassSection_id' => $myclssec->id, 
+                                    'studentcr_id' => $studentcr->id
+                                ]) }}"  {{-- download --}} >
+                                PDF
+                            </a>
+                        @else 
+                            <a class="text-white bg-orange-500 hover:bg-orange-700 focus:ring-4 focus:ring-orangebg-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                                href="{{ route('livewire.generate-sec-marksheetpdf', [
+                                    'myclassSection_id' => $myclssec->id, 
+                                    'studentcr_id' => $studentcr->id
+                                ]) }}"  {{-- download --}} >
+                                PDF IX
+                            </a>
+
+                        @endif
                     </td>
                 </tr>
             @endforeach
