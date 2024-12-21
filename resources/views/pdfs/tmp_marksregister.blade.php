@@ -178,7 +178,7 @@
     </table>
 
     <htmlpagefooter name="page-footer">
-        Page: {PAGENO} of {nbpg} on {DATE j-m-Y}
+        Page: {PAGENO} of {nbpg} on {DATE j-m-Y} for Class:{{ $classSection->myclass->name }}, Section:{{ $classSection->section->name}}
     </htmlpagefooter>
 </body>
 </html>

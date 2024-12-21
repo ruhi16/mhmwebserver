@@ -15,6 +15,7 @@ use App\Http\Livewire\AdminAnsscrDistributionComponent;
 use App\Http\Livewire\AdminAnsscrDistributioncwComponent;
 use App\Http\Livewire\AdminCreateUserComponent;
 use App\Http\Livewire\AdminMarkRegisterComponent;
+use App\Http\Livewire\AdminMeritListComponent;
 use App\Http\Livewire\AdminMyclassAnserScriptDistributionBaseComponent;
 use App\Http\Livewire\AdminMyclassSectionComponent;
 use App\Http\Livewire\AdminMyclassSectionIndividualMarksheetComponent;
@@ -162,6 +163,10 @@ Route::group(
             ->name('admin.markregisterpdf');
 
 
+        Route::get('/meritlistclasssectionwisepdf/{myclassSection_id}', AdminMeritListComponent::class.'@exportMeritlistcswPdf')
+            ->name('admin.meritlistcswpdf');
+
+
         
             
         Route::get('/home', Home::class)->name('home');
@@ -169,7 +174,7 @@ Route::group(
         Route::get('/about', About::class)->name('about');
 
         Route::get('/changePassword', UserChangePasswordComponent::class)
-            ->name('subadmin.changePassword');
+            ->name('admin.changePassword');
 
         Route::get('/createUser', AdminCreateUserComponent::class)
             ->name('admin.createUser');

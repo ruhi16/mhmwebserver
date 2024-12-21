@@ -62,32 +62,32 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <button wire:click="showModal({{ $myclassSection->id }})"
                                 class="text-white bg-purple-500 hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
-                                Cl Teacher </button>
+                                Cl Tcher </button>
                             {{-- {{ $myclassSection_id }} --}}
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-orange-500 hover:bg-orange-700 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.ansscrdistribution', ['myclassSection_id' => $myclassSection->id]) }}">
-                                Ans Sc Dist
+                                Ans Scr
                             </a>
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.admission', ['myclassSection_id' => $myclassSection->id]) }}">
-                                Assign Roll
+                                Stds
                             </a>
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.marksentry', ['myclassSection_id' => $myclassSection->id]) }}">
-                                FM Status
+                                FMrk
                             </a>
                         </td>
 
                         <td class="border border-gray-300 px-4 py-2 font-bold">
                             @if($myclassSection->myclass->id <= 4)
                             @foreach($exams as $exam)
-                                @php $colors = ['lime', 'violet', 'rose'];  @endphp 
+                                @php $colors = ['green', 'violet', 'rose'];  @endphp 
                             <a 
                                 class="text-white gap-2 bg-{{$colors[$exam->id-1]}}-500 hover:bg-{{$colors[$exam->id-1]}}-700 focus:ring-4 focus:ring-bg-{{$colors[$exam->id-1]}}-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.formativemarksentryentity', [
@@ -103,15 +103,22 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-emerald-500 hover:bg-emerald-700 focus:ring-4 focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.markregister', ['myclassSection_id' => $myclassSection->id]) }}">
-                                Register
+                                Reg
                             </a>
                         </td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a class="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
                                 href="{{ route('admin.markregisterpdf', ['myclassSection_id' => $myclassSection->id]) }}">
-                                Register PDF
+                                Reg PDF
                             </a>
                         </td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a class="text-white bg-red-500 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                                href="{{ route('admin.meritlistcswpdf', ['myclassSection_id' => $myclassSection->id]) }}">
+                                Merit List
+                            </a>
+                        </td>
+
 
                     </tr>
                 @endforeach
