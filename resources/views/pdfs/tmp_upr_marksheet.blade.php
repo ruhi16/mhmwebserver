@@ -556,7 +556,7 @@
                     <td>Percentage: <span style="font-weight: bold">{{ $grandTotal >= 0 ? round(($grandTotal / $grandTotalFM) * 100, 0).'%' : 'AB' }}</span></td>
                     <td>Results: <span style="font-weight: bold">Promoted</span></td>
                 </tr>
-            </table>
+            </table>            
         </div>
         <table class="bottom-page-info" id="bottom-page-info">
             <tr>

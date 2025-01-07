@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Studentcr_eoy_summary;
 use Livewire\Component;
 
 
@@ -12,6 +13,7 @@ class AdminDashboardMainSectionComponent extends Component
 
     public $selectedItem = 'item1';
     public $componentName;
+    public $studentcrEOYSummary;
 
     public $items = [
         'item1' => [
@@ -54,6 +56,8 @@ class AdminDashboardMainSectionComponent extends Component
 
     public function mount(){
         $this->componentName = request()->route()->getName();
+        // $this->studentcrEOYSummary = Studentcr_eoy_summary::where('c_id', 1)->get();
+        
         // $this->history[] = $this->route()->getName();
         // $this->history = []; //session()->get('history');
     }
