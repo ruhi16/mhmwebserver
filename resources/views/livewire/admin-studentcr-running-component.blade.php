@@ -20,9 +20,9 @@
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500  bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 
                 <th class="border border-gray-300 px-4 py-2">Sl</th>
-                <th class="border border-gray-300 px-4 py-2">StudentDB Id</th>
-                <th class="border border-gray-300 px-4 py-2">StudentCR Id</th>
-                <th class="border border-gray-300 px-4 py-2">Current Session</th>
+                <th class="border border-gray-300 px-4 py-2">SDB Id</th>
+                <th class="border border-gray-300 px-4 py-2">SCR Id</th>
+                <th class="border border-gray-300 px-4 py-2">Curr Session</th>
                 <th class="border border-gray-300 px-4 py-2">Name</th>
                 <th class="border border-gray-300 px-4 py-2">Class</th>
                 <th class="border border-gray-300 px-4 py-2">Section</th>

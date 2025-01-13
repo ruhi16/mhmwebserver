@@ -25,11 +25,6 @@ class AdminStudentcrRunningComponent extends Component
             ->orderBy('roll_no', 'asc')
             ->get();
 
-
-
-
-
-
     }
 
 

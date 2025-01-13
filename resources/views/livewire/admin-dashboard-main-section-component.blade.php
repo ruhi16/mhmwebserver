@@ -69,6 +69,8 @@
 
             <livewire:admin-session-management-component />
 
+            <livewire:admin-myclass-section-control-component />
+
             <livewire:admin-studentcr-admisstion-component />
             <livewire:admin-studentcr-running-component />
             {{-- <livewire:admin-studentcr-promotional-component /> --}}
