@@ -21,13 +21,14 @@ use App\Http\Livewire\AdminMyclassSectionComponent;
 use App\Http\Livewire\AdminMyclassSectionIndividualMarksheetComponent;
 use App\Http\Livewire\AdminTeacherWiseMarksEntryLinksComponent;
 use App\Http\Livewire\AdminUserPreviledgeControlComponent;
+use App\Http\Livewire\GeneralStudentDetailsComponent;
 use App\Http\Livewire\SubadminMarksEntryComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
 use App\Models\Notice;
 use App\Models\Studentvl;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
 
@@ -231,6 +232,15 @@ Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', Admi
 
 Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
         ->name('user.livewire.generate-sec-marksheetpdf');
+
+
+        // Route::get('/generate-student-details/{uuid}', function(Request $request){
+        //     // dd('generate-student-details');
+        //     return "hello". $request->uuid;
+        // });
+
+Route::get('/generate-student-details/{uuid}/{scr_id}', GeneralStudentDetailsComponent::class . '@exportStudentDetails')
+        ->name('livewire.generate-student-details');
 
 // Route::resource('/teachers', [TeacherController::class, 'index']);
 Route::resource('/teachers', TeacherController::class);

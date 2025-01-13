@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Promotionalrule;
 use App\Models\Studentcr_eoy_summary;
 use Livewire\Component;
 
@@ -14,6 +15,8 @@ class AdminDashboardMainSectionComponent extends Component
     public $selectedItem = 'item1';
     public $componentName;
     public $studentcrEOYSummary;
+
+    public $promotionalRules;
 
     public $items = [
         'item1' => [
@@ -56,8 +59,9 @@ class AdminDashboardMainSectionComponent extends Component
 
     public function mount(){
         $this->componentName = request()->route()->getName();
-        // $this->studentcrEOYSummary = Studentcr_eoy_summary::where('c_id', 1)->get();
-        
+        $this->studentcrEOYSummary = Studentcr_eoy_summary::where('c_id', 1)->where('s_id', 1)->orderBy('total_ob_marks', 'desc')->get();
+        $this->promotionalRules = Promotionalrule::where('session_id', 1)->get();
+
         // $this->history[] = $this->route()->getName();
         // $this->history = []; //session()->get('history');
     }

@@ -18,7 +18,7 @@ class CreateMyclassesTable extends Migration
             $table->string('name');
             $table->string('details')->nullable();
             $table->string('next_class_id')->nullable();
-            $table->integer('prev_session_pk')->nullable();
+            $table->integer('prev_class_id')->nullable();
             $table->string('status')->nullable();
             $table->string('remark')->nullable();
             $table->integer('session_id')->nullable();

@@ -64,15 +64,23 @@
         </aside>
 
         <main class="w-full mx-auto px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800 min-h-screen">
-            History: {{ $componentName }}
-            {{-- {{print_r($studentcrEOYSummary) ?? 'X'}} --}}
+            {{-- History: {{ $componentName }} --}}
+            {{-- {{json_encode($studentcrEOYSummary) ?? 'X'}} --}}
+
+            <livewire:admin-session-management-component />
+
+            <livewire:admin-studentcr-admisstion-component />
+            <livewire:admin-studentcr-running-component />
+            {{-- <livewire:admin-studentcr-promotional-component /> --}}
+
+
             {{-- <ul>
                 @foreach ($history as $routeName)
                     <li>{{ $routeName }}</li>
                 @endforeach
             </ul> --}}
             @if($selectedItem == 'item1') {{-- Dashboard --}}
-                <livewire:admin-weekly-class-schedule-container-component>
+                {{-- <livewire:admin-weekly-class-schedule-container-component> --}}
                 {{-- <livewire:admin-weekly-class-schedule-day-wise-component> --}}
                 {{-- <livewire:admin-weekly-class-schedule-component> --}}
 
