@@ -13,8 +13,9 @@ class Session extends Model{
     protected $guarded = ['id'];
     private static $table_type = "Basic";
     
-    public function scopeCurrentStatus($query){
-        return $query->where('status', 'ACTIVE');
+    // local scope
+    public function scopeCurrentlyActive($query){
+        return $query->where('status', 'ACTIVE')->first();
     }
 
 

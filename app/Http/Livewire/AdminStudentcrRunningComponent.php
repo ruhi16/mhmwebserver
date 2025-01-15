@@ -18,7 +18,7 @@ class AdminStudentcrRunningComponent extends Component
         $section_id = 1;
 
 
-        $this->session = Session::where('status', 'ACTIVE')->first();
+        $this->session = Session::currentlyActive();
         $this->studentcrs = Studentcr::where('session_id', $this->session->id)
             ->where('myclass_id', $myclass_id)
             ->where('section_id', $section_id)

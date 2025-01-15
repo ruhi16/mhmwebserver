@@ -25,6 +25,8 @@ class AdminStudentcrPromotionalComponent extends Component
     public $studentcrs;
     public $session;
 
+    public $stdcrsection = [];
+
     public function mount(){
         $myclass_id = 1;
         $section_id = 1;
@@ -49,23 +51,46 @@ class AdminStudentcrPromotionalComponent extends Component
             
         
         $sortedIds = $this->studentcrEOYSummary->pluck('studentcr_id')->toArray();
-        $this->studentcrs = Studentcr::where('myclass_id', $myclass_id)
+
+        
+        $this->studentcrs = Studentcr::where('studentcrs.session_id', Session::currentlyActive()->id)
+            ->where('myclass_id', $myclass_id)
             ->where('section_id', $section_id)
+            ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+            ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
+            ->orderBy('total_ob_marks', 'desc')
             ->get()
             ;
             
     }
 
-    public function promotedToNextClass($studentcr_id){
+
+
+     
+
+    public function updatedStdcrsection($key, $value){
+
+        // dd($key, $value, $this->stdcrsection[$value]);
+        // dd(Myclasssection::find($key)->section->id);
+        $this->promotedToNextClass($value, $key);
+
+        // $key = Myclasssection->id
+        // $value = Studentcr->id
+        // $this->section_id = $value;
+        // $myclasssection = Myclasssection::find($key);
+        // $this->refreshStudentcrs($myclasssection->myclass_id, $myclasssection->section_id);
+    }
+
+    public function promotedToNextClass($studentcr_id, $myclasssection_id){
         // dd($studentcr_id);
         // $session = Session::where('status', 'ACTIVE')->first();
         $studentcr = Studentcr::find($studentcr_id);
         try{
-            if($this->section_id != null){
+            if($this->stdcrsection[$studentcr_id] != null){
                 $studentcr
                     ->update([
                         'next_class_id' => $studentcr->myclass->next_class_id,
-                        'next_section_id' => $this->section_id,
+                        'next_section_id' => Myclasssection::find($myclasssection_id)->section->id,
                         'next_session_id' => $this->session->next_session_id
                     ]);
             }
@@ -79,5 +104,17 @@ class AdminStudentcrPromotionalComponent extends Component
     public function render()
     {
         return view('livewire.admin-studentcr-promotional-component');
+    }
+
+
+    public function refreshStudentcrs($myclass_id, $section_id){
+        $this->studentcrs = Studentcr::where('studentcrs.session_id', Session::currentlyActive()->id)
+            ->where('myclass_id', $myclass_id)
+            ->where('section_id', $section_id)
+            ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+            ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
+            ->orderBy('total_ob_marks', 'desc')
+            ->get()
+            ;
     }
 }

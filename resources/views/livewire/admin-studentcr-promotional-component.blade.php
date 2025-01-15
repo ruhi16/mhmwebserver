@@ -21,16 +21,16 @@
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500  bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 
                 <th class="border border-gray-300 px-4 py-2">Sl</th>
-                <th class="border border-gray-300 px-4 py-2">StudentDB Id</th>
-                <th class="border border-gray-300 px-4 py-2">StudentCR Id</th>
+                <th class="border border-gray-300 px-4 py-2">SDB Id</th>
+                <th class="border border-gray-300 px-4 py-2">SCR Id</th>
                 <th class="border border-gray-300 px-4 py-2">Name</th>
-                <th class="border border-gray-300 px-4 py-2">Class</th>
-                <th class="border border-gray-300 px-4 py-2">Section</th>
-                <th class="border border-gray-300 px-4 py-2">Roll No</th>
-                <th class="border border-gray-300 px-4 py-2">Obtained Marks</th>
-                <th class="border border-gray-300 px-4 py-2">Full Marks</th>
-                <th class="border border-gray-300 px-4 py-2">Percentage</th>
-                <th class="border border-gray-300 px-4 py-2">No of D's</th>
+                <th class="border border-gray-300 px-4 py-2">C-S-Roll</th>
+                {{-- <th class="border border-gray-300 px-4 py-2">Section</th>
+                <th class="border border-gray-300 px-4 py-2">Roll No</th> --}}
+                <th class="border border-gray-300 px-4 py-2">Ob Marks</th>
+                <th class="border border-gray-300 px-4 py-2">FM</th>
+                {{-- <th class="border border-gray-300 px-4 py-2">Perc</th> --}}
+                <th class="border border-gray-300 px-4 py-2">D's</th>
                 <th class="border border-gray-300 px-4 py-2">Result</th>
                 <th class="border border-gray-300 px-4 py-2">Next Class</th>
                 <th class="border border-gray-300 px-4 py-2">Next Section</th>
@@ -39,7 +39,61 @@
             </tr>
         </thead>                    
         <tbody>
-            @foreach($studentcrEOYSummary as $studentcrEOYSummaryIndi)
+
+            @foreach($studentcrs as $studentcr)
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->studentdb_id }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->id }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->studentdb->name }}</td>
+                <td class="border border-gray-300 px-4 py-2">
+                    {{ $studentcr->myclass->name }}-{{ $studentcr->section->name }}-{{ $studentcr->roll_no }}
+                </td>                
+                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->total_ob_marks }}</td>
+                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm }}</td>
+                {{-- <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm != 0 ? $studentcr->total_ob_marks/$studentcr->fm*100 : 0 }}</td> --}}
+                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->No_of_Ds }}</td>
+                <td class="border border-gray-300 px-4 py-2">                    
+                    {{ $studentcr->No_of_Ds <= $promotionalRules->where('myclass_id', 1)->first()->allowableds ? 'Promoted' : 'Not Promoted' }}
+                </td>
+
+                <th class="border border-gray-300 px-4 py-2">                    
+                    {{ $classSections->first()->myclass->next_class_id}}
+                </th>
+                <th class="border border-gray-300 px-4 py-2">
+                    x:{{ $studentcrs->find($studentcr->id)->next_class_id }}-{{$stdcrsection[$studentcr->id] ?? 'y'}}:x
+                    {{-- {{ $section_id ?? 'X' }} --}}
+                    @if ($studentcrs->find($studentcr->id)->next_class_id == null)
+                        <select id="section_id"  wire:model="stdcrsection.{{$studentcr->id}}" @if ($studentcrs->find($studentcr->id)->next_class_id != null) disabled @endif class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <option selected value="">Select</option>
+                            @foreach($nextClassSections as $nextClassSection)
+                                <option value={{$nextClassSection->id}}>{{ $nextClassSection->section->name }}</option>
+                            @endforeach
+                        </select>                        
+                    @else
+                    {{ $studentcrs->find($studentcr->id)->next_section_id ?? '-' }}
+                    @endif
+
+                </th>
+                <th class="border border-gray-300 px-4 py-2">{{ $session->next_session_id }}</th>
+
+                
+
+
+
+                <th class="border border-gray-300 px-4 py-2">
+                    @if ($studentcrs->find($studentcr->id)->next_class_id == null) 
+                        {{-- @if($stdcrsection && $stdcrsection[$studentcr->id] == true) --}}
+                        <button wire:click="promotedToNextClass({{ $studentcr->id }})" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Transfer {{ $studentcr->id }}</button>
+                        {{-- @endif --}}
+                    @else
+                        Transferred!!<br/>
+                        <div>Cancel</div>
+                    @endif
+                </th>
+            </tr>
+            @endforeach
+            {{-- @foreach($studentcrEOYSummary as $studentcrEOYSummaryIndi)
             <tr>
                 <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummaryIndi->sdb_id }}</td>
@@ -53,11 +107,11 @@
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummaryIndi->sdb_id }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummaryIndi->No_of_Ds }}</td>
                 <td class="border border-gray-300 px-4 py-2">
-                    {{-- {{ $studentcrEOYSummaryIndi->std_name }}== --}}
+                    
                     {{ $studentcrEOYSummaryIndi->No_of_Ds <= $promotionalRules->where('myclass_id', 1)->first()->allowableds ? 'Promoted' : 'Not Promoted' }}
                 </td>
                 <th class="border border-gray-300 px-4 py-2">
-                    {{-- {{ $studentcrEOYSummaryIndi->id }} --}}
+                    
                     {{ $classSections->first()->myclass->next_class_id}}
                 </th>
                 <th class="border border-gray-300 px-4 py-2">
@@ -82,7 +136,7 @@
                     @endif
                 </th>
             </tr>
-            @endforeach
+            @endforeach --}}
         </tbody>
     </table>
 
