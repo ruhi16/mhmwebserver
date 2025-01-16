@@ -8,15 +8,18 @@
         @endif
 
         @if (session()->has('error'))
-            <div class="alert alert-danger">
+            <div class="alert alert-danger">    
                 {{ session('error') }}
             </div>
         @endif
     </div>
     
 
-    <div>Promotional Component: {{ $session->name }}</div>
-    <table class="max-w-full mx-10 my-6 ">
+    {{-- <div>Promotional Component: {{ $session->name }}</div> --}}
+    <table class="max-w-full mx-10 my-6">
+        <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">
+            Promotional Component: Class Section Details, Class: {{ $classSections ? $classSections->myclass->name : '-' }}, Section:{{$classSections ? $classSections->section->name : '-'}} for Session: {{ \App\Models\Session::currentlyActive()->name }}
+        </caption>
         <thead>
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500  bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 
@@ -40,7 +43,7 @@
         </thead>                    
         <tbody>
             
-            @if($classSections->count() > 0 )
+            @if(! is_null($this->classSections) && $classSections->count() > 0 )
                 @foreach($studentcrs as $studentcr)
                 <tr>
                     <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
@@ -55,7 +58,7 @@
                     {{-- <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm != 0 ? $studentcr->total_ob_marks/$studentcr->fm*100 : 0 }}</td> --}}
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->No_of_Ds }}</td>
                     <td class="border border-gray-300 px-4 py-2">                    
-                        {{ $studentcr->No_of_Ds <= $promotionalRules->where('myclass_id', 1)->first()->allowableds ? 'Promoted' : 'Not Promoted' }}
+                        {{ $studentcr->No_of_Ds <= $promotionalRules->allowableds ? 'Promoted' : 'Not Promoted' }}
                     </td>
 
                     <th class="border border-gray-300 px-4 py-2">                    

@@ -31,39 +31,31 @@ class AdminStudentcrPromotionalComponent extends Component
     public function mount(){
         $this->session = Session::currentlyActive();
 
-        $classSections = Myclasssection::where('session_id', $this->session->id);
-
-        $myclass_id = $classSections
-            ->where('status', 'ACTIVE')
-            ->first()
-            ->myclass_id;
-
-        $section_id = $classSections
-            ->where('status', 'ACTIVE')
-            ->first()
-            ->section_id;
-        
-
-        $this->promotionalRules = Promotionalrule::where('session_id', $this->session->id)->get();
-
         $this->classSections = Myclasssection::where('session_id', $this->session->id)
-            ->where('myclass_id', $myclass_id)
-            ->get();
+            ->where('status', 'ACTIVE')
+            ->first();     
+            
+            
+        if( ! is_null($this->classSections )     ){
+            if($this->classSections->count() > 0){
 
-        // dd($this->classSections);
-        if($this->classSections->count() > 0){
+                $this->promotionalRules = Promotionalrule::where('session_id', $this->session->id)
+                ->where('myclass_id', $this->classSections->myclass_id)
+                ->first();
 
-            $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->first()->myclass->next_class_id)->get();                            
-                       
-            $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
-                ->where('myclass_id', $myclass_id)
-                ->where('section_id', $section_id)
-                ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
-                ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
-                ->orderBy('total_ob_marks', 'desc')
-                ->get()
-                ;
-        }    
+
+                $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->first()->myclass->next_class_id)->get();                            
+                        
+                $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
+                    ->where('myclass_id', $this->classSections->myclass_id)
+                    ->where('section_id', $this->classSections->section_id)
+                    ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+                    ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
+                    ->orderBy('total_ob_marks', 'desc')
+                    ->get()
+                    ;
+            }    
+        }
     }
 
 
