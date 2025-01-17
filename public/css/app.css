@@ -930,6 +930,9 @@ select {
 .ms-3 {
   margin-inline-start: 0.75rem;
 }
+.ms-4 {
+  margin-inline-start: 1rem;
+}
 .ms-5 {
   margin-inline-start: 1.25rem;
 }
@@ -1130,6 +1133,9 @@ select {
 .w-full {
   width: 100%;
 }
+.min-w-0 {
+  min-width: 0px;
+}
 .min-w-fit {
   min-width: -moz-fit-content;
   min-width: fit-content;
@@ -1163,6 +1169,9 @@ select {
 }
 .max-w-sm {
   max-width: 24rem;
+}
+.max-w-xl {
+  max-width: 36rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1376,6 +1385,11 @@ select {
 .overflow-y-auto {
   overflow-y: auto;
 }
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .whitespace-nowrap {
   white-space: nowrap;
 }
@@ -1440,6 +1454,9 @@ select {
 }
 .border-l-4 {
   border-left-width: 4px;
+}
+.border-r {
+  border-right-width: 1px;
 }
 .border-t {
   border-top-width: 1px;
@@ -2667,6 +2684,10 @@ select {
     align-items: center;
   }
 
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
+
   .sm\:justify-center {
     justify-content: center;
   }
@@ -2697,6 +2718,11 @@ select {
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+
+  .sm\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 
   .sm\:pt-0 {

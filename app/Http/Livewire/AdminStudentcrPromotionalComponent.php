@@ -28,6 +28,10 @@ class AdminStudentcrPromotionalComponent extends Component
     public $stdcrsection = [];
     public $myclasssection_id;
 
+    // #[On('refreshStudentcrsPromotions')]
+    protected $listeners = ['refreshStudentcrsPromotions' => 'mount'];
+
+
     public function mount(){
         $this->session = Session::currentlyActive();
 

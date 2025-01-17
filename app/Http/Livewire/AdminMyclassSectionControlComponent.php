@@ -30,6 +30,7 @@ class AdminMyclassSectionControlComponent extends Component
         // $myclasssection->save();
 
         $this->refresh();
+        $this->emit('refreshStudentcrsPromotions');
     }
 
 
