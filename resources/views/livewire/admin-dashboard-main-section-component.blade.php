@@ -75,6 +75,7 @@
                     <livewire:admin-myclass-section-control-component />
                 </aside>
                 <main class="w-full mx-auto px-0 py-0 overflow-y-auto rounded bg-gray-200 dark:bg-gray-800 min-h-screen">
+                    <livewire:admin-studentcr-admisstion-component />   
                     <livewire:admin-studentcr-promotional-component />
                 </main>
             </div>

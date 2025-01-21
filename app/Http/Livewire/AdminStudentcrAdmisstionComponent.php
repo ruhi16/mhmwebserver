@@ -29,17 +29,23 @@ class AdminStudentcrAdmisstionComponent extends Component{
     public $mysection_id;
 
 
+    // #[On('refreshStudentcrsPromotions')]
+    protected $listeners = ['refreshStudentcrsPromotions' => 'mount'];
 
+    
     public function mount(){
-        $this->myclass_id = 2;
-        $this->mysection_id = 1;
+        // $this->myclass_id = 2;
+        // $this->mysection_id = 1;
         // $this->componentName = request()->route()->getName();
 
-        $this->session = Session::where('status', 'ACTIVE')->first();
+        $this->session = Session::currentlyActive();
+        $this->classSections = Myclasssection::where('session_id', $this->session->id)
+            // ->where('myclass_id', $this->myclass_id)
+            // ->where('section_id', $this->mysection_id)
+            ->where('status', 'ACTIVE')
+            ->first();
 
-        $this->classSections = Myclasssection::where('myclass_id', $this->myclass_id)
-            ->where('section_id', $this->mysection_id)
-            ->get();
+
 
         $this->studentcrEOYSummary = Studentcr_eoy_summary::
             // where('session_id', $this->session->prev_session_id) // have to add 'session_id'
@@ -49,7 +55,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
             ->get();
         
         
-        // for Admission Table only
+        // for Admission Table only, for Promoted Studentcrs
         $this->studentcrs = Studentcr::where('session_id', $this->session->prev_session_id)
             ->where('next_session_id', $this->session->id)
             ->where('next_class_id', $this->myclass_id)
