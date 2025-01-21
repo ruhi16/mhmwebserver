@@ -28,6 +28,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
     public $myclass_id;
     public $mysection_id;
 
+    public $studentdbs;
 
     // #[On('refreshStudentcrsPromotions')]
     protected $listeners = ['refreshStudentcrsPromotions' => 'mount'];
@@ -45,7 +46,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
             ->where('status', 'ACTIVE')
             ->first();
 
-
+        // dd($this->classSections);
 
         $this->studentcrEOYSummary = Studentcr_eoy_summary::
             // where('session_id', $this->session->prev_session_id) // have to add 'session_id'
@@ -53,17 +54,72 @@ class AdminStudentcrAdmisstionComponent extends Component{
             ->where('s_id', 1)
             ->orderBy('total_ob_marks', 'desc')
             ->get();
-        
+
+
+            $studentdb_running_ids = Studentcr::where('session_id', $this->session->id)
+                ->where('myclass_id', $this->classSections->myclass_id)
+                ->where('section_id', $this->classSections->section_id)
+                ->pluck('studentdb_id')
+                ->toArray()
+                ;
+
+            $this->studentdbs = Studentdb::where('session_id', $this->session->id)
+                ->where('stclass_id', $this->classSections->myclass_id)
+                ->where('stsection_id', $this->classSections->section_id)
+                ->whereNotIn('id', $studentdb_running_ids)
+                ->get()
+                ;
+            // dd($this->studentdbs);
         
         // for Admission Table only, for Promoted Studentcrs
-        $this->studentcrs = Studentcr::where('session_id', $this->session->prev_session_id)
-            ->where('next_session_id', $this->session->id)
-            ->where('next_class_id', $this->myclass_id)
-            ->where('next_section_id', $this->mysection_id)    
-            ->where('next_studentcr_id', 0)        
-            ->get()
-            ;
+        // $this->studentcrs = Studentcr::where('session_id', $this->session->prev_session_id)
+        //     ->where('next_session_id', $this->session->id)
+        //     ->where('next_class_id', $this->myclass_id)
+        //     ->where('next_section_id', $this->mysection_id)    
+        //     ->where('next_studentcr_id', 0)        
+        //     ->get()
+        //     ;
+
+            // $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->myclass->next_class_id)->get();                            
+                        
+            $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
+                ->where('myclass_id', $this->classSections->myclass_id)
+                ->where('section_id', $this->classSections->section_id)
+                ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+                ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm')
+                ->orderBy('total_ob_marks', 'desc')
+                ->get()
+                ;
             
+    }
+
+    public function admitNewStudent($studentdb_id){
+        try{            
+            $studentdb = Studentdb::find($studentdb_id);
+            // dd($studentdb);
+
+            $studentcr = Studentcr::firstOrCreate([
+                'session_id' => Session::currentlyActive()->id,
+                'studentdb_id' => $studentdb_id
+            ],[
+                'myclass_id' => $studentdb->stclass_id,
+                'section_id' => $studentdb->stsection_id,
+                'roll_no' => (int) $studentdb->remarks,
+                'crstatus' => 'Running',
+
+            ]);
+            
+            // dd($studentcr);
+            // $studentcr->save(); // whenever we use firstOrNew, we have to save() exclusively
+
+
+            session()->flash('message', 'New Student Admitted Successfully');
+        }
+        catch(\Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
+
+        $this->mount();
     }
 
     public function admitStudent($studentcr_id){
