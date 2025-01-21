@@ -50,6 +50,10 @@ class AdminStudentcrPromotionalComponent extends Component
 
                 $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->first()->myclass->next_class_id)->get();                            
                         
+                $this->nextClassSections = Myclasssection::where('session_id', Session::currentlyActive()->next_session_id)
+                    ->where('myclass_id', $this->classSections->myclass_id)
+                    ->get();
+
                 $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
                     ->where('myclass_id', $this->classSections->myclass_id)
                     ->where('section_id', $this->classSections->section_id)

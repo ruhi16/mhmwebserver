@@ -106,14 +106,7 @@
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm ?? 'X' }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->total_ob_marks ?? 'X' }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->No_of_Ds ?? 'X' }}</td>
-                {{-- <td class="border border-gray-300 px-4 py-2">{{ $studentcr->result ?? 'X' }}</td> --}}
-{{-- 
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummary->where('id', $studentcr->id)->first()->total_ob_marks ?? 'X'  }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummary->where('id', $studentcr->id)->first()->fm ?? 'X' }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummary->where('id', $studentcr->id)->first()->total_ob_marks ?? 'X' }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummary->where('id', $studentcr->id)->first()->No_of_Ds ?? 'X' }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcrEOYSummary->where('id', $studentcr->id)->first()->result ?? 'X' }}</td> --}}
-
+                
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_class_id }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_section_id }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_session_id }}</td>

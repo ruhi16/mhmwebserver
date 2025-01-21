@@ -35,27 +35,13 @@ class AdminStudentcrAdmisstionComponent extends Component{
 
     
     public function mount(){
-        // $this->myclass_id = 2;
-        // $this->mysection_id = 1;
-        // $this->componentName = request()->route()->getName();
-
+        
         $this->session = Session::currentlyActive();
         $this->classSections = Myclasssection::where('session_id', $this->session->id)
-            // ->where('myclass_id', $this->myclass_id)
-            // ->where('section_id', $this->mysection_id)
             ->where('status', 'ACTIVE')
             ->first();
-
-        // dd($this->classSections);
-
-        $this->studentcrEOYSummary = Studentcr_eoy_summary::
-            // where('session_id', $this->session->prev_session_id) // have to add 'session_id'
-            where('c_id', 1)
-            ->where('s_id', 1)
-            ->orderBy('total_ob_marks', 'desc')
-            ->get();
-
-
+        
+        
             $studentdb_running_ids = Studentcr::where('session_id', $this->session->id)
                 ->where('myclass_id', $this->classSections->myclass_id)
                 ->where('section_id', $this->classSections->section_id)
@@ -108,11 +94,8 @@ class AdminStudentcrAdmisstionComponent extends Component{
                 'crstatus' => 'Running',
 
             ]);
-            
-            // dd($studentcr);
+
             // $studentcr->save(); // whenever we use firstOrNew, we have to save() exclusively
-
-
             session()->flash('message', 'New Student Admitted Successfully');
         }
         catch(\Exception $e){
@@ -121,6 +104,9 @@ class AdminStudentcrAdmisstionComponent extends Component{
 
         $this->mount();
     }
+
+
+
 
     public function admitStudent($studentcr_id){
         try{
@@ -132,19 +118,19 @@ class AdminStudentcrAdmisstionComponent extends Component{
             ->orderBy('roll_no', 'desc')
             ->get();
         
-        $studentcr = new Studentcr();
-        $studentcr->studentdb_id = $studentcr_old->studentdb_id;
-        $studentcr->session_id = $this->session->id;
-        $studentcr->myclass_id = $studentcr_old->next_class_id;
-        $studentcr->section_id = $studentcr_old->next_section_id;
-        $studentcr->roll_no = (int) ($studentcr_curr[0]->roll_no ?? 0) + 1;
-        $studentcr->crstatus = 'Running';
-        $studentcr->school_id = 1;
-        $studentcr->save();
+            $studentcr = new Studentcr();
+            $studentcr->studentdb_id = $studentcr_old->studentdb_id;
+            $studentcr->session_id = $this->session->id;
+            $studentcr->myclass_id = $studentcr_old->next_class_id;
+            $studentcr->section_id = $studentcr_old->next_section_id;
+            $studentcr->roll_no = (int) ($studentcr_curr[0]->roll_no ?? 0) + 1;
+            $studentcr->crstatus = 'Running';
+            $studentcr->school_id = 1;
+            $studentcr->save();
 
 
-        $studentcr_old->next_studentcr_id = $studentcr->id;
-        $studentcr_old->save();
+            $studentcr_old->next_studentcr_id = $studentcr->id;
+            $studentcr_old->save();
 
             session()->flash('message', 'Student Admitted Successfully');
         }
