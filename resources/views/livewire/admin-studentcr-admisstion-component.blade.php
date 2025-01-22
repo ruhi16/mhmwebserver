@@ -17,7 +17,7 @@
     {{-- <div>Admission Component: {{ $session->name }}</div> --}}
 
     <table class="max-w-full mx-10 my-6 ">
-        <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">
+        <caption class="caption-top p-4 font-extrabold text-xl text-pink-800 bg-pink-100 rounded-t-md">
             New Students Admission: Class Section Details, Class: {{ $classSections ? $classSections->myclass->name : '-' }}, Section:{{$classSections ? $classSections->section->name : '-'}} for Session: {{ \App\Models\Session::currentlyActive()->name }}
         </caption>
         <thead>
@@ -34,6 +34,7 @@
             </tr>
         </thead>
         <tbody>
+            {{-- for New Admission --}}
             @foreach($studentdbs as $studentdb)
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500  bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
@@ -55,11 +56,9 @@
         </tbody>
     </table>
     
-    <br/>
-
 
     <table class="max-w-full mx-10 my-6 ">
-        <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">
+        <caption class="caption-top p-4 font-extrabold text-xl text-purple-800 bg-purple-100 rounded-t-md">
             Promoted Students Admission: Class Section Details, Class: {{ $classSections ? $classSections->myclass->name : '-' }}, Section:{{$classSections ? $classSections->section->name : '-'}} for Session: {{ \App\Models\Session::currentlyActive()->name }}
         </caption>
         <thead>
@@ -89,7 +88,8 @@
         </thead>            
         
         <tbody>
-            @foreach($studentcrs as $studentcr)
+            {{-- for Promoted Admission --}}
+            @foreach($studentcrs_promoted as $studentcr)
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500  bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->studentdb->id }}</td>
@@ -107,29 +107,16 @@
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->total_ob_marks ?? 'X' }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->No_of_Ds ?? 'X' }}</td>
                 
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_class_id }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_section_id }}</td>
+                <td class="border border-gray-300 px-4 py-2"></td>
+                <td class="border border-gray-300 px-4 py-2">nc{{ $studentcr->next_class_id }}</td>
+                <td class="border border-gray-300 px-4 py-2">ns{{ $studentcr->next_section_id }}</td>
                 <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_session_id }}</td>
 
                 <td class="border border-gray-300 px-4 py-2">
-                    <button wire:click="admitStudent({{ $studentcr->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Assign Roll No
+                    <button wire:click="admitPromotedStudent({{ $studentcr->id }})" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                        Assign
                     </button>
                 </td>
-
-                {{--<td class="border border-gray-300 px-4 py-2">{{ $studentcr->studentdb->roll_no }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->total_ob_marks }}</td>    
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->percentage }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->No_of_Ds }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->result }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_class }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_section }}</td>
-                <td class="border border-gray-300 px-4 py-2">{{ $studentcr->next_session }}</td>
-                <td class="border border-gray-300 px-4 py-2">
-                    <a href="{{ route('admin.studentcr.edit', $studentcr->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                </td> 
-                --}}
             </tr>
             @endforeach
         </tbody>

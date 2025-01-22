@@ -44,15 +44,17 @@ class AdminStudentcrPromotionalComponent extends Component
             if($this->classSections->count() > 0){
 
                 $this->promotionalRules = Promotionalrule::where('session_id', $this->session->id)
-                ->where('myclass_id', $this->classSections->myclass_id)
+                // ->where('myclass_id', $this->classSections->myclass_id)
                 ->first();
 
 
-                $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->first()->myclass->next_class_id)->get();                            
+                // $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->first()->myclass->next_class_id)->get();                            
                         
                 $this->nextClassSections = Myclasssection::where('session_id', Session::currentlyActive()->next_session_id)
-                    ->where('myclass_id', $this->classSections->myclass_id)
+                    ->where('myclass_id', $this->classSections->myclass->next_class_id)
                     ->get();
+                
+                // dd($this->nextClassSections);
 
                 $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
                     ->where('myclass_id', $this->classSections->myclass_id)
@@ -83,6 +85,7 @@ class AdminStudentcrPromotionalComponent extends Component
         // $this->section_id = $value;
         // $myclasssection = Myclasssection::find($key);
         // $this->refreshStudentcrs($myclasssection->myclass_id, $myclasssection->section_id);
+        $this->refreshStudentcrs();
     }
 
     public function promotedToNextClass($studentcr_id){
@@ -102,6 +105,9 @@ class AdminStudentcrPromotionalComponent extends Component
         }catch(Exception $e){
             session()->flash('error', $e->getMessage());
         }
+
+        // $this->mount();
+        $this->refreshStudentcrs();
     }
 
 
@@ -111,14 +117,23 @@ class AdminStudentcrPromotionalComponent extends Component
     }
 
 
-    public function refreshStudentcrs($myclass_id, $section_id){
-        $this->studentcrs = Studentcr::where('studentcrs.session_id', Session::currentlyActive()->id)
-            ->where('myclass_id', $myclass_id)
-            ->where('section_id', $section_id)
+    public function refreshStudentcrs(){
+        $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
+            ->where('myclass_id', $this->classSections->myclass_id)
+            ->where('section_id', $this->classSections->section_id)
             ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
             ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
             ->orderBy('total_ob_marks', 'desc')
             ->get()
             ;
+        
+        // $this->studentcrs = Studentcr::where('studentcrs.session_id', Session::currentlyActive()->id)
+        //     ->where('myclass_id', $myclass_id)
+        //     ->where('section_id', $section_id)
+        //     ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+        //     ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
+        //     ->orderBy('total_ob_marks', 'desc')
+        //     ->get()
+        //     ;
     }
 }

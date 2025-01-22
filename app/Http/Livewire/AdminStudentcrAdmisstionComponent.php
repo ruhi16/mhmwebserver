@@ -22,7 +22,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
     public $section_id;
 
 
-    public $studentcrs;
+    public $studentcrs_promoted;
     public $session;
 
     public $myclass_id;
@@ -57,25 +57,29 @@ class AdminStudentcrAdmisstionComponent extends Component{
                 ;
             // dd($this->studentdbs);
         
-        // for Admission Table only, for Promoted Studentcrs
-        // $this->studentcrs = Studentcr::where('session_id', $this->session->prev_session_id)
-        //     ->where('next_session_id', $this->session->id)
-        //     ->where('next_class_id', $this->myclass_id)
-        //     ->where('next_section_id', $this->mysection_id)    
-        //     ->where('next_studentcr_id', 0)        
-        //     ->get()
-        //     ;
+        
 
             // $this->nextClassSections = Myclasssection::where('myclass_id', $this->classSections->myclass->next_class_id)->get();                            
-                        
-            $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
+            $studentcrs_promoted_ids = Studentcr::where('session_id', $this->session->id)
                 ->where('myclass_id', $this->classSections->myclass_id)
                 ->where('section_id', $this->classSections->section_id)
+                ->pluck('id')
+                ->toArray()
+                ;
+            
+            $this->studentcrs_promoted = Studentcr::where('next_session_id', $this->session->id)
+                ->where('next_class_id', $this->classSections->myclass_id)
+                ->where('next_section_id', $this->classSections->section_id)
+                ->whereNotIn('next_studentcr_id', $studentcrs_promoted_ids)
+
                 ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
                 ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm')
                 ->orderBy('total_ob_marks', 'desc')
                 ->get()
                 ;
+
+                // dd($this->studentcrs_promoted);
+            
             
     }
 
@@ -84,18 +88,18 @@ class AdminStudentcrAdmisstionComponent extends Component{
             $studentdb = Studentdb::find($studentdb_id);
             // dd($studentdb);
 
-            $studentcr = Studentcr::firstOrCreate([
+            Studentcr::firstOrCreate([
                 'session_id' => Session::currentlyActive()->id,
                 'studentdb_id' => $studentdb_id
             ],[
                 'myclass_id' => $studentdb->stclass_id,
                 'section_id' => $studentdb->stsection_id,
-                'roll_no' => (int) $studentdb->remarks,
+                'roll_no' => (int) $studentdb->remarks,     // ??? wrong
                 'crstatus' => 'Running',
-
+                'school_id'  =>  $studentdb->school_id,
             ]);
 
-            // $studentcr->save(); // whenever we use firstOrNew, we have to save() exclusively
+            
             session()->flash('message', 'New Student Admitted Successfully');
         }
         catch(\Exception $e){
@@ -108,31 +112,34 @@ class AdminStudentcrAdmisstionComponent extends Component{
 
 
 
-    public function admitStudent($studentcr_id){
+    public function admitPromotedStudent($studentcr_id){
         try{
-        $studentcr_old = Studentcr::where('id', $studentcr_id)->firstOrFail();
+            // dd(5);
+            $studentcr_old = Studentcr::where('id', $studentcr_id)->firstOrFail();
 
-        $studentcr_curr = Studentcr::where('session_id', $this->session->id)
-            ->where('myclass_id', $this->myclass_id)
-            ->where('section_id', $this->mysection_id)
-            ->orderBy('roll_no', 'desc')
-            ->get();
-        
-            $studentcr = new Studentcr();
-            $studentcr->studentdb_id = $studentcr_old->studentdb_id;
-            $studentcr->session_id = $this->session->id;
-            $studentcr->myclass_id = $studentcr_old->next_class_id;
-            $studentcr->section_id = $studentcr_old->next_section_id;
-            $studentcr->roll_no = (int) ($studentcr_curr[0]->roll_no ?? 0) + 1;
-            $studentcr->crstatus = 'Running';
-            $studentcr->school_id = 1;
-            $studentcr->save();
+            // to get the last roll_no
+            $studentcr_curr = Studentcr::where('session_id', $this->session->id)
+                ->where('myclass_id', $this->classSections->myclass_id)
+                ->where('section_id', $this->classSections->section_id)
+                ->orderBy('roll_no', 'desc')
+                ->get();
 
-
-            $studentcr_old->next_studentcr_id = $studentcr->id;
+            // dd($studentcr_curr[0]->roll_no ?? 0);
+            $studentcr_new = Studentcr::firstOrCreate([
+                'session_id' => Session::currentlyActive()->id,
+                'studentdb_id' => $studentcr_old->studentdb_id
+            ],[
+                'myclass_id' => $studentcr_old->next_class_id,
+                'section_id' => $studentcr_old->next_section_id,
+                'roll_no' => (int) ($studentcr_curr[0]->roll_no ?? 0) + 1,
+                'crstatus' => 'Running',
+                'school_id'  =>  $studentcr_old->school_id,
+            ]);       
+            
+            $studentcr_old->next_studentcr_id = $studentcr_new->id;
             $studentcr_old->save();
 
-            session()->flash('message', 'Student Admitted Successfully');
+            session()->flash('message', 'Promoted Student Admitted Successfully');
         }
         catch(\Exception $e){
             session()->flash('error', $e->getMessage());
