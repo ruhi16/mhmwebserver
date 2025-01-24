@@ -32,6 +32,7 @@
                 <th class="border border-gray-300 px-4 py-2">Roll No</th>
                 
                 <th class="border border-gray-300 px-4 py-2">Action</th>
+                <th class="border border-gray-300 px-4 py-2">QR Code</th>
             </tr>
         </thead>                    
         <tbody>
@@ -46,10 +47,29 @@
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->section->name }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->roll_no }}</td>
                     <td class="border border-gray-300 px-4 py-2">
-                        <button wire:click="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Action
+                        
+                        @php 
+                            $url_string = url('/img').'/'. $studentcr->myclass->name .'-'. $studentcr->section->name .'-'. $studentcr->roll_no .'-'.$studentcr->studentdb->name .'.svg'; 
+
+                        @endphp
+                        
+                        {{-- <img src="data:image/png;base64,{{ $qrcode_new }}" alt="QR Code" /> --}}
+
+                        {{-- x:{{ $url_string }} --}}
+                        @if(!file_exists($url_string))
+                            <img class="w-24 h-24 mb-3 shadow-lg " src="{{ $url_string }}" alt="QR_Code"/>
+                            {{-- <a href="{{ $url_string }}"  download="{{ $studentcr->myclass->name }}-{{ $studentcr->section->name }}-{{ $studentcr->roll_no }}-{{ $studentcr->studentdb->name }}.svg">Download</a> --}}
+                        @else
+                            Not Found
+                        @endif
+
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <button wire:click="generateQRCode({{ $studentcr->id }})" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                            QR Code
                         </button>
                     </td>
+                    
                 </tr>
             @endforeach
         </tbody>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Myclass;
 use Livewire\Component;
 
 use App\Models\Myclasssection;
 use App\Models\Promotionalrule;
+use App\Models\Section;
 use App\Models\Session;
 use App\Models\Studentcr;
 use App\Models\Studentcr_eoy_summary;
@@ -20,6 +22,8 @@ class AdminStudentcrAdmisstionComponent extends Component{
     public $nextClassSections;
     
     public $section_id;
+    public $myclasses;
+    public $mysections;
 
 
     public $studentcrs_promoted;
@@ -37,6 +41,11 @@ class AdminStudentcrAdmisstionComponent extends Component{
     public function mount(){
         
         $this->session = Session::currentlyActive();
+
+        $this->myclasses = Myclass::all();
+        $this->mysections = Section::all();
+
+
         $this->classSections = Myclasssection::where('session_id', $this->session->id)
             ->where('status', 'ACTIVE')
             ->first();

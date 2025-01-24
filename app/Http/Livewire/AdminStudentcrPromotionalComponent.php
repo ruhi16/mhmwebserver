@@ -7,7 +7,8 @@ use Livewire\Component;
 use App\Models\Promotionalrule;
 use App\Models\Session;
 use App\Models\Studentcr;
-use App\Models\Studentcr_eoy_summary;
+use App\Models\Myclass;
+use App\Models\Section;
 use Exception;
 
 class AdminStudentcrPromotionalComponent extends Component
@@ -20,6 +21,8 @@ class AdminStudentcrPromotionalComponent extends Component
     public $nextClassSections;
     
     public $section_id;
+    public $myclasses;
+    public $mysections;
 
 
     public $studentcrs;
@@ -34,6 +37,8 @@ class AdminStudentcrPromotionalComponent extends Component
 
     public function mount(){
         $this->session = Session::currentlyActive();
+        
+
 
         $this->classSections = Myclasssection::where('session_id', $this->session->id)
             ->where('status', 'ACTIVE')

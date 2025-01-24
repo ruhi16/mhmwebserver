@@ -15,6 +15,7 @@ class GeneralStudentDetailsComponent extends Component
 
 
     public $qrcode;
+    public $studentcr;
 
     public function mount(Request $request){
 
@@ -27,23 +28,35 @@ class GeneralStudentDetailsComponent extends Component
         $this->qrcode = $qrcode_str;
         // $this->qrcode = QrCode::size(80)->generate($qrcode_str);
 
-        $studentcr = Studentcr::findOrFail($request->scr_id);
+        $this->studentcr = Studentcr::findOrFail($request->scr_id);
+        // dd($this->studentcr);
         // echo($data->name);
         // dd($qrcode);
         //return $qrcode;
         // $this->render();
-        QrCode::format('svg')->merge('../public/img/logo2.svg')->generate($this->qrcode, '../public/img/'. $studentcr->myclass->name .'-'. $studentcr->section->name .'-'. $studentcr->roll_no .'-'. $studentcr->studentdb->name .'.svg' );
+        QrCode::format('svg')
+            // ->merge($url.'/img/logo.jpg')
+            ->merge('../public/img/logo2.svg')
+            ->generate($this->qrcode, '../public/img/'. 
+                $this->studentcr->myclass->name .'-'. 
+                $this->studentcr->section->name .'-'. 
+                $this->studentcr->roll_no .'-'. 
+                $this->studentcr->studentdb->name .'.svg' 
+            );
 
         // $this->render();
 
-        return view('livewire.general-student-details-component');
+        return view('livewire.general-student-details-component', [
+            'studentcr' => $this->studentcr
+        ]);
     }
 
 
     public function render()
     {
         return view('livewire.general-student-details-component', [
-            // 'qrcode_str' => $this->qrcode_str
+            // 'qrcode_str' => $this->qrcode_str,
+            'studentcr' => $this->studentcr
         ]);
     }
 }
