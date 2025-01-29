@@ -34,6 +34,8 @@ class AdminStudentcrAdmisstionComponent extends Component{
 
     public $studentdbs;
 
+    public $studentcr_curr;
+
     // #[On('refreshStudentcrsPromotions')]
     protected $listeners = ['refreshStudentcrsPromotions' => 'mount'];
 
@@ -65,6 +67,11 @@ class AdminStudentcrAdmisstionComponent extends Component{
                 ->get()
                 ;
             // dd($this->studentdbs);
+            $this->studentcr_curr = Studentcr::where('session_id', $this->session->id)
+                ->where('myclass_id', $this->classSections->myclass_id)
+                ->where('section_id', $this->classSections->section_id)
+                ->orderBy('roll_no', 'desc')
+                ->get();
         
         
 
@@ -109,6 +116,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
             ]);
 
             
+            $this->mount();
             session()->flash('message', 'New Student Admitted Successfully');
         }
         catch(\Exception $e){
@@ -127,11 +135,11 @@ class AdminStudentcrAdmisstionComponent extends Component{
             $studentcr_old = Studentcr::where('id', $studentcr_id)->firstOrFail();
 
             // to get the last roll_no
-            $studentcr_curr = Studentcr::where('session_id', $this->session->id)
-                ->where('myclass_id', $this->classSections->myclass_id)
-                ->where('section_id', $this->classSections->section_id)
-                ->orderBy('roll_no', 'desc')
-                ->get();
+            // $this->studentcr_curr = Studentcr::where('session_id', $this->session->id)
+            //     ->where('myclass_id', $this->classSections->myclass_id)
+            //     ->where('section_id', $this->classSections->section_id)
+            //     ->orderBy('roll_no', 'desc')
+            //     ->get();
 
             // dd($studentcr_curr[0]->roll_no ?? 0);
             $studentcr_new = Studentcr::firstOrCreate([
@@ -140,7 +148,8 @@ class AdminStudentcrAdmisstionComponent extends Component{
             ],[
                 'myclass_id' => $studentcr_old->next_class_id,
                 'section_id' => $studentcr_old->next_section_id,
-                'roll_no' => (int) ($studentcr_curr[0]->roll_no ?? 0) + 1,
+                'roll_no' => (int) isset($this->studentcr_curr[0]) ?  ($this->studentcr_curr[0]->roll_no + 1) : 1,
+                //(int) ($this->studentcr_curr[0]->roll_no ?? 0) + 1,
                 'crstatus' => 'Running',
                 'school_id'  =>  $studentcr_old->school_id,
             ]);       
@@ -148,6 +157,9 @@ class AdminStudentcrAdmisstionComponent extends Component{
             $studentcr_old->next_studentcr_id = $studentcr_new->id;
             $studentcr_old->save();
 
+
+
+            $this->mount();
             session()->flash('message', 'Promoted Student Admitted Successfully');
         }
         catch(\Exception $e){
@@ -164,4 +176,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
     {
         return view('livewire.admin-studentcr-admisstion-component');
     }
+
+
+    
 }

@@ -92,7 +92,10 @@
 
                 <td class="border border-gray-300 px-4 py-2">
                     <button wire:click="admitPromotedStudent({{ $studentcr->id }})" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                        Assign
+                        Assign 
+                        {{-- {{ dd(($studentcr_curr[0]->roll_no) ) }} --}}
+                        {{ isset($studentcr_curr[0]) ?  ($studentcr_curr[0]->roll_no + 1) : 1 }}
+                        
                     </button>
                 </td>
             </tr>

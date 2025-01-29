@@ -17,9 +17,12 @@ class CreateSectionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('details')->nullable();
+            $table->date('stdate');
+            $table->date('endate');
             $table->string('remark')->nullable();
             $table->string('status')->nullable();
-            $table->integer('session_id')->nullable();
+            $table->integer('prev_section_id')->nullable();
+            $table->integer('next_section_id')->nullable();            
             $table->integer('school_id')->nullable();
             $table->timestamps();
         });

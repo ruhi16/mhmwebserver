@@ -61,8 +61,9 @@ class AdminStudentcrRunningComponent extends Component
 
         // dd($studentcr->studentdb);
 
-        $url = url('/');
-        $qrcode_str = $url.'/'.'generate-student-details'.'/'. $studentcr->studentdb->uuid.'/'. $studentcr->id;
+        // $url = url('/');
+        $url = 'https://manikchakhighmadrasah.org/';
+        $qrcode_str = $url.'generate-student-details'. $studentcr->studentdb->uuid.'/'.$studentcr->id;
 
         $this->qrcode = QrCode::format('svg')
             // ->merge($url.'/img/logo.jpg')
