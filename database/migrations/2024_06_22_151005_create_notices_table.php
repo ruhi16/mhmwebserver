@@ -17,8 +17,8 @@ class CreateNoticesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('details')->nullable();
-            $table->date('dop');
-            $table->date('doe');
+            $table->date('dop')->nullable();
+            $table->date('doe')->nullable();
             $table->string('fileaddr')->nullable();
             $table->boolean('is_active')->default(0);
             $table->timestamps();

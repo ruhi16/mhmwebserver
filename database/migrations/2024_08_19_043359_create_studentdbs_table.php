@@ -16,6 +16,7 @@ class CreateStudentdbsTable extends Migration
         Schema::create('studentdbs', function (Blueprint $table) {
             $table->increments('id'); 
             $table->string('studentid')->nullable();
+            $table->string('uuid_auto')->nullable();
             
             $table->unsignedinteger('admBookNo');
             $table->unsignedinteger('admSlNo');

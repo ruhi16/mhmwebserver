@@ -23,7 +23,7 @@ class CreateStudentcrsTable extends Migration
             $table->string('result')->nullable();
             $table->string('description')->nullable();
             $table->string('crstatus')->nullable();
-            $table->integer('next_clss_id')->nullable();
+            $table->integer('next_class_id')->nullable();
             $table->integer('next_section_id')->nullable();  
             $table->integer('next_session_id')->nullable();
             $table->integer('next_studentcr_id')->nullable();            
