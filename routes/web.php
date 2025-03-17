@@ -27,6 +27,7 @@ use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
 use App\Models\Notice;
+use App\Models\Studentcr;
 use App\Models\Studentvl;
 use Illuminate\Http\Request;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
@@ -233,14 +234,62 @@ Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', Admi
 Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
         ->name('user.livewire.generate-sec-marksheetpdf');
 
-
+// Route::get('/generate-sec-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportSecMarksheetPdf')
+//         ->name('user.livewire.generate-sec-marksheetpdf');
+  
         // Route::get('/generate-student-details/{uuid}', function(Request $request){
         //     // dd('generate-student-details');
         //     return "hello". $request->uuid;
         // });
 
-Route::get('/generate-student-details/{uuid}/{scr_id}', GeneralStudentDetailsComponent::class . '@exportStudentDetails')
-        ->name('livewire.generate-student-details');
+// Route::get('/generate-student-details/{uuid}/{scr_id}', GeneralStudentDetailsComponent::class . '@exportStudentDetails')
+//         ->name('livewire.generate-student-details');
+
+Route::get('/generate-student-details/{uuid}/{scr_id}', function(Request $request){
+    // dd('generate-student-details', $request->uuid, $request->scr_id);
+    // return view('livewire.general-student-details-component', [
+    //     'uuid' => $request->uuid,
+    //     'studentcr' => Studentcr::findOrFail($request->scr_id)
+    // ]);
+
+    $studentcr = Studentcr::findOrFail($request->scr_id);
+    $str = '<!DOCTYPE html>
+            <html lang=en>
+            <head>
+            <meta charset=UTF-8>
+            <meta name=viewport content="width=device-width, initial-scale=1.0">
+            <title>Student ID Card</title>
+            <style>.id-card{width:280px;height:500px;border:2px solid #000;border-radius:10px;padding:20px;text-align:center;font-family:Arial,sans-serif;margin:auto;display:flex;flex-direction:column;justify-content:space-between}.id-card img{border-radius:10%;width:100px;height:100px}.id-card h1{font-size:22px;margin:10px 0}.id-card p{font-size:18px;margin:5px 0}.school-info{text-align:center;margin-bottom:12px}.school-info h2{margin:5px 0;font-size:18px}.school-info p{margin:5px 0;font-size:12px}.student-photos{display:flex;justify-content:center;gap:10px;margin:10px 0}.extra-info{background-color:#f0f0f0;padding:10px;border-top:2px solid #000;font-size:14px}.extra-info p{font-size:10px}</style>
+            </head>
+            <body>
+            <div class=id-card>
+            <div class=school-info>
+            <h2>Manikchak High Madrasah(H.S)</h2>
+            <p>Manikchak, Lalgola, Murshidabad</p>
+            <p>Session: 2025</p>
+            </div>
+            <h1>Identity Card</h1>
+            <div class=student-photos>
+            <img src=https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png alt="Student Photo">
+            <img src=https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png alt="Additional Photo">
+            </div>
+            <h1>Name: '. $studentcr->studentdb->name .'</h1>
+            <p>Class: '. $studentcr->myclass->name .', Section: ' . $studentcr->section->name .', Roll No: '. $studentcr->roll_no . '</p>
+            <h3>Student Address</h3>
+            <h4>Father Address</h4>
+            <div class=extra-info>
+            <p>Extra information can go here. This is a stripe for additional details.</p>
+            </div>
+            </div>
+            </body>
+            </html>';
+    // $str = '<h1> '.  $studentcr->studentdb->name  . '</h1>';
+    // $str = $str . '<h3> '. $studentcr->myclass->name . ': '. $studentcr->section->name .': '. $studentcr->roll_no  . '</h3>';
+    
+    return ($str);
+
+})->name('livewire.generate-student-details');
+
 
 // Route::resource('/teachers', [TeacherController::class, 'index']);
 Route::resource('/teachers', TeacherController::class);

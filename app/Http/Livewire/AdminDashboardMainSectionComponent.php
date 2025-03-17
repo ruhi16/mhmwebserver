@@ -8,6 +8,7 @@ use Livewire\Component;
 
 
 
+
 class AdminDashboardMainSectionComponent extends Component
 {   
     protected $history = [];
@@ -40,18 +41,26 @@ class AdminDashboardMainSectionComponent extends Component
             'component' => 'admin-item-five-component',
         ],
         'item6' => [
-            'title' => 'Teacher Entry',
+            'title' => 'HS Section',
             'component' => 'admin-item-six-component',
         ],
         'item7' => [
+            'title' => 'Teacher Entry',
+            'component' => 'admin-item-six-component',
+        ],
+        'item8' => [
+            'title' => 'Teacher Entry',
+            'component' => 'admin-item-six-component',
+        ],
+        'item9' => [
             'title' => 'Notice Board',
             'component' => 'admin-item-seven-component',
         ],
-        'item8' => [
+        'item10' => [
             'title' => 'Voter List 2024',
             'component' => 'admin-item-eight-component',
         ],
-        'item9' => [
+        'item11' => [
             'title' => '---',
             'component' => 'admin-item-nine-component',
         ],

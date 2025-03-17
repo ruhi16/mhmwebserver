@@ -68,18 +68,9 @@
             {{-- {{json_encode($studentcrEOYSummary) ?? 'X'}} --}}
 
             <livewire:admin-session-management-component />
-
-
-            <div class="flex flex-row items-start gap-2 my-4">
-                <aside class="w-auto bg-green-200" aria-label="Sidebar">
-                    <livewire:admin-myclass-section-control-component />
-                </aside>
-                <main class="w-full mx-auto px-0 py-0 overflow-y-auto rounded bg-gray-200 dark:bg-gray-800 min-h-screen">
-                    <livewire:admin-studentcr-admisstion-component />   
-                    <livewire:admin-studentcr-promotional-component />
-                    <livewire:admin-studentcr-running-component />
-                </main>
-            </div>
+            Item:{{ $selectedItem }}
+            
+            
 
 
             
@@ -99,6 +90,16 @@
                 {{-- <livewire:admin-weekly-class-schedule-container-component> --}}
                 {{-- <livewire:admin-weekly-class-schedule-day-wise-component> --}}
                 {{-- <livewire:admin-weekly-class-schedule-component> --}}
+                    <div class="flex flex-row items-start gap-2 my-4">                
+                        <aside class="w-auto bg-green-200" aria-label="Sidebar">
+                            <livewire:admin-myclass-section-control-component />
+                        </aside>
+                        <main class="w-full mx-auto px-0 py-0 overflow-y-auto rounded bg-gray-200 dark:bg-gray-800 min-h-screen">
+                            <livewire:admin-studentcr-admisstion-component />   
+                                        {{-- <livewire:admin-studentcr-promotional-component /> --}}
+                            <livewire:admin-studentcr-running-component />
+                        </main>
+                    </div>
 
             @elseif($selectedItem == 'item2') {{-- Profile Management --}}
                 <livewire:admin-user-previledge-control-component />
@@ -111,11 +112,12 @@
             @elseif($selectedItem == 'item5') {{-- Finalize Status --}}
                 <livewire:admin-finalize-status-component />
 
-            @elseif($selectedItem == 'item6') {{-- Teacher's Marks Entry --}}
-                <livewire:admin-teacher-wise-marks-entry-status-component />
+            @elseif($selectedItem == 'item6') {{-- HS Section --}}
+                <livewire:admin-h-s-main-section-component />
 
-            @elseif($selectedItem == 'item7') {{-- Notice Board --}}
-                Comming Soon
+            @elseif($selectedItem == 'item7') {{-- Teachers Marks Entry --}}
+                <livewire:admin-teacher-wise-marks-entry-status-component />
+            
 
             @elseif($selectedItem == 'item8') {{-- Voter List --}}
                 <livewire:admin-voter-list-component />
