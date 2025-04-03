@@ -19,14 +19,16 @@ class CreateHsStudentCrsTable extends Migration
             $table->integer('hs_session_id');
             $table->integer('hs_class_id');
             $table->integer('hs_section_id');
-            $table->integer('roll_no');            
+            $table->integer('hs_semester_id');
+            $table->integer('roll_no');
+
             $table->string('result')->nullable();
             $table->string('description')->nullable();
             $table->string('crstatus')->nullable();
+
             $table->integer('next_class_id')->nullable();
             $table->integer('next_section_id')->nullable();  
-            $table->integer('next_semester_id')->nullable();  
-            
+            $table->integer('next_semester_id')->nullable();              
             $table->integer('next_hs_session_id')->nullable();
             $table->integer('next_hs_studentcr_id')->nullable();            
             $table->integer('school_id')->nullable();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHsMarksentriesTable extends Migration
+class CreateHsAnswerScriptDistributionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,22 @@ class CreateHsMarksentriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('hs_marksentries', function (Blueprint $table) {
+        Schema::create('hs_answer_script_distributions', function (Blueprint $table) {
             $table->id();
             $table->integer('hs_exam_detail_id')->nullable();
-            $table->integer('hs_student_cr_id')->nullable();
-            $table->integer('hs_class_id')->nullable();
-            $table->integer('hs_semester_id')->nullable();
             $table->integer('hs_subject_id')->nullable();
+            $table->integer('hs_teacher_id')->nullable();
+            
+            $table->boolean('hs_is_range')->default(0)->nullable();
+            $table->integer('hs_range_reg_from')->nullable();
+            $table->integer('hs_range_reg_to')->nullable();
+            $table->integer('hs_range_roll_from')->nullable();
+            $table->integer('hs_range_roll_to')->nullable();
+            $table->integer('hs_range_total')->nullable();
 
-            $table->decimal('obtain_marks')->nullable();
-            $table->decimal('gress_marks')->nullable();
+            $table->date('issue_date')->nullable();
+            $table->date('submit_date')->nullable();
+            
 
             $table->string('details')->nullable();
             $table->boolean('is_active')->default(1);
@@ -41,6 +47,6 @@ class CreateHsMarksentriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hs_marksentries');
+        Schema::dropIfExists('hs_answer_script_distributions');
     }
 }

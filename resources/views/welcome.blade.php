@@ -61,63 +61,83 @@
                             d="M1 1h15M1 7h15M1 13h15" />
                     </svg>
                 </button>
-                <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
-                    <ul
-                        class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        <li>
-                            <a href="#"
-                                class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
-                                aria-current="page">Home</a>
-                        </li>
-                        <li>
-                            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar"
-                                class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Dropdown
-                                <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 4 4 4-4" />
+
+                <nav class="bg-gray-800 rounded-lg">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                      <div class="flex items-center justify-between h-16">
+                        <!-- Logo -->
+                        <div class="flex-shrink-0">
+                          <a href="#" class="text-white font-bold text-xl">Logo</a>
+                        </div>
+                        
+                        <!-- Menu Items -->
+                        <div class="hidden md:block">
+                          <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            
+                            <!-- Dropdown Menu -->
+                            <div class="relative group">
+                              <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                                Menu
+                                <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
-                            </button>
-                            <!-- Dropdown menu -->
-                            <div id="dropdownNavbar"
-                                class="z-10 hidden font-normal  divide-y divide-gray-100  dark:bg-gray-700 dark:divide-gray-600  absolute top-10 right-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400"
-                                    aria-labelledby="dropdownLargeButton">
-                                    <li>
-                                        <a href="google.com" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                                    </li>
-                                </ul>
-                                <div class="py-1">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Signout</a>
-                                </div>
+                              </button>
+                              
+                              <!-- Dropdown Content -->
+                              <div class="absolute left-0 mt-0 hidden group-hover:block bg-gray-800 border border-gray-700 rounded-md w-48 shadow-lg z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Submenu 1</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Submenu 2</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Submenu 3</a>
+                              </div>
                             </div>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-                        </li>
-                    </ul>
-                </div>
+                            
+                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                            <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+
+                            
+                            
+                            @if (Route::has('login'))
+                            {{-- <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block bg-slate-400"> --}}
+                                @auth
+                                <a wire:navigate href="{{ url('/dashboard') }}"
+                                    class="text-gray-300 bg-gray-700 hover:bg-gray-600 hover:text-white hover:font-bold px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                                @else
+                                <a wire:navigate href="{{ route('login') }}"
+                                    class="text-gray-300 bg-gray-700 hover:bg-gray-600 hover:text-white hover:font-bold px-3 py-2 rounded-md text-sm font-medium">Login</a>
+
+                                @if (Route::has('register'))
+                                <a wire:navigate href="{{ route('login') }}"
+                                class="text-gray-300 bg-gray-700 hover:bg-gray-700 hover:text-white hover:font-bold px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                                @endif
+                                @endauth
+                            {{-- </div> --}}
+                            @endif
+                            
+                          </div>
+
+
+                        </div>
+                        
+                        <!-- Mobile menu button -->
+                        <div class="md:hidden">
+                          <button class="text-gray-300 hover:text-white focus:outline-none">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                          </button>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </nav>
+                
             </div>
         </nav>
         
 
 
-        @if (Route::has('login'))
+        {{-- @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block bg-slate-400">
             @auth
             <a wire:navigate href="{{ url('/dashboard') }}"
@@ -132,7 +152,7 @@
             @endif
             @endauth
         </div>
-        @endif
+        @endif --}}
         {{-- --}}
         {{-- --}}
         <div class="h-fit">

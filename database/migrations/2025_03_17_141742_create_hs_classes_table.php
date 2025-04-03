@@ -17,7 +17,7 @@ class CreateHsClassesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('details')->nullable();
-            $table->string('next_hs_class_id')->nullable();
+            $table->integer('next_hs_class_id')->nullable();
             $table->integer('prev_hs_class_id')->nullable();
             $table->string('status')->nullable();
             $table->string('remark')->nullable();

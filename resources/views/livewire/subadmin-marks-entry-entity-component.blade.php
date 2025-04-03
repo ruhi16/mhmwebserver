@@ -115,17 +115,12 @@
                         <div class="relative">
                             <input type="number"
                                 placeholder="{{ isset($cbmarks[$studentcr->id]) && $cbmarks[$studentcr->id] ? 'AB' : 'Number' }}"
-                                {{--
-                                value="{{ isset($cbmarks[$studentcr->id]) && $cbmarks[$studentcr->id] ? $cbmarks[$studentcr->id] : '' }}"
-                                --}} 
+                                {{-- value="{{ isset($cbmarks[$studentcr->id]) && $cbmarks[$studentcr->id] ? $cbmarks[$studentcr->id] : '' }}" --}} 
                                 min="0" max="{{ $examdetail->full_mark }}"
                                 class="pl-10 pr-4 w-48 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                {{ 
-                                    isset($cbmarks[$studentcr->id]) && $cbmarks[$studentcr->id] ? 'disabled' : ''
-                                }}
+                                {{ isset($cbmarks[$studentcr->id]) && $cbmarks[$studentcr->id] ? 'disabled' : '' }}
                                 wire:model.debounce.250ms="marks.{{ $studentcr->id }}"
-                                oninput="if (this.value < 0 || this.value> {{$examdetail->full_mark}}) this.value =
-                                    '';"
+                                oninput="if (this.value < 0 || this.value> {{$examdetail->full_mark}}) this.value = '';"
                                 />
                                 <input type="checkbox" wire:model="cbmarks.{{ $studentcr->id }}"
                                     class="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500" />
