@@ -33,6 +33,14 @@ class HsExamDetails extends Model{
         // 'id' is the primary key in the HsSubject table
     }
 
+
+
+    public function hsMarksentries(){
+        return $this->hasMany(HsMarksentry::class, 'hs_exam_detail_id', 'id');
+        // 'hs_exam_detail_id' is the foreign key in the HsMarksentry table
+        // 'id' is the primary key in the HsMarksentry table
+    }
+
     
 
 }

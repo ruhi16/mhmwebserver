@@ -28,6 +28,9 @@ class AdminHSMainSectionComponent extends Component
     public $mark;
     public $value = 'na', $key = 'na';
 
+    public $hs_res_studentcrs = [];
+    public $hs_res_marksentries = [];
+
     public function mount()
     {
         $this->hs_studentdbs = HsStudentdb::all();
@@ -55,6 +58,12 @@ class AdminHSMainSectionComponent extends Component
                 ->get();
         }
         // dd($this->hs_studentdbs);
+
+        $this->hs_res_studentcrs = HsStudentCr::with('hsStudentDb')->get();
+        // $this->hs_res_marksentries = HsMarksentry::with('hsStudentCr')->get();
+        $this->hs_res_marksentries = HsMarksentry::all();
+        // dd($this->hs_res_marksentries);
+
     }
 
     public function changeSelectedHsSubjectId($hs_subject_id, $exam_detail_id = null)

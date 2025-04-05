@@ -37,4 +37,10 @@ class HsStudentCr extends Model
         // 'id' is the primary key in the HsSemester table
     }
 
+    public function hsMarksentries(){
+        return $this->hasMany(HsMarksentry::class, 'hs_student_cr_id', 'id');
+        // 'hs_student_cr_id' is the foreign key in the HsMarksentry table
+        // 'id' is the primary key in the HsMarksentry table
+    }
+
 }

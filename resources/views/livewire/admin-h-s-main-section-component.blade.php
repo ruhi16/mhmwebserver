@@ -1,3 +1,4 @@
+<div>
 <div class="max-w-full mx-8">
 
     <div class="flex flex-row items-start gap-2 my-4">
@@ -154,6 +155,8 @@
                     </tr>
                 </thead>
             </table> --}}
+
+
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -172,30 +175,25 @@
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $loop->iteration }}
+                            {{ json_encode($hs_studentcr) ?? 'x' }}
                         </th>
                         <td class="px-6 py-4">
-                            {{-- SCR:{{ $hs_studentcr->id ?? 'x' }} SDB:{{ $hs_studentcr->hs_studentdb_id ?? 'x' }} --}}
-                            {{-- {{ json_encode($hs_studentcr->hsStudentDb ) ?? 'not found' }} --}}
-                            {{-- {{ json_encode($hs_studentcr) }} --}}
+                            
                             <b>{{ $hs_studentcr->name ?? 'X' }}</b> <br />Reg No:{{ $hs_studentcr->registration_no ??
                             'X'}}
                             Subject Id:{{ $selectedHsSubjectId ?? 'NA'}}
                         </td>
-                        {{-- <td class="px-6 py-4"> {{ json_encode($hs_studentcr) ?? 'x' }}</td> --}}
+                        
                         <td class="px-6 py-4"> {{ $hs_studentcr->id ?? 'x' }}</td>
                         <td class="px-6 py-4">
-                            {{-- @if($hs_studentcr)
-                            <input type="number" min="0" max="500"
-                                class="border border-gray-300 px-4 py-2 w-32 rounded-md"
-                                wire:model="marks.{{ $hs_studentcr->id }}" />
-                            @endif --}}
+                        
                             
                             <input type="number" min="0" max="500"
                                 class="border border-gray-300 px-4 py-2 w-32 rounded-md"                                
                                 wire:model.debounce.250ms="marks.{{$hs_studentcr->id}}" />
                             
                         </td>
-                        {{-- <td class="px-6 py-4">Value:{{$value ?? 'X'}}, Key:{{ $key ?? 'X' }}, Mark:{{$mark}}</td> --}}
+                        
                         <td class="px-6 py-4">{{ $marks[$hs_studentcr->id] ?? 'X'}}</td>
                         <td class="px-6 py-4"></td>
                     </tr>
@@ -205,4 +203,22 @@
             </table>
         </div>
 
+        
     </div>
+    <div class="flex justify-start">
+        @foreach($hs_res_studentcrs as $hs_res_studentcr)
+        SCR:{{ $hs_res_studentcr->id }}, SDB:{{ $hs_res_studentcr->hsStudentdb->id }}-{{ $hs_res_studentcr->hsStudentdb->name }}<br/>
+            {{-- {{ json_encode($hs_res_studentcr->hsStudentdb->hsSubjects) }}<br/> --}}
+            @foreach($hs_res_studentcr->hsStudentdb->hsSubjects as $hsSubject)
+                {{ json_encode($hsSubject->hsSubject->name) }}
+                {{ json_encode($hs_res_marksentries->where('hs_student_cr_id', $hs_res_studentcr->id)->where('hs_subject_id', $hsSubject->hsSubject->id) ) ??  'X' }}
+                
+                {{-- {{ json_encode($hsSubject->hsMarksentries)  }} --}}
+
+                <br/>
+            @endforeach
+
+        @endforeach
+    </div>
+
+</div>

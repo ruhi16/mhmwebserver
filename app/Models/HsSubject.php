@@ -30,5 +30,10 @@ class HsSubject extends Model
         // 'id' is the primary key in the HsStudebtdbSubject table
     }
 
+    public function hsMarksentries(){
+        return $this->hasMany(HsMarksentry::class, 'hs_subject_id', 'id');
+        // 'hs_subject_id' is the foreign key in the HsMarksentry table
+        // 'id' is the primary key in the HsMarksentry table
+    }
 
 }
