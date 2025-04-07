@@ -5,12 +5,17 @@ namespace App\Http\Livewire;
 use App\Models\HsStudentdb;
 use App\Models\HsClass;
 use App\Models\HsExamDetails;
-
+use App\Models\HsExamName;
 use App\Models\HsStudentCr;
 use App\Models\HsSubject;
 use App\Models\HsMarksentry;
 
 use Illuminate\Support\Facades\DB;
+
+use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+
 use Livewire\Component;
 
 class AdminHSMainSectionComponent extends Component
@@ -28,6 +33,11 @@ class AdminHSMainSectionComponent extends Component
     public $mark;
     public $value = 'na', $key = 'na';
 
+    public $hs_exam_names = null;
+    public $hs_exam_modes = null;
+    public $hs_exam_details2 = null;
+
+
     public $hs_res_studentcrs = [];
     public $hs_res_marksentries = [];
 
@@ -40,23 +50,26 @@ class AdminHSMainSectionComponent extends Component
 
         $this->hs_exam_details = HsExamDetails::all();
 
+        $this->hs_exam_names = HsExamName::all();
+        $this->hs_exam_details2 = HsExamDetails::all();
+
 
 
         // $this->hs_Studentcrs = HsStudentCr::with('hsStudentDb')->get();
         // $this->hs_Studentcrs = HsStudentCr::with('hs_student_db_subjects')->get();
-        if ($this->selectedHsSubjectId) {
-            $this->hs_Studentcrs = DB::table('hs_student_crs as scr')
-                ->join('hs_student_dbs as sdb', 'scr.hs_studentdb_id', '=', 'sdb.id' )
-                ->join('hs_student_db_subjects as sdb_subj', 'sdb.id', '=', 'sdb_subj.hs_studentdb_id' )
-                ->where('sdb_subj.hs_subject_id', $this->selectedHsSubjectId)
-                ->get();
-        } else {
-            $this->hs_Studentcrs = DB::table('hs_student_crs as scr')
-                ->join('hs_student_dbs as sdb', 'scr.hs_studentdb_id', '=', 'sdb.id')
-                ->join('hs_student_db_subjects as sdb_subj', 'sdb.id', '=', 'sdb_subj.hs_studentdb_id')
-                // ->where('sdb_subj.hs_subject_id', $this->selectedHsSubjectId)
-                ->get();
-        }
+        // if ($this->selectedHsSubjectId) {
+        //     $this->hs_Studentcrs = DB::table('hs_student_crs as scr')
+        //         ->join('hs_student_dbs as sdb', 'scr.hs_studentdb_id', '=', 'sdb.id' )
+        //         ->join('hs_student_db_subjects as sdb_subj', 'sdb.id', '=', 'sdb_subj.hs_studentdb_id' )
+        //         ->where('sdb_subj.hs_subject_id', $this->selectedHsSubjectId)
+        //         ->get();
+        // } else {
+        //     $this->hs_Studentcrs = DB::table('hs_student_crs as scr')
+        //         ->join('hs_student_dbs as sdb', 'scr.hs_studentdb_id', '=', 'sdb.id')
+        //         ->join('hs_student_db_subjects as sdb_subj', 'sdb.id', '=', 'sdb_subj.hs_studentdb_id')
+        //         // ->where('sdb_subj.hs_subject_id', $this->selectedHsSubjectId)
+        //         ->get();
+        // }
         // dd($this->hs_studentdbs);
 
         $this->hs_res_studentcrs = HsStudentCr::with('hsStudentDb')->get();
@@ -73,16 +86,17 @@ class AdminHSMainSectionComponent extends Component
      
         
         if ($this->selectedHsSubjectId) {
-            $this->hs_Studentcrs = DB::table('hs_student_crs as scr')
-                ->join('hs_student_dbs as sdb', 'scr.hs_studentdb_id', '=', 'sdb.id')
-                ->join('hs_student_db_subjects as sdb_subj', 'sdb.id', '=', 'sdb_subj.hs_studentdb_id')
-                ->where('sdb_subj.hs_subject_id', $this->selectedHsSubjectId)
+            
+            $this->hs_Studentcrs = HsStudentCr::with(['hsStudentDb', 'hsStudentDb.hsSubjects'])
+                ->whereHas('hsStudentDb.hsSubjects', function($query) {
+                    $query->where('hs_subject_id', $this->selectedHsSubjectId);
+                })
                 ->get();
         } else {
-            $this->hs_Studentcrs = DB::table('hs_student_crs as scr')
-                ->join('hs_student_dbs as sdb', 'scr.hs_studentdb_id', '=', 'sdb.id' )
-                ->join('hs_student_db_subjects as sdb_subj','sdb.id','=', 'sdb_subj.hs_studentdb_id')
-                // ->where('sdb_subj.hs_subject_id', $this->selectedHsSubjectId)
+            $this->hs_Studentcrs = HsStudentCr::with(['hsStudentDb', 'hsStudentDb.hsSubjects'])
+                // ->whereHas('hsStudentDb.hsSubjects', function($query) {
+                //     $query->where('hs_subject_id', $this->selectedHsSubjectId);
+                // })
                 ->get();
         }
 
@@ -91,17 +105,20 @@ class AdminHSMainSectionComponent extends Component
     }
 
     public function loadPreviousMarks(){
+        // dd('class',$this->hs_exam_details->find($this->examDetailId)->hsExamName->hsClass->id,
+        //     'sem:',$this->hs_exam_details->find($this->examDetailId)->hsExamName->hsSemester->id);
         $updated_marks = HsMarksentry::where('hs_exam_detail_id', $this->examDetailId)            
             ->where('hs_subject_id', $this->selectedHsSubjectId)
             ->where('hs_class_id', $this->hs_exam_details->find($this->examDetailId)->hsExamName->hsClass->id)
             ->where('hs_semester_id', $this->hs_exam_details->find($this->examDetailId)->hsExamName->hsSemester->id)
             ->get()
             ;
-        // dd($updated_marks);
-
+        
+            $this->marks = [];
         foreach($updated_marks as $updated_mark){
             $this->marks[$updated_mark->hs_student_cr_id] = $updated_mark->obtain_marks;
         }
+        // dd($this->marks);
     }
 
     public function updatedMarks($value, $key)
@@ -125,6 +142,24 @@ class AdminHSMainSectionComponent extends Component
         $this->loadPreviousMarks();
         $this->changeSelectedHsSubjectId($this->selectedHsSubjectId, $this->examDetailId);
         // echo json_encode($this->marks);
+    }
+
+    public function generatePDF(){
+        $data = [
+            'hs_res_studentcrs' => $this->hs_res_studentcrs,
+            'hs_exam_details2'  => $this->hs_exam_details2,
+            'content' => 'This is the content of the PDF.',
+            'date' => now()->format('m/d/Y'),
+        ];
+
+        $pdf = PDF::loadView('pdfs.tmp_xi_compact_marks', $data);
+        
+        return response()->streamDownload(
+            fn () => print($pdf->output()),
+            "XI25_Compact_MarkRegister.pdf"
+        );
+    
+        // return view('pdfs.tmp_xi_compact_marks');
     }
 
     public function render()

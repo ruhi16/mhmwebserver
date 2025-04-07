@@ -170,17 +170,17 @@
                 </thead>
                 <tbody>
                 @if($selectedHsSubjectId != null)
-                    @foreach($hs_Studentcrs as $hs_studentcr)                    
+                    @foreach($hs_Studentcrs as $hs_studentcr) 
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $loop->iteration }}
-                            {{ json_encode($hs_studentcr) ?? 'x' }}
+                            SCR:{{ $hs_studentcr->id ?? 'x' }}, SDB:{{ $hs_studentcr->hs_studentdb_id ?? 'x' }}, 
+                            {{-- {{ json_encode($hs_studentcr) ?? 'x' }} --}}
                         </th>
                         <td class="px-6 py-4">
                             
-                            <b>{{ $hs_studentcr->name ?? 'X' }}</b> <br />Reg No:{{ $hs_studentcr->registration_no ??
-                            'X'}}
+                            <b>{{ $hs_studentcr->hsStudentDb->name ?? 'N' }}</b> <br />Reg No:{{ $hs_studentcr->hsStudentDb->registration_no ?? 'M'}}
                             Subject Id:{{ $selectedHsSubjectId ?? 'NA'}}
                         </td>
                         
@@ -205,20 +205,100 @@
 
         
     </div>
-    <div class="flex justify-start">
-        @foreach($hs_res_studentcrs as $hs_res_studentcr)
-        SCR:{{ $hs_res_studentcr->id }}, SDB:{{ $hs_res_studentcr->hsStudentdb->id }}-{{ $hs_res_studentcr->hsStudentdb->name }}<br/>
-            {{-- {{ json_encode($hs_res_studentcr->hsStudentdb->hsSubjects) }}<br/> --}}
-            @foreach($hs_res_studentcr->hsStudentdb->hsSubjects as $hsSubject)
-                {{ json_encode($hsSubject->hsSubject->name) }}
-                {{ json_encode($hs_res_marksentries->where('hs_student_cr_id', $hs_res_studentcr->id)->where('hs_subject_id', $hsSubject->hsSubject->id) ) ??  'X' }}
-                
-                {{-- {{ json_encode($hsSubject->hsMarksentries)  }} --}}
 
+    <button wire:click="generatePDF" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">generate PDF</button>
+    <div class="">
+        <div class="flex flex-wrap gap-4 overflow-x-auto py-4">
+
+            @foreach($hs_res_studentcrs as $hs_res_studentcr)
+            <table class="min-w-fit gap-2 text-xs border border-gray-800">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th colspan="1" class="px-2 py-1 text-left font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
+                            SL: {{ $loop->iteration }}, SCR: {{ $hs_res_studentcr->id }}, SDB: {{ $hs_res_studentcr->hs_studentdb_id }}
+                        </th>
+                        <th colspan="3" class="px-2 py-1 text-left font-bold text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
+                            {{ $hs_res_studentcr->hsStudentDb->name }}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="1" class="px-2 py-1 text-left font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
+                            Reg. No
+                        </th>
+                        <th colspan="3" class="px-2 py-1 text-left font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
+                            {{ $hs_res_studentcr->hsStudentDb->registration_no }}
+                        </th>
+                    </tr>
+                    
+                </thead>  
+
+
+
+
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">Subject</th>
+                        <th class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">Sem 1</th>
+                        <th class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">Sem 2</th>
+                        <th class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">Proj/Prac</th>
+                    </tr>
+                </thead>
+
+
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-800">
+                    @foreach($hs_res_studentcr->hsStudentdb->hsSubjects as $hsSubject)
+                        <tr>
+                            <td class="px-2 py-1 whitespace-nowrap border-b border-gray-800"> {{ $hsSubject->hsSubject->name }}</td>
+
+                            @foreach($hs_exam_details2->where('hs_subject_type_id', $hsSubject->hsSubject->hsSubjectType->id) as $exam_detail)        
+                                <td class="px-2 py-1 whitespace-nowrap border-b border-gray-800">
+                                    {{ $hs_res_studentcr->hsMarksentries
+                                        ->where('hs_subject_id', $hsSubject->hsSubject->id)
+                                        ->where('hs_exam_detail_id', $exam_detail->id)
+                                        ->first()->obtain_marks ?? '-'
+                                    }}
+                                </td>
+                                
+                            @endforeach
+                            {{-- <td class="px-2 py-1 whitespace-nowrap border-b border-gray-800">
+                                <span class="px-1 inline-flex leading-5 font-semibold rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Active</span>
+                            </td> --}}
+                            
+                        </tr>
+                    
+                    @endforeach
+                </tbody>
+            </table>
+
+            
+            @endforeach
+          </div>
+        
+        
+    
+        {{-- @foreach($hs_res_studentcrs as $hs_res_studentcr)
+            SCR:{{ $hs_res_studentcr->id }}, SDB:{{ $hs_res_studentcr->hsStudentdb->id }}-
+            {{ $hs_res_studentcr->hsStudentdb->name }} (REG:{{ $hs_res_studentcr->hsStudentdb->registration_no }}) <br/>
+            
+            
+            @foreach($hs_res_studentcr->hsStudentdb->hsSubjects as $hsSubject)                
+                    {{ $hsSubject->hsSubject->name }}: ({{ $hsSubject->hsSubject->hsSubjectType->name }}):
+                
+                <br/>
+                @foreach($hs_exam_details2->where('hs_subject_type_id', $hsSubject->hsSubject->hsSubjectType->id) as $exam_detail)
+                    {{ $exam_detail->hsExamName->name }}:{{ $exam_detail->hsExamMode->name }}:{{ $exam_detail->hsSubjectType->name }}:
+
+                    {{ $hs_res_studentcr->hsMarksentries
+                        ->where('hs_subject_id', $hsSubject->hsSubject->id)
+                        ->where('hs_exam_detail_id', $exam_detail->id)
+                        ->first()->obtain_marks ?? '-'
+                    }}<br/>
+                @endforeach
                 <br/>
             @endforeach
+                
+        @endforeach --}}
 
-        @endforeach
     </div>
 
 </div>

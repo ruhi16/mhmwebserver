@@ -13,6 +13,7 @@ class HsStudentCr extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+
     public function hsStudentDb(){
         return $this->belongsTo(HsStudentDb::class, 'hs_studentdb_id', 'id');
         // 'hs_student_db_id' is the foreign key in the HsStudentDb table
