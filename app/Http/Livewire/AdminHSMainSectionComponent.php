@@ -9,6 +9,7 @@ use App\Models\HsExamName;
 use App\Models\HsStudentCr;
 use App\Models\HsSubject;
 use App\Models\HsMarksentry;
+use App\Models\HsClassSemester;
 
 use Illuminate\Support\Facades\DB;
 
@@ -41,6 +42,15 @@ class AdminHSMainSectionComponent extends Component
     public $hs_res_studentcrs = [];
     public $hs_res_marksentries = [];
 
+
+    public $hsClassId = '-1';
+    public $hsClassIdMessage = null;
+
+    public $hsClassSemesters = null;
+    public $hsClassSemesterId = null;
+    public $hsClassSemesterSelectedMsg = null;
+
+
     public function mount()
     {
         $this->hs_studentdbs = HsStudentdb::all();
@@ -52,6 +62,9 @@ class AdminHSMainSectionComponent extends Component
 
         $this->hs_exam_names = HsExamName::all();
         $this->hs_exam_details2 = HsExamDetails::all();
+
+
+        $this->hsClassSemesters = HsClassSemester::all();
 
 
 
@@ -76,6 +89,20 @@ class AdminHSMainSectionComponent extends Component
         // $this->hs_res_marksentries = HsMarksentry::with('hsStudentCr')->get();
         $this->hs_res_marksentries = HsMarksentry::all();
         // dd($this->hs_res_marksentries);
+
+    }
+
+
+    public function updatedHsClassSemesterId($hsClassSemesterId){
+        $this->hsClassIdMessage = $hsClassSemesterId.' updated';
+        $hsClassSemester = HsClassSemester::find($this->hsClassSemesterId);
+
+        $examNames = HsExamName::where('hs_class_id', $hsClassSemester->hs_class_id)
+            ->where('hs_semester_id', $hsClassSemester->hs_semester_id)
+            ->get();
+
+        // dd($examNames);
+
 
     }
 

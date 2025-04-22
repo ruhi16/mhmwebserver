@@ -855,10 +855,6 @@ select {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
-.-mx-2 {
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-}
 .-mb-px {
   margin-bottom: -1px;
 }
@@ -1067,6 +1063,9 @@ select {
 }
 .min-h-screen {
   min-height: 100vh;
+}
+.w-1\/4 {
+  width: 25%;
 }
 .w-10 {
   width: 2.5rem;

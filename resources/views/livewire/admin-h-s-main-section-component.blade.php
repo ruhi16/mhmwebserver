@@ -1,7 +1,7 @@
 <div>
 <div class="max-w-full mx-8">
 
-    <div class="flex flex-row items-start gap-2 my-4">
+    {{-- <div class="flex flex-row items-start gap-2 my-4"> --}}
 
         {{--<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -103,6 +103,27 @@
                 </td>
                 </tr>
                 @endforeach --}}
+                <div class="flex">
+                    <div>
+                        <label for="selectedHsClassSemester" class="block mb-2 text-xl font-extrabold text-gray-900 dark:text-white">Select HS Class-Semester: {{ $hsClassId }}-{{ $hsClassIdMessage }}</label>
+                        <select id="selectedHsClassSemester" wire:model.live="hsClassSemesterId" class="block w-1/4 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value={{ null }}>Select One</option>
+                            @foreach($hsClassSemesters as $hsClassSemester)
+                                <option value="{{ $hsClassSemester->id }}">{{$hsClassSemester->hsClass->name}}-{{ $hsClassSemester->hsSemester->name }}</option>
+                            @endforeach                    
+                        </select>
+                    </div>
+                    {{-- <div>
+                        <label for="selectedHsClassSemester" class="block mb-2 text-xl font-extrabold text-gray-900 dark:text-white">Select HS Class-Semester: {{ $hsClassId }}-{{ $hsClassIdMessage }}</label>
+                        <select id="selectedHsClassSemester" wire:model.live="hsClassId" class="block w-1/4 p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value={{ null }}>Select One</option>
+                            @foreach($hsClassSemesters as $hsClassSemester)
+                                <option value="{{ $hsClassSemester->id }}">{{$hsClassSemester->hsClass->name}}-{{ $hsClassSemester->hsSemester->name }}</option>
+                            @endforeach                    
+                        </select>
+                    </div> --}}
+                </div>
+
                 @foreach($hs_exam_details as $hs_exam_detail)
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -125,10 +146,8 @@
                         @endforeach
                     </td>
                     {{-- <td class="px-6 py-4"></td>
-                    <td class="px-6 py-4"> --}}
+                    <td class="px-6 py-4"> </td>--}}
 
-                    </td>
-                </tr>
                 @endforeach
             </tbody>
         </table>
@@ -185,13 +204,11 @@
                         </td>
                         
                         <td class="px-6 py-4"> {{ $hs_studentcr->id ?? 'x' }}</td>
+
                         <td class="px-6 py-4">
-                        
-                            
                             <input type="number" min="0" max="500"
                                 class="border border-gray-300 px-4 py-2 w-32 rounded-md"                                
-                                wire:model.debounce.250ms="marks.{{$hs_studentcr->id}}" />
-                            
+                                wire:model.debounce.250ms="marks.{{$hs_studentcr->id}}" />                            
                         </td>
                         
                         <td class="px-6 py-4">{{ $marks[$hs_studentcr->id] ?? 'X'}}</td>
@@ -204,7 +221,7 @@
         </div>
 
         
-    </div>
+    {{-- </div> --}}
 
     <button wire:click="generatePDF" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">generate PDF</button>
     <div class="">

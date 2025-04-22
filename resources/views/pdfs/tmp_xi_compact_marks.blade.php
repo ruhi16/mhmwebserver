@@ -6,239 +6,181 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XI Compact Marks Register</title>
     <style type="text/css">
-        /* Tailwind CSS equivalent with hex colors */
-/* Base styles */
-.body {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 
-               "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, 
-               "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  line-height: 1.5;
-}
+        /* Base styles */
+        body {
+          font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 
+                       "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, 
+                       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+          line-height: 1.3;
+          margin: 0;
+          padding: 8px;
+          font-size: 10px;
+        }
 
-/* Container styles */
-.container {
-  display: flex;
-}
+        /* Container styles */
+        .container {
+          width: 100%;
+        }
 
-table {
-  flex: 1;
-}
-.flex {
-  display: flex;
-}
+        .row {
+          display: flex;
+          width: 100%;
+          margin-bottom: 8px;
+        }
 
-.flex-wrap {
-  flex-wrap: wrap;
-}
+        .student-table {
+          width: 49%;
+          margin-right: 2%;
+          box-sizing: border-box;
+        }
 
-.gap-4 {
-  gap: 16px;
-}
+        .student-table:last-child {
+          margin-right: 0;
+        }
 
-.overflow-x-auto {
-  overflow-x: auto;
-}
+        /* Table styles */
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.65rem;
+          line-height: 0.9rem;
+          border: 1px solid #1f2937;
+        }
 
-.py-4 {
-  padding-top: 16px;
-  padding-bottom: 16px;
-}
+        /* Table header styles */
+        th {
+          background-color: #f9fafb;
+          padding: 2px 4px;
+          text-align: left;
+          font-weight: 500;
+          color: #1f2937;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          border-bottom: 1px solid #1f2937;
+        }
 
-/* Table styles */
-.min-w-fit {
-  min-width: fit-content;
-}
+        th.font-bold {
+          font-weight: 700;
+        }
 
-.text-xs {
-  font-size: 0.75rem; /* 12px */
-  line-height: 1rem; /* 16px */
-}
+        /* Table body styles */
+        td {
+          padding: 2px 4px;
+          white-space: nowrap;
+          border-bottom: 1px solid #1f2937;
+          background-color: #ffffff;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-.border {
-  border-width: 1px;
-}
+        h1 {
+          font-size: 1.2rem;
+          margin-bottom: 8px;
+        }
 
-.border-gray-800 {
-  border-color: #1f2937; /* gray-800 */
-}
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .row {
+            flex-direction: column;
+          }
+          .student-table {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 8px;
+          }
+          .student-table:last-child {
+            margin-bottom: 0;
+          }
+        }
 
-/* Table header styles */
-.bg-gray-50 {
-  background-color: #f9fafb; /* gray-50 */
-}
-
-.dark .dark\:bg-gray-800 {
-  background-color: #1f2937; /* gray-800 */
-}
-
-.px-2 {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.py-1 {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.text-gray-800 {
-  color: #1f2937; /* gray-800 */
-}
-
-.dark .dark\:text-gray-300 {
-  color: #d1d5db; /* gray-300 */
-}
-
-.text-gray-500 {
-  color: #6b7280; /* gray-500 */
-}
-
-.uppercase {
-  text-transform: uppercase;
-}
-
-.tracking-wider {
-  letter-spacing: 0.05em;
-}
-
-.border-b {
-  border-bottom-width: 1px;
-}
-
-/* Table body styles */
-.bg-white {
-  background-color: #ffffff;
-}
-
-.dark .dark\:bg-gray-900 {
-  background-color: #111827; /* gray-900 */
-}
-
-.divide-y > :not([hidden]) ~ :not([hidden]) {
-  border-top-width: 1px;
-}
-
-.divide-gray-800 > :not([hidden]) ~ :not([hidden]) {
-  border-color: #1f2937; /* gray-800 */
-}
-
-.whitespace-nowrap {
-  white-space: nowrap;
-}
-
-/* Additional utility classes */
-.col-span-1 {
-  grid-column: span 1 / span 1;
-}
-
-.col-span-3 {
-  grid-column: span 3 / span 3;
-}
+        /* Print styles */
+        @media print {
+          body {
+            padding: 0;
+            font-size: 8px;
+          }
+          
+          .student-table {
+            page-break-inside: avoid;
+          }
+          
+          table {
+            font-size: 0.6rem;
+          }
+        }
     </style>
-
-
-
-
-
-
 </head>
 
 <body>
-    XI Compact Marks Register
-    <div class="">
-        <div class="flex flex-wrap gap-4 overflow-x-auto py-4">
+    <h1>XI Compact Marks Register</h1>
+    <div class="container">
+        @php
+            $studentCount = count($hs_res_studentcrs);
+            $rows = ceil($studentCount / 2);
+        @endphp
 
-            @foreach($hs_res_studentcrs as $hs_res_studentcr)
-            <table class="min-w-fit gap-2 text-xs border border-gray-800">
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                        <th colspan="1"
-                            class="px-2 py-1 text-left font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            SL: {{ $loop->iteration }}, SCR: {{ $hs_res_studentcr->id }}, SDB: {{
-                            $hs_res_studentcr->hs_studentdb_id }}
-                        </th>
-                        <th colspan="3"
-                            class="px-2 py-1 text-left font-bold text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            {{ $hs_res_studentcr->hsStudentDb->name }}
-                        </th>
-                    </tr>
-                    <tr>
-                        <th colspan="1"
-                            class="px-2 py-1 text-left font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            Reg. No
-                        </th>
-                        <th colspan="3"
-                            class="px-2 py-1 text-left font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            {{ $hs_res_studentcr->hsStudentDb->registration_no }}
-                        </th>
-                    </tr>
+        @for($row = 0; $row < $rows; $row++)
+        <div class="row">
+            @for($col = 0; $col < 2; $col++)
+                @php
+                    $index = ($row * 2) + $col;
+                @endphp
+                
+                @if(isset($hs_res_studentcrs[$index]))
+                <div class="student-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="1">
+                                    SL: {{ $index+1 }}, SCR: {{ $hs_res_studentcrs[$index]->id }}, SDB: {{ $hs_res_studentcrs[$index]->hs_studentdb_id }}
+                                </th>
+                                <th colspan="3" class="font-bold">
+                                    {{ $hs_res_studentcrs[$index]->hsStudentDb->name }}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="1">
+                                    Reg. No
+                                </th>
+                                <th colspan="3">
+                                    {{ $hs_res_studentcrs[$index]->hsStudentDb->registration_no }}
+                                </th>
+                            </tr>
+                        </thead>
 
-                </thead>
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Sem 1</th>
+                                <th>Sem 2</th>
+                                <th>Proj/Prac</th>
+                            </tr>
+                        </thead>
 
+                        <tbody>
+                            @foreach($hs_res_studentcrs[$index]->hsStudentdb->hsSubjects as $hsSubject)
+                            <tr>
+                                <td>{{ $hsSubject->hsSubject->name }}</td>
 
-
-
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                        <th
-                            class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            Subject</th>
-                        <th
-                            class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            Sem 1</th>
-                        <th
-                            class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            Sem 2</th>
-                        <th
-                            class="px-2 py-1 text-left font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-800">
-                            Proj/Prac</th>
-                    </tr>
-                </thead>
-
-
-                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-800">
-                    @foreach($hs_res_studentcr->hsStudentdb->hsSubjects as $hsSubject)
-                    <tr>
-                        <td class="px-2 py-1 whitespace-nowrap border-b border-gray-800"> {{ $hsSubject->hsSubject->name
-                            }}</td>
-
-                        @foreach($hs_exam_details2->where('hs_subject_type_id',
-                        $hsSubject->hsSubject->hsSubjectType->id) as $exam_detail)
-                        <td class="px-2 py-1 whitespace-nowrap border-b border-gray-800">
-                            {{ $hs_res_studentcr->hsMarksentries
-                            ->where('hs_subject_id', $hsSubject->hsSubject->id)
-                            ->where('hs_exam_detail_id', $exam_detail->id)
-                            ->first()->obtain_marks ?? '-'
-                            }}
-                        </td>
-
-                        @endforeach
-                        {{-- <td class="px-2 py-1 whitespace-nowrap border-b border-gray-800">
-                            <span
-                                class="px-1 inline-flex leading-5 font-semibold rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">Active</span>
-                        </td> --}}
-
-                    </tr>
-
-                    @endforeach
-                </tbody>
-            </table>
-
-            @endforeach
+                                @foreach($hs_exam_details2->where('hs_subject_type_id',
+                                $hsSubject->hsSubject->hsSubjectType->id) as $exam_detail)
+                                <td>
+                                    {{ $hs_res_studentcrs[$index]->hsMarksentries
+                                    ->where('hs_subject_id', $hsSubject->hsSubject->id)
+                                    ->where('hs_exam_detail_id', $exam_detail->id)
+                                    ->first()->obtain_marks ?? '-'
+                                    }}
+                                </td>
+                                @endforeach
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @endif
+            @endfor
         </div>
+        @endfor
     </div>
 </body>
-
 </html>
