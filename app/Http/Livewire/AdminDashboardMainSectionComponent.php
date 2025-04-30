@@ -68,7 +68,7 @@ class AdminDashboardMainSectionComponent extends Component
 
     public function mount(){
         $this->componentName = request()->route()->getName();
-        $this->studentcrEOYSummary = Studentcr_eoy_summary::where('c_id', 1)->where('s_id', 1)->orderBy('total_ob_marks', 'desc')->get();
+        // $this->studentcrEOYSummary = Studentcr_eoy_summary::where('c_id', 1)->where('s_id', 1)->orderBy('total_ob_marks', 'desc')->get();
         $this->promotionalRules = Promotionalrule::where('session_id', 1)->get();
 
         // $this->history[] = $this->route()->getName();

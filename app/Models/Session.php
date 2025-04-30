@@ -34,6 +34,10 @@ class Session extends Model{
         return $this->hasMany(Section::class);
     }
 
+    public function myclasssections(){
+        return $this->hasMany(Myclasssection::class, 'session_id', 'id');
+    }
+
     public function subjects(){
         return $this->hasMany(Subject::class);
     }

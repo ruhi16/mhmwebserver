@@ -85,9 +85,18 @@
                 <tbody>
                     @foreach($markentries as $markentry)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td style="text-align: left; padding: 5px;">{{ $markentry->studentcr->studentdb->name }}</td>
-                        <td> {{ $markentry->studentcr->myclass->name }}-{{ $markentry->studentcr->section->name }}-{{ $markentry->studentcr->roll_no }}</td>
+                        <td>
+                            {{ $loop->iteration }}
+                            {{-- SCR:{{ $markentry->studentcr->id ?? 'X'}}, SDB:{{ $markentry->studentcr->studentdb->id ?? 'X'}} --}}
+                        </td>
+                        <td style="text-align: left; padding: 5px;">
+                            {{ $markentry->studentcr->studentdb->name  ?? 'X'}}
+                            {{-- <br/>{{ $markentry->studentcr->studentdb->studentid  ?? 'X'}} --}}
+                            
+                        </td>
+                        <td>                            
+                            {{ $markentry->studentcr->myclass->name ?? 'X'}}-{{ $markentry->studentcr->section->name ?? 'X'}}-{{ $markentry->studentcr->roll_no ?? 'X'}}
+                        </td>
                        
                         @if($myclassSection->myclass->id > 4)
                             <td>{{ $markentry->total/2 }}</td>

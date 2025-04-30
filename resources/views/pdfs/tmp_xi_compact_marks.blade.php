@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XI Compact Marks Register</title>
+
     <style type="text/css">
         /* Base styles */
         body {
@@ -109,6 +110,7 @@
           }
         }
     </style>
+    
 </head>
 
 <body>
