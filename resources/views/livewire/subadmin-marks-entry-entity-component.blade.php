@@ -97,6 +97,8 @@
                         ? ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks >= 0 ? 
                         $marksentry->where('studentcr_id', $studentcr->id)->first()->marks : 'AB') : '--' 
                     }} --}}
+                     {{-- {{ $marksentry->where('studentcr_id', $studentcr->id) ?? 'x' }}
+                     SCRID: {{ $studentcr->id }}, Marks: {{ $marksentry }} --}}
                     {{ 
                         ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks ?? false)
                         ? ($marksentry->where('studentcr_id', $studentcr->id)->first()->marks < 0 

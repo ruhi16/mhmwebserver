@@ -14,8 +14,8 @@ class SubAdminController extends Controller
 
     public function dashboard(){
         $exams = Exam::all();
-        $myclassSections = Myclasssection::all();
-        $myclassSubjects = Myclasssubject::all();
+        $myclassSections = Myclasssection::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
+        $myclassSubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
         $myclassTeachers = Myclassteacher::all();
         
         return view('components.subadmin-dashboard', [

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Session;
+use App\Models\Myclasssubject;
 
 class Myclass extends Model
 {
@@ -25,7 +27,8 @@ class Myclass extends Model
     }
 
     public function examdetails(){
-        return $this->hasMany(Examdetails::class, 'myclass_id', 'id');
+        return $this->hasMany(Examdetails::class, 'myclass_id', 'id')
+            ->where('session_id', Session::currentlyActive()->id);
         // 'myclass_id' is the foreign key in the Examdetails table
         // 'id' is the primary key in the Myclass table
     }
@@ -37,9 +40,11 @@ class Myclass extends Model
     }
 
     public function myclasssubjects(){
-        return $this->hasMany(Myclasssubject::class, 'myclass_id', 'id');
+        return $this->hasMany(Myclasssubject::class, 'myclass_id', 'id')
+            ->where('session_id', Session::currentlyActive()->id);
         // 'myclass_id' is the foreign key in the Myclasssubject table      
         // 'id' is the primary key in the Myclass table
+        
     }
 
 

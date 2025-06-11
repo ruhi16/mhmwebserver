@@ -72,7 +72,7 @@
             @endforeach
     
         @endif
-
+kkk
         <livewire:admin-teacher-wise-marks-entry-links-component :teacher_id="auth()->user()->teacher->id" >
 
         {{-- <livewire:admin-teacher-wise-marks-entry-links-component> --}}

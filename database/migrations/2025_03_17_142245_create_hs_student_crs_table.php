@@ -25,6 +25,8 @@ class CreateHsStudentCrsTable extends Migration
             $table->string('result')->nullable();
             $table->string('description')->nullable();
             $table->string('crstatus')->nullable();
+            $table->string('qr_img_ref')->nullable();
+            $table->string('self_img_ref')->nullable();
 
             $table->integer('next_class_id')->nullable();
             $table->integer('next_section_id')->nullable();  

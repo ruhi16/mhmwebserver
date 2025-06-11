@@ -22,17 +22,16 @@ class AdminAnsscrDistributionComponent extends Component
     {
         $this->myclssec_id = $myclassSection_id;
 
-        $this->myclssec = Myclasssection::where(
-            'id',
-            $myclassSection_id
-        )->first();
+        $this->myclssec = Myclasssection::find($myclassSection_id );
 
         $this->exams = Exam::all();
         $this->examtypes = Examtype::all();
-        $this->myclasssubjects = Myclasssubject::where('myclass_id', $this->myclssec->myclass_id)
+        $this->myclasssubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclssec->myclass_id)
             ->orderBy('examtype_id', 'asc')->get();
 
-        $this->answerscriptdistributions = Answerscriptdistribution::where('myclass_id', $this->myclssec->myclass_id)
+        $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclssec->myclass_id)
             ->where('section_id', $this->myclssec->section_id)
             ->get();
 

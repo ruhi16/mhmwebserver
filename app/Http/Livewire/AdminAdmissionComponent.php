@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Myclasssection;
+use App\Models\Session;
 use App\Models\Studentcr;
 use App\Models\Studentdb;
 use Livewire\Component;
@@ -19,17 +20,20 @@ class AdminAdmissionComponent extends Component
     public function mount($myclassSection_id){
         $this->myclssec_id = $myclassSection_id;        
 
-        $this->myclssec = Myclasssection::where('id', $myclassSection_id)->first();
+        $this->myclssec = Myclasssection::find($myclassSection_id);
                 
         $this->studentdbs = Studentdb::where('stclass_id', $this->myclssec->myclass_id)
-            ->where('stsection_id', $this->myclssec->section_id)->get();
+            ->where('session_id', Session::currentlyActive()->id)
+            ->where('stsection_id', $this->myclssec->section_id)
+            ->get();
 
-            $this->studentdbsNotInStudentcrs = Studentdb::where('stclass_id', $this->myclssec->myclass_id)
+            $this->studentdbsNotInStudentcrs = Studentdb::where('session_id', Session::currentlyActive()->id)
+                ->where('stclass_id', $this->myclssec->myclass_id)
                 ->where('stsection_id', $this->myclssec->section_id)
                 ->whereNotIn('id', function ($query) {
                     $query->select('studentdb_id')
                       ->from('studentcrs');
-            })->get();
+                })->get();
 
         $this->updatedStudentcrs();
         $this->updatedStudentdbsNotInStudentcrs();
@@ -39,16 +43,18 @@ class AdminAdmissionComponent extends Component
     }
 
     public function updatedStudentdbsNotInStudentcrs(){
-        $this->studentdbsNotInStudentcrs = Studentdb::where('stclass_id', $this->myclssec->myclass_id)
+        $this->studentdbsNotInStudentcrs = Studentdb::where('session_id', Session::currentlyActive()->id)
+                ->where('stclass_id', $this->myclssec->myclass_id)
                 ->where('stsection_id', $this->myclssec->section_id)
                 ->whereNotIn('id', function ($query) {
                     $query->select('studentdb_id')
                       ->from('studentcrs');
-            })->orderBy('remarks')->get();
+                })->orderBy('remarks')->get();
     }
 
     public function updatedStudentcrs(){
-        $this->studentcrs = Studentcr::where('myclass_id', $this->myclssec->myclass_id)
+        $this->studentcrs = Studentcr::where('session_id', Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclssec->myclass_id)
             ->where('section_id', $this->myclssec->section_id)
             ->orderBy('roll_no', 'asc')
             ->get();

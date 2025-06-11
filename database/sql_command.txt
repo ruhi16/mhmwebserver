@@ -1,0 +1,12 @@
+ALTER TABLE your_table_name 
+ADD UNIQUE INDEX unique_code_field_unique (unique_code_field);
+
+LEFT(REPLACE(UUID(), '-', ''), 16)
+
+
+UPDATE `hs_student_dbs` SET `uuid_auto` = LEFT(REPLACE(UUID(), '-', ''), 16) 
+WHERE `hs_student_dbs`.`id` = 5;
+
+UPDATE `hs_student_dbs` SET `uuid_auto` = upper(LEFT(REPLACE(UUID(), '-', ''), 8))
+WHERE `hs_student_dbs`.`id` >= 5;
+SELECT * FROM `hs_student_dbs` WHERE 1

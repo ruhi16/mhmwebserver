@@ -41,19 +41,22 @@ class SubadminMarksEntryEntityComponent extends Component
         $this->myclassSubject = Myclasssubject::find($myclassSubject_id);
         $this->examdetail = Examdetails::find($this->examdetail_id);
 
-        $this->studentcrs = Studentcr::where('myclass_id', $this->myclassSection->myclass_id)
+        $this->studentcrs = Studentcr::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclassSection->myclass_id)
             ->where('section_id', $this->myclassSection->section_id)
             ->orderBy('roll_no', 'asc')
             ->get();
 
-        $this->ansscriptdistribution = Answerscriptdistribution::where('myclass_id', $this->myclassSection->myclass_id)
+        $this->ansscriptdistribution = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclassSection->myclass_id)
             ->where('section_id', $this->myclassSection->section_id)
             ->where('subject_id', $this->myclassSubject->subject_id)
             ->where('examdetail_id', $this->examdetail_id)
             ->get();
             
-        $this->marksentry = Marksentry::where('myclasssection_id', $this->myclassSection_id)
-            ->where('examdetail_id', $this->examdetail_id)            
+        $this->marksentry = Marksentry::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclasssection_id', $this->myclassSection_id)
+            ->where('examdetail_id', $this->examdetail_id)
             ->where('myclasssubject_id', $this->myclassSubject_id)
             ->get();
 
@@ -108,19 +111,28 @@ class SubadminMarksEntryEntityComponent extends Component
 
 
     public function submitMarks($studentcr_id, $mark_value=-999){
+        // dd($studentcr_id, $mark_value, 
+        //     $this->myclassSection_id, 
+        //     $this->myclassSubject_id, 
+        //     $this->examdetail_id,
+        //     \App\Models\Session::currentlyActive()->id
+        // );
         
         try {
+            
             $marksentry = Marksentry::updateOrCreate([
-                'examdetail_id' => $this->examdetail_id,
-                'myclasssection_id' => $this->myclassSection_id,
-                'myclasssubject_id' => $this->myclassSubject_id,
+                'examdetail_id' => (int) $this->examdetail_id,
+                'myclasssection_id' => (int) $this->myclassSection_id,
+                'myclasssubject_id' => (int) $this->myclassSubject_id,
                 'studentcr_id' => (int) $studentcr_id,
-                'session_id' => 1,
+                'session_id' => (int) \App\Models\Session::currentlyActive()->id,
                 'school_id' => 1,
             ],[
                 'marks' => (double) $mark_value,
                 'status' => 'Done',
             ]);
+            // dd($marksentry);
+
 
             // $marksentry->marks = (double) $mark_value;            
             // $marksentry->status = 'Done';
@@ -132,8 +144,9 @@ class SubadminMarksEntryEntityComponent extends Component
             session()->flash('error', 'Error saving marks: ' . $e->getMessage());
         }
 
-        $this->marksentry = Marksentry::where('myclasssection_id', $this->myclassSection_id)
-            ->where('examdetail_id', $this->examdetail_id)            
+        $this->marksentry = Marksentry::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclasssection_id', $this->myclassSection_id)
+            ->where('examdetail_id', $this->examdetail_id)
             ->where('myclasssubject_id', $this->myclassSubject_id)
             ->get();
 

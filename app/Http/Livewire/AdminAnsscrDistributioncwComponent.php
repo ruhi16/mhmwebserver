@@ -43,7 +43,8 @@ class AdminAnsscrDistributioncwComponent extends Component
     public function resetToNull()
     {
         $this->selectedTeacher = null;
-        $this->examdetails = Examdetails::where('myclass_id', $this->myclass_id)
+        $this->examdetails = Examdetails::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclass_id)
             ->where('exam_id', $this->exam_id)
             ->orderBy('subject_id')
             ->get();
@@ -59,14 +60,12 @@ class AdminAnsscrDistributioncwComponent extends Component
         $this->exam_id = $exam_id;
 
         $this->myclass = Myclass::where('id', $myclass_id)->get();
-        $this->myclasssections = Myclasssection::where(
-            'myclass_id',
-            $myclass_id
-        )->get();
-        $this->myclasssubjects = Myclasssubject::where(
-            'myclass_id',
-            $myclass_id
-        )
+        $this->myclasssections = Myclasssection::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $myclass_id)
+            ->get();
+
+        $this->myclasssubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)    
+            ->where('myclass_id', $myclass_id)
             ->orderBy('examtype_id', 'asc')
             ->get();
 
@@ -75,15 +74,14 @@ class AdminAnsscrDistributioncwComponent extends Component
         $this->exammodes = Exammode::all();
         $this->teachers = Teacher::all();
 
-        $this->examdetails = Examdetails::where('myclass_id', $myclass_id)
+        $this->examdetails = Examdetails::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $myclass_id)
             ->where('exam_id', $exam_id)
             ->orderBy('subject_id')
             ->get();
 
-        $this->answerscriptdistributions = Answerscriptdistribution::where(
-            'myclass_id',
-            $myclass_id
-        )
+        $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $myclass_id)
             ->where('exam_id', $exam_id)
             ->get();
     }
@@ -91,10 +89,8 @@ class AdminAnsscrDistributioncwComponent extends Component
     public function updateSelectedTeacher($teacher_id)
     {
         session()->flash('message', 'Data changed successfully!');
-        $this->answerscriptdistributions = Answerscriptdistribution::where(
-            'myclass_id',
-            $this->myclass_id
-        )
+        $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclass_id)
             ->where('exam_id', $this->exam_id)
             ->get();
     }
@@ -124,6 +120,7 @@ class AdminAnsscrDistributioncwComponent extends Component
         ]);
 
         $this->examdetails = $this->examdetails
+                ->where('session_id', \App\Models\Session::currentlyActive()->id)
                 ->where('subject_id', $this->subject_id);
         // dd($this->examdetails);
         // dd(
@@ -144,7 +141,8 @@ class AdminAnsscrDistributioncwComponent extends Component
         // $examdetails_id
 
         // dd($this->examdetails);
-        $exdetail = Examdetails::where('exam_id', $this->exam_id)            
+        $exdetail = Examdetails::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('exam_id', $this->exam_id)            
             ->where('myclass_id', $this->myclass_id)
             ->where('examtype_id', $this->examtype_id)
             ->where('exammode_id', $this->exammode_id)
@@ -157,7 +155,7 @@ class AdminAnsscrDistributioncwComponent extends Component
             $answerscriptdistribution = Answerscriptdistribution::firstOrCreate(
                 [
                     'school_id' => 1,
-                    'session_id' => 1,
+                    'session_id' => \App\Models\Session::currentlyActive()->id,
                     'examdetail_id' => $exdetail->id,
                     'exam_id' => $this->exam_id,
                     'examtype_id' => $this->examtype_id,
@@ -171,10 +169,8 @@ class AdminAnsscrDistributioncwComponent extends Component
             $answerscriptdistribution->teacher_id = $this->selectedTeacher;
             $answerscriptdistribution->save();
 
-            $this->answerscriptdistributions = Answerscriptdistribution::where(
-                'myclass_id',
-                $this->myclass_id
-            )
+            $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+                ->where('myclass_id', $this->myclass_id )
                 ->where('exam_id', $this->exam_id)
                 ->get();
 

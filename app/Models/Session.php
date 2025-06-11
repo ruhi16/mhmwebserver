@@ -78,6 +78,15 @@ class Session extends Model{
         return $this->hasMany(Marksentry::class, 'session_id', 'id');
     }
 
+    public function myclassteachers(){
+        return $this->hasMany(Myclassteacher::class, 'session_id', 'id');
+        // 'section_id' is the foreign key in the Myclassschedule table
+        // 'id' is the primary key in the Section table
+    }
+
+
+    // for Routine purpose
+
     public function myclasssectionteachers(){
         return $this->hasMany(Myclasssectionteacher::class, 'session_id', 'id');
         // 'section_id' is the foreign key in the Myclassschedule table

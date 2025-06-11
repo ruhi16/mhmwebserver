@@ -1,12 +1,12 @@
 <div>    
     @section('header')
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ 'About: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}
+            {{ 'Admin: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}
         </h2>        
     @endsection
     
     <div class="min-w-full mx-auto bg-green-300 text-center text-4xl font-bold my-4">
-        Admin XX Answer Script Distribution for <span class="text-red-500">Class: {{ $myclssec->myclass->name }}</span> &
+        Admin: Answer Script Distribution for <span class="text-red-500">Class: {{ $myclssec->myclass->name }}</span> &
         <span class="text-red-500">Section: {{ $myclssec->section->name }}</span>
     </div>
 
@@ -19,7 +19,7 @@
 
                 @foreach ($exams as $exam)
                     <th class="border border-gray-300 px-4 py-2">{{ $exam->name }}
-                        -{{ $myclasssubjects->where('examtype_id', 2)->count() }}
+                        {{-- -{{ $myclasssubjects->where('examtype_id', 2)->count() }} --}}
                     </th>
                     {{-- @foreach ($examtypes as $examtype)
                         <th class="border border-gray-300 px-4 py-2">{{ $examtype->name }}</th>                        

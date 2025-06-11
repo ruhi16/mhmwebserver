@@ -12,6 +12,13 @@ class HsSession extends Model
     protected $table = 'hs_sessions';
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+   // local scope
+    public function scopeCurrentlyActive($query){
+        return $query->where('status', 'ACTIVE')->first();
+    }
+
+
+
     public function hsSubjects(){
         return $this->hasMany(HsSubject::class, 'hs_session_id', 'id');
         // 'hs_session_id' is the foreign key in the HsSubject table

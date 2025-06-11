@@ -22,6 +22,7 @@ use App\Http\Livewire\AdminMyclassSectionIndividualMarksheetComponent;
 use App\Http\Livewire\AdminTeacherWiseMarksEntryLinksComponent;
 use App\Http\Livewire\AdminUserPreviledgeControlComponent;
 use App\Http\Livewire\GeneralStudentDetailsComponent;
+use App\Http\Livewire\HssectionStudentcrIdcardComp;
 use App\Http\Livewire\SubadminMarksEntryComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
@@ -192,6 +193,11 @@ Route::group(
         
         Route::get('/generate-sec-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportSecMarksheetPdf')
             ->name('livewire.generate-sec-marksheetpdf');
+
+
+        // HS Section Students Routes
+        Route::get('/hssection/studentcr-idcard/{uuid}/{scr_id}', HssectionStudentcrIdcardComp::class . '@exportIdcard')
+            ->name('livewire.hssection-studentcr-idcard');
     }
 );
 

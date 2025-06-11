@@ -9,12 +9,7 @@ class Marksentry extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    protected $fillable = [
-        'hs_exam_detail_id', 'hs_student_cr_id', 'hs_subject_id', 'hs_class_id', 'hs_semester_id' ,
-        'obtain_marks', 'gress_marks', 'details', 'is_active', 'status', 'remarks', 'hs_session_id', 'school_id', 
-        
-    ];
-
+    
 
     public function studentcr(){
         return $this->belongsTo(Studentcr::class, 'studentcr_id', 'id');

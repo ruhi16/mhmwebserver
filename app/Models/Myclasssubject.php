@@ -10,6 +10,9 @@ class Myclasssubject extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+
+
+    
     public function myclass(){
         return $this->belongsTo(Myclass::class, 'myclass_id', 'id');
         // 'myclass_id' is the foreign key in the Myclasssubject table

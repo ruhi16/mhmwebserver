@@ -26,9 +26,12 @@ class AdminTeacherWiseMarksEntryStatusComponent extends Component
 
 
     public function initialize(){
-        $this->answerscriptdistributions = Answerscriptdistribution::all();
-        $this->myclasssections = Myclasssection::all();
-        $this->myclasssubjects = Myclasssubject::all();
+        $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->get();
+        $this->myclasssections = Myclasssection::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->get();
+        $this->myclasssubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->get();
         $this->teachers = Teacher::all();
     }
 

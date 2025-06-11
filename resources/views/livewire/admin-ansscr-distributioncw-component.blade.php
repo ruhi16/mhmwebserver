@@ -3,16 +3,14 @@
         {{-- <x-slot:header> --}}
             @section('header')
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ 'About: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}
+                {{ 'About: ' . __(auth()->user()->name . ': ' . __(auth()->user()->teacher->name)) }}ddd
             </h2>
-            <h2>
-                {{-- xxxAdmin Admission Component : {{ $myclssec_id }} --}}
-            </h2>
+            
             @endsection
             {{-- </x-slot> --}}
             <div class="min-w-full mx-auto bg-green-300 text-center text-4xl font-bold my-4">
                 Admin Answer Script Distribution <span class="text-red-500">Exam: {{ $exam->name }} </span> wise
-                <span class="text-red-500">Class: {{ $myclass->first()->name }}</span>
+                <span class="text-red-500">Class: {{ $myclass->first()->name }}</span> xxx
             </div>
 
             {{-- message: --}}

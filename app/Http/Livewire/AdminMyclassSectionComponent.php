@@ -8,6 +8,7 @@ use App\Models\Myclasssection;
 use App\Models\Section;
 use App\Models\Teacher;
 use App\Models\Myclassteacher;
+use App\Models\Session;
 use Livewire\Component;
 
 class AdminMyclassSectionComponent extends Component
@@ -29,6 +30,8 @@ class AdminMyclassSectionComponent extends Component
     public $selectedSecton = null;
     public $selectedTeacher = null;
 
+    public $activeSession;
+
     public function resetToNull()
     {
         $this->selectedSecton = null;
@@ -38,10 +41,15 @@ class AdminMyclassSectionComponent extends Component
 
     public function mount()
     {
-        $this->myclassSections = Myclasssection::all();
-        $this->myclassteachers = Myclassteacher::all();
-        $this->myclasses = Myclass::all();
-        $this->sections = Section::all();
+        $this->activeSession = Session::currentlyActive();
+
+        $this->myclassSections = $this->activeSession->myclasssections; //Myclasssection::all();
+        $this->myclassteachers = $this->activeSession->myclassteachers; //Myclassteacher::all();
+        // dd($this->activeSession, $this->myclassteachers);
+        // $this->myclasses = $this->activeSession->myclasssections; // Myclass::all();
+        // dd($this->activeSession, $this->myclasses);
+
+        // $this->sections = Section::all();
         $this->teachers = Teacher::all();
         $this->exams = Exam::all();
     }

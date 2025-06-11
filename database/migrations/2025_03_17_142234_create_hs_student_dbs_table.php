@@ -16,6 +16,7 @@ class CreateHsStudentDbsTable extends Migration
         Schema::create('hs_student_dbs', function (Blueprint $table) {
             $table->increments('id'); 
             $table->string('studentid')->nullable();
+            $table->string('pen')->nullable();
             $table->string('uuid_auto')->nullable();
             
             $table->unsignedinteger('admBookNo');
@@ -50,6 +51,7 @@ class CreateHsStudentDbsTable extends Migration
             $table->string('dist')->nullable();
             $table->string('pin')->nullable();
             $table->string('mobl')->nullable();
+            $table->string('mobl2')->nullable();
             
             $table->string('ssex')->nullable();
             $table->string('phch')->nullable();

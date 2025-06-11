@@ -19,6 +19,13 @@ class AdminDashboardMainSectionComponent extends Component
 
     public $promotionalRules;
 
+    public $studentsStatus = [
+        'item1' => 'running',
+        'item2' => 'promotion-detention',
+        'item3' => 'admission',
+    ], 
+    $studentsStatusSelected = 'item1';
+
     public $items = [
         'item1' => [
             'title' => 'Dashboard',
@@ -29,23 +36,23 @@ class AdminDashboardMainSectionComponent extends Component
             'component' => 'admin-item-two-component',
         ],
         'item3' => [
-            'title' => 'Class Sec Tasks',
+            'title' => 'Class Summary',
             'component' => 'admin-item-three-component',
         ], 
         'item4' => [
+            'title' => 'Class Sec Tasks',
+            'component' => 'admin-item-three-component',
+        ], 
+        'item5' => [
             'title' => 'Answer Script',
             'component' => 'admin-item-four-component',
         ],
-        'item5' => [
+        'item6' => [
             'title' => 'Finalize Status',
             'component' => 'admin-item-five-component',
         ],
-        'item6' => [
-            'title' => 'HS Section',
-            'component' => 'admin-item-six-component',
-        ],
         'item7' => [
-            'title' => 'Teacher Entry',
+            'title' => 'HS Section',
             'component' => 'admin-item-six-component',
         ],
         'item8' => [
@@ -53,14 +60,18 @@ class AdminDashboardMainSectionComponent extends Component
             'component' => 'admin-item-six-component',
         ],
         'item9' => [
+            'title' => 'Teacher Entry',
+            'component' => 'admin-item-six-component',
+        ],
+        'item10' => [
             'title' => 'Notice Board',
             'component' => 'admin-item-seven-component',
         ],
-        'item10' => [
+        'item11' => [
             'title' => 'Voter List 2024',
             'component' => 'admin-item-eight-component',
         ],
-        'item11' => [
+        'item12' => [
             'title' => '---',
             'component' => 'admin-item-nine-component',
         ],
@@ -88,6 +99,10 @@ class AdminDashboardMainSectionComponent extends Component
 
     public function selectedItem($key){
         $this->selectedItem = $key;
+    }
+
+    public function selectStudentsStatus($key){
+        $this->studentsStatusSelected = $key;
     }
 
 
