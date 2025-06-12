@@ -15,6 +15,16 @@ class HssectionStudentcrIdcardComp extends Component
 
     }
 
+    public function exportHsStudentGeneralDetails(Request $request){
+
+        $hsSturentcr = HsStudentCr::findOrFail($request->scr_id);
+        // $str =  $hsSturentcr->hsStudentdb->name;
+        // return $str;
+        return view('livewire.hssection-studentcr-idcard-info-comp', [
+            'hsSturentcr' => $hsSturentcr
+        ]);
+    }
+
 
     public function exportIdcard(Request $request, $uuid, $scr_id){
         $this->uuid = $request->uuid;

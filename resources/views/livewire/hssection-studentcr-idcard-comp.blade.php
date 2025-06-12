@@ -1,5 +1,5 @@
 <div>
-    A good traveler has no fixed plans and is not intent upon arriving.
+    {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
     Hs Section Student Id Card {{$uuid}}-{{$hsStudentcr->id}}
 {{-- </div> --}}
 
@@ -57,7 +57,7 @@
 
     .header h1 {
         margin: 0;
-        font-size: 1.8em;
+        font-size: 1.58em;
         font-weight: bold;
     }
 
@@ -216,35 +216,42 @@
     <div class="container">
         <div class="card" id="idcard">
             <div class="header">
-                <h1>LITTLE FLOWER SCHOOL</h1>
+                <h1>Manikchak High Madrasah(H.S)</h1>
                 <div class="header-details">
                     <div class="logo">
                         <img src="{{ asset('mhm_logo.png')}}" alt="LFS Logo">
                     </div>
                     <div class="school-info">
-                        <div class="english-medium">ENGLISH MEDIUM</div>
-                        <div class="estd">Estd. 2019</div>
-                        <div class="estd"> {{ asset('lfs_logo.png') }} </div>
+                        {{-- <div class="english-medium">ENGLISH MEDIUM</div> --}}
+                        {{-- <div class="estd">Estd. 1921</div> --}}
+                        {{-- <div class="estd"> {{ asset('lfs_logo.png') }} </div> --}}
+                        <div class="address">
+                            Manikchak * Lalgola * Murshidabad
+                        </div>
+                        <div class="contact">
+                            Office Contact: 9064070076
+                        </div>
+
                     </div>
                 </div>
-                <div class="address">
-                    Dayanagar Bahaliapara * Bhagwangola * MSD
+                {{-- <div class="address">
+                    Manikchak * Lalgola * Murshidabad
                 </div>
                 <div class="contact">
                     Office Contact: 9064070076
-                </div>
+                </div> --}}
             </div>
             @php
             use SimpleSoftwareIO\QrCode\Facades\QrCode;
-            // $qrstring = url('studentcr-profile/'.$studentcr->id );
+            $qrstring = url('hs-sections'.'/'. $hsStudentcr->hsStudentDb->uuid_auto.'/'.$hsStudentcr->id );
             @endphp
 
             <h2 align="center"></h2>
             
-            {{-- <div class="photo-container">
+            <div class="photo-container">
                 <div class="photo-placeholder-main">
-                    <img src="{{ Storage::url($studentcr->studentdb->img_ref_profile) }}" alt="Image"
-                        class="w-10 h-10 rounded-full">
+                    {{-- <img src="{{ Storage::url($hsStudentcr->hsStudentdb->img_ref_profile) }}" alt="Image" class="w-10 h-10 rounded-full"> --}}
+                    <img src="{{ url('prof_img.png') }}" alt="Image" class="w-10 h-10 rounded-full">
                 </div>
                 <div class="photo-placeholder">
                     {!! QrCode::size(80)->generate($qrstring) !!}
@@ -257,61 +264,64 @@
             <div class="details">
                 <div class="detail-row">
                     <div class="name">NAME: </div>
-                    <div class="detail-value"> {{ $studentcr->studentdb->name }}</div>
+                    <div class="detail-value"> {{ $hsStudentcr->hsStudentdb->name }}</div>
                 </div>
+                
                 <div class="detail-row">
                     <div class="detail-label">Inst. Reg. No.:</div>
-                    <div class="detail-value other">{{ $studentcr->studentdb->uuid_auto }}</div>
+                    <div class="detail-value other">{{ $hsStudentcr->hsStudentdb->uuid_auto }}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">C/O.: </div>
-                    <div class="detail-value other"> {{ $studentcr->studentdb->fname }}</div>
+                    <div class="detail-value other"> {{ $hsStudentcr->hsStudentdb->fname }}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">DOB:</div>
-                    <div class="detail-value other"> {{date("d-m-Y", strtotime($studentcr->studentdb->dob)) }}</div>
+                    <div class="detail-value other"> {{date("d-m-Y", strtotime($hsStudentcr->hsStudentdb->dob)) }}</div>
                     <div class="detail-label">Gender:</div>
-                    <div class="detail-value other"> {{ $studentcr->studentdb->ssex }}</div>
+                    <div class="detail-value other"> {{ $hsStudentcr->hsStudentdb->ssex }}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Class:</div>
-                    <div class="detail-value other">{{ $studentcr->myclass->name }}</div>
+                    <div class="detail-value other">{{ $hsStudentcr->hsClass->name }}</div>
                     <div class="detail-label">Sec:</div>
-                    <div class="detail-value other">{{ $studentcr->section->name }}</div>
+                    <div class="detail-value other">{{ $hsStudentcr->hsSection->name }}</div>
                     <div class="detail-label">Roll:</div>
-                    <div class="detail-value other">{{ $studentcr->roll_no }}</div>
+                    <div class="detail-value other">{{ $hsStudentcr->roll_no }}</div>
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Address:</div>
-                    <div class="detail-value other">{{ trim($studentcr->studentdb->vill1) }}, {{
-                        trim($studentcr->studentdb->post) }} </div>
+                    <div class="detail-value other">{{ trim($hsStudentcr->hsStudentdb->vill1) }}, {{
+                        trim($hsStudentcr->hsStudentdb->post) }} </div>
                     
 
                 </div>
                 <div class="detail-row">
                     
-                    <div class="detail-value other">{{ trim($studentcr->studentdb->pstn) }}, {{
-                        trim($studentcr->studentdb->dist) }}, {{ trim($studentcr->studentdb->pin) }} </div>
+                    <div class="detail-value other">{{ trim($hsStudentcr->hsStudentdb->pstn) }}, {{
+                        trim($hsStudentcr->hsStudentdb->dist) }}, {{ trim($hsStudentcr->hsStudentdb->pin) }} </div>
 
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">Parents Mob:</div>
-                    <div class="detail-value other">{{ trim($studentcr->studentdb->mobl1) }} </div>
+                    <div class="detail-value other">{{ trim($hsStudentcr->hsStudentdb->mobl) }},  {{ trim($hsStudentcr->hsStudentdb->mobl2) }} </div>
 
                 </div>
             </div>
-
+            
             <div class="signature">
                 
-                <img src="{{ Storage::url('hm_sign.jpg')}}" alt="Signature" width="100" height="20">
+                {{-- <img src="{{ Storage::url('hm_sign.png')}}" alt="Signature" width="100" height="20"> --}}
+                <img src="{{ url('hm_sign.png')}}" alt="Signature" width="100" height="20">
                 <div class="signature-label">Signature</div>
-                <div class="signature-label">Head of Institution</div> --}}
+                <div class="signature-label">Head of Institution</div>
             </div>
             
         </div>
         
 
-        {{-- <div class="card">
+        {{-- 
+        <div class="card">
             <div class="header">
                 <h1>LITTLE FLOWER SCHOOL</h1>
                 <div class="header-details">
@@ -377,7 +387,8 @@
                 <img src="https://via.placeholder.com/100x40" alt="Signature">
                 <div class="signature-label">Head of Institution</div>
             </div>
-        </div> --}}
+        </div> 
+        --}}
 
 
 

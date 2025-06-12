@@ -108,7 +108,7 @@
                     <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Parent's Name</th>
                     <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">QR Code</th>                    
                     <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Action</th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Action</th>                    
+                    {{-- <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Action</th>                     --}}
                     
                 </tr>
             </thead>
@@ -144,16 +144,16 @@
                     
                     </td>
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        <button wire:click="generateQRCode({{ $hsStudentcr->id }})" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                        {{-- <button wire:click="generateQRCode({{ $hsStudentcr->id }})" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
                             Generate QR Code
-                        </button>
+                        </button> --}}
                     </td>    
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mx-2" 
+                        {{-- <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mx-2" 
                             wire:click="generateIdCard({{ $hsStudentcr->id }})" >
                             Gen Id Card
-                        </button>
-                        Uid:{{$hsStudentcr->hsStudentdb->uuid_auto}}
+                        </button> --}}
+                        {{-- Uid:{{$hsStudentcr->hsStudentdb->uuid_auto}} --}}
                         <a href="{{ route('livewire.hssection-studentcr-idcard', ['uuid' => $hsStudentcr->hsStudentdb->uuid_auto ,'scr_id' => $hsStudentcr->id]) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mx-2">
                             Download Id Card
                         </a>

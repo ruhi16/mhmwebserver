@@ -27,6 +27,7 @@ use App\Http\Livewire\SubadminMarksEntryComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
+use App\Models\HsStudentCr;
 use App\Models\Notice;
 use App\Models\Studentcr;
 use App\Models\Studentvl;
@@ -250,6 +251,15 @@ Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', Admi
 
 // Route::get('/generate-student-details/{uuid}/{scr_id}', GeneralStudentDetailsComponent::class . '@exportStudentDetails')
 //         ->name('livewire.generate-student-details');
+
+// http://127.0.0.1:8000/hs-sections/5A7216A8/243
+Route::get('/hs-sections/{uuid}/{scr_id}', HssectionStudentcrIdcardComp::class . '@exportHsStudentGeneralDetails');
+
+// function(Request $request){
+//     $hsSturentcr = HsStudentCr::findOrFail($request->scr_id);
+//     $str =  $hsSturentcr->hsStudentdb->name;
+//     return $str;
+// });
 
 Route::get('/generate-student-details/{uuid}/{scr_id}', function(Request $request){
     // dd('generate-student-details', $request->uuid, $request->scr_id);
