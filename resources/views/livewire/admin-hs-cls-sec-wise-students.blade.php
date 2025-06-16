@@ -18,6 +18,7 @@
 
     {{-- HS_StudentDB Records --}}
     <div class="overflow-x-auto">
+        Active Class: {{ $hsClassId ?? 'N/A' }}
         <table class="min-w-full border-collapse bg-white shadow-sm rounded-lg">
             <thead class="bg-gray-100">
                 <tr>
@@ -93,80 +94,6 @@
     {{-- End of HS_StudentDB Records --}}    
 
     
-
-    
-    <div class="overflow-x-auto">
-        <table class="min-w-full border-collapse bg-white shadow-sm rounded-lg">
-            <thead class="bg-gray-100">
-                <tr>
-
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Sl</th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">SCRID</th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Picture</th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Name-DOB-Pen-RegNo</th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Cls-Sec-Sem-Roll</th>                    
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Parent's Name</th>
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">QR Code</th>                    
-                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Action</th>
-                    {{-- <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Action</th>                     --}}
-                    
-                </tr>
-            </thead>
-            <tbody>                
-                @foreach($hsStudentcrs as $hsStudentcr)
-                <tr>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">{{ $loop->iteration }}</td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">{{ $hsStudentcr->id ?? 'X' }}-{{ $hsStudentcr->hsStudentdb_id ?? 'X'}}</td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">Image</td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        Name:{{ $hsStudentcr->hsStudentdb->name ?? 'X'}}<br/>
-                        DOB:{{ $hsStudentcr->hsStudentdb->dob ?? 'X'}}<br/>
-                        PEN:{{ $hsStudentcr->hsStudentdb->pen ?? 'X'}}<br/>
-                        REG:{{ $hsStudentcr->hsStudentdb->registration_no ?? 'X'}}<br/>
-                    </td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        {{ $hsStudentcr->hsClass->name ?? 'X'}}<br/>
-                        {{ $hsStudentcr->hsSection->name ?? 'X'}}<br/>
-                        {{ $hsStudentcr->hsSemester->name ?? 'X'}}<br/>
-                        {{ $hsStudentcr->roll_no ?? 'X'}}<br/>
-                    </td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        {{ $hsStudentcr->hsStudentdb->fname ?? 'X'}}<br/>
-                        {{ $hsStudentcr->hsStudentdb->mname ?? 'X'}}<br/>
-                        {{ $hsStudentcr->hsStudentdb->mobl ?? 'X'}}<br/>
-                        {{ $hsStudentcr->hsStudentdb->mobl2 ?? 'X'}}<br/>
-                        
-                    </td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        
-                        @php $qr_url_ref = url('/img'). $hsStudentcr->qr_img_ref @endphp
-                        <img src="{{ $qr_url_ref }}" alt="QR Code" width="100" height="100">
-                    
-                    </td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        {{-- <button wire:click="generateQRCode({{ $hsStudentcr->id }})" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                            Generate QR Code
-                        </button> --}}
-                    </td>    
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
-                        {{-- <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mx-2" 
-                            wire:click="generateIdCard({{ $hsStudentcr->id }})" >
-                            Gen Id Card
-                        </button> --}}
-                        {{-- Uid:{{$hsStudentcr->hsStudentdb->uuid_auto}} --}}
-                        <a href="{{ route('livewire.hssection-studentcr-idcard', ['uuid' => $hsStudentcr->hsStudentdb->uuid_auto ,'scr_id' => $hsStudentcr->id]) }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mx-2">
-                            Download Id Card
-                        </a>
-                        {{-- <button id="externalLinkBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Open External Site</button>
-                            <button onclick="openInternalLink()" class="btn btn-secondary">Open Internal Route</button> --}}
-
-                    </td>
-                </tr>
-                @endforeach    
-            </tbody>
-            
-        </table>
-    </div>
 
 
     

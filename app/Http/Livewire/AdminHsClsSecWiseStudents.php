@@ -26,8 +26,16 @@ class AdminHsClsSecWiseStudents extends Component
 
     public $qrcode;
 
+    public $hsClassId, $hsSectionId, $hsSemesterId;
 
-    public function mount(){
+
+    public function mount($hsClassId = null, $hsSectionId = null, $hsSemesterId = null){
+        // dd($hsClassId, $hsSectionId, $hsSemesterId);
+        $this->hsClassId = $hsClassId;
+        $this->hsSectionId = $hsSectionId;
+        $this->hsSemesterId = $hsSemesterId;
+
+
         $this->refreshData();
     }
 
@@ -35,8 +43,12 @@ class AdminHsClsSecWiseStudents extends Component
     public function refreshData(){
         $this->hsStudentcrs = HsStudentCr::with('hsStudentDb', 'hsClass', 'hsSection', 'hsSemester')
             ->where('hs_session_id', HsSession::currentlyActive()->id)
+            ->where('hs_class_id', $this->hsClassId)
+            ->where('id', '<=', 250)
             ->get();        
-        $this->hsStudentdbs = HsStudentDb::where('hs_session_id', HsSession::currentlyActive()->id)->get();
+        $this->hsStudentdbs = HsStudentDb::where('hs_session_id', HsSession::currentlyActive()->id)
+            ->where('id', '<=', 250)
+            ->get();
 
         
     }

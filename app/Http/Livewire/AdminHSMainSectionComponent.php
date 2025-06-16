@@ -23,8 +23,20 @@ class AdminHSMainSectionComponent extends Component
 {
     public $items = [
         'classes' => [
-            ['name' => 'Class XI', 'is_active' => false],
-            ['name' => 'Class XII', 'is_active' => false],
+            ['name' => 'Class XI',
+            'id' => 1, 
+            'is_active' => false,
+            'semesters' => [
+                ['name' => 'Semester 1', 'is_active' => false, 'status' => 'Running','status_options' => ['Running', 'Admission', 'Promotion' ]],
+                ['name' => 'Semester 2', 'is_active' => false, 'status' => 'Running','status_options' => ['Running', 'Admission', 'Promotion' ]],
+            ]],
+            ['name' => 'Class XII', 
+            'id' => 2,
+            'is_active' => false,
+            'semesters' => [
+                ['name' => 'Semester 3', 'is_active' => false, 'status' => 'Running','status_options' => ['Running', 'Admission', 'Promotion' ]],
+                ['name' => 'Semester 4', 'is_active' => false, 'status' => 'Running','status_options' => ['Running', 'Admission', 'Promotion' ]],
+            ]],
         ]
         // 'item1' => [
         //     'name' => 'Class',
@@ -82,6 +94,8 @@ class AdminHSMainSectionComponent extends Component
         // ]
     ];
 
+    public $activeClassId = null, $activeSemester = '', $activeStatus = '';
+
 
     public function mount()
     {
@@ -97,6 +111,8 @@ class AdminHSMainSectionComponent extends Component
         }
 
         $this->items['classes'][$key]['is_active'] = true;
+
+        $this->activeClassId = $this->items['classes'][$key]['id'];
     }
 
 

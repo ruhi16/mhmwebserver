@@ -48,19 +48,19 @@ class AdminFinalizeStatusComponent extends Component
 
     public function mount()
     {
-        $this->myclassSections = Myclasssection::all();
-        $this->myclassSubjects = Myclasssubject::all();
-        $this->myclassteachers = Myclassteacher::all();
-        $this->myclassSubjects = Myclasssubject::all();
+        $this->myclassSections = Myclasssection::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
+        $this->myclassSubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
+        $this->myclassteachers = Myclassteacher::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
+        $this->myclassSubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
         $this->myclasses = Myclass::all();
         $this->sections = Section::all();
         $this->teachers = Teacher::all();
         $this->exams = Exam::all();
         $this->examtypes = Examtype::all();
         $this->exammodes = Exammode::all();
-        $this->examdetials = Examdetails::all();
+        $this->examdetials = Examdetails::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
 
-        $this->answerscriptdistributions = Answerscriptdistribution::all();
+        $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)->get();
     }
 
 
@@ -76,9 +76,12 @@ class AdminFinalizeStatusComponent extends Component
         $this->exam_id = $this->exam_term_active_tab_no;
         $this->myclass_id = $this->myclass_active_tab_no;
 
-        $this->myclassSections = Myclasssection::where('myclass_id', $this->myclass_id)->get();
-        $this->myclassSubjects = Myclasssubject::where('myclass_id', $this->myclass_id)->orderBy('examtype_id', 'asc')->get();
-        $this->answerscriptdistributions = Answerscriptdistribution::where('myclass_id', $this->myclass_id)
+        $this->myclassSections = Myclasssection::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclass_id)->get();
+        $this->myclassSubjects = Myclasssubject::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclass_id)->orderBy('examtype_id', 'asc')->get();
+        $this->answerscriptdistributions = Answerscriptdistribution::where('session_id', \App\Models\Session::currentlyActive()->id)
+            ->where('myclass_id', $this->myclass_id)
             ->where('exam_id', $this->exam_id)->get();
     }
 
