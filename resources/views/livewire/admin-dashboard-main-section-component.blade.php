@@ -32,7 +32,7 @@
 
         <main class="w-full mx-auto px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800 min-h-screen">
             
-            Selected Item: {{ $studentsStatusSelected }} 
+            {{-- Selected Item: {{ $studentsStatusSelected }}  --}}
             @if($selectedItem == 'item1')
                 <livewire:admin-session-management-component />
             @endif
@@ -99,7 +99,7 @@
                 <livewire:admin-finalize-status-component />
 
             @elseif($selectedItem == 'item7') {{-- HS Section --}}
-                <livewire:admin-h-s-main-section-component />
+                {{-- <livewire:admin-h-s-main-section-component /> --}}
 
             @elseif($selectedItem == 'item8') {{-- Teachers Marks Entry --}}
                 <livewire:admin-teacher-wise-marks-entry-status-component />
