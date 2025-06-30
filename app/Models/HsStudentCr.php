@@ -14,6 +14,13 @@ class HsStudentCr extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
 
+    public function hsSession(){
+        return $this->belongsTo(HsSession::class, 'hs_session_id', 'id');
+        // 'hs_session_id' is the foreign key in the HsSession table
+        // 'id' is the primary key in the HsSession table
+    }
+
+
     public function hsStudentDb(){
         return $this->belongsTo(HsStudentDb::class, 'hs_studentdb_id', 'id');
         // 'hs_student_db_id' is the foreign key in the HsStudentDb table

@@ -13,7 +13,7 @@
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center " role="tablist">
                 @foreach($exams as $key =>$exam)
                 <li class="me-2 text-bold  {{ $exam_term_active_tab_no == $exam->id ? 'font-extrabold text-purple-600 hover:text-purple-600 dark:text-purple-500 dark:hover:text-purple-500 border-purple-600 dark:border-purple-500' : 'dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300' }}" role="presentation">
-                    <button wire:click="selectExamTermTab('{{ $exam->id }}')" class="inline-block p-4 border-b-2 rounded-t-lg ">{{ $exam->name }}-{{$key}}</button>
+                    <button wire:click="selectExamTermTab('{{ $exam->id }}')" class="inline-block p-4 border-b-2 rounded-t-lg ">{{ $exam->name }}</button>
                 </li>
                 @endforeach               
                 

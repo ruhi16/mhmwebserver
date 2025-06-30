@@ -18,6 +18,12 @@ class HsSession extends Model
     }
 
 
+    public function hsSessionCrs(){
+        return $this->hasMany(HsStudentCr::class, 'hs_session_id', 'id');
+        // 'hs_session_id' is the foreign key in the HsStudentCr table
+        // 'id' is the primary key in the HsStudentCr table
+    }
+
 
     public function hsSubjects(){
         return $this->hasMany(HsSubject::class, 'hs_session_id', 'id');

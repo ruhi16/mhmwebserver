@@ -19,7 +19,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use Livewire\Component;
 
-class AdminHSMainSectionComponent extends Component
+class AdminHSMainSectionComponent_Copy extends Component
 {
     public $hs_studentdbs = [];
     public $hs_classes;

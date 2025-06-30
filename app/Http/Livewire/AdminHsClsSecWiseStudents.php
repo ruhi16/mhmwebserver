@@ -26,7 +26,13 @@ class AdminHsClsSecWiseStudents extends Component
 
     public $qrcode;
 
-    public $hsClassId, $hsSectionId, $hsSemesterId;
+    public $hsClassId = 1, $hsSectionId, $hsSemesterId;
+
+
+    public $inputRollNo = [];
+    protected $rules = [
+        'inputRollNo.*' => 'required|integer|min:1', //|unique:records,roll_no',
+    ];
 
 
     public function mount($hsClassId = null, $hsSectionId = null, $hsSemesterId = null){
@@ -44,13 +50,55 @@ class AdminHsClsSecWiseStudents extends Component
         $this->hsStudentcrs = HsStudentCr::with('hsStudentDb', 'hsClass', 'hsSection', 'hsSemester')
             ->where('hs_session_id', HsSession::currentlyActive()->id)
             ->where('hs_class_id', $this->hsClassId)
-            ->where('id', '<=', 250)
-            ->get();        
-        $this->hsStudentdbs = HsStudentDb::where('hs_session_id', HsSession::currentlyActive()->id)
-            ->where('id', '<=', 250)
+            // ->where('id', '<=', 10)
             ->get();
 
+        $this->hsStudentdbs = HsStudentDb::where('hs_session_id', HsSession::currentlyActive()->id)
+            // ->where('id', '<=', 250)
+            ->get();       
+    }
+
+
+    public function updatedInputRollNo($value, $key)
+    {
+        // $key is the index of the student, $value is the new roll number
+        $this->validateOnly($key);
+
+        try{
+            HsStudentCr::findOrFail($key)->update(['roll_no'=> $value]);
+
+            session()->flash('success', "Roll No. " . $key . " updated successfully.");
+        }catch(Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
+    }
+
+    public function promotedToNextClass( $scr_id ){
+        // dd($value, $key);
+        // dd($scr_id);
         
+        try{
+            $hsStudentcr = HsStudentCr::findOrFail($scr_id);
+            $hsStudentcr->update([
+                'next_class_id' => \App\Models\HsClass::findOrFail($hsStudentcr->hs_class_id)->next_hs_class_id,
+                'next_section_id' => \App\Models\HsSection::findOrFail($hsStudentcr->hs_section_id)->id,
+                'next_semester_id' => \App\Models\HsSemester::findOrFail($hsStudentcr->hs_semester_id)->next_hs_semester_id,
+                'next_hs_session_id' => HsSession::currentlyActive()->next_hs_session_id,
+                'next_studentcr_id' => null,
+                'school_id' => 1,
+                'crstatus' => 'ACTIVE'
+            ]);
+
+
+            session()->flash('success', HsStudentCr::findOrFail($scr_id)->hsStudentDb->name . ' Promoted to next class successfully.');
+        }catch(Exception $e){
+            
+            session()->flash('error', $e->getMessage());
+        }
+
+        
+        $this->refreshData();
+
     }
 
 
