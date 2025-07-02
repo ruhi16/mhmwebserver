@@ -12,7 +12,7 @@
                         {{-- <span class="text-sm text-gray-500 dark:text-gray-400">Dashboard</span> --}}
                         <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ asset('mhm_logo.png')}}"
                             alt="Bonnie image" />
-                        <h2 class="mh-2 text-xs font-bold text-gray-900 dark:text-white">Our Aim, Your Achievement!</h2>
+                        {{-- <h2 class="mh-2 text-xs font-bold text-gray-900 dark:text-white">Our Aim, Your Achievement!</h2> --}}
                     </div>
                 </div>
 
@@ -101,19 +101,18 @@
 
             @else
             This is XII
-            @if($statusButtons['running'] == true)
-            :Running
-            @livewire('admin-hs-cls-sec-wise-running-students', ['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' =>
-            1]);
-            @elseif($statusButtons['admission'] == true)
-            :Admission
-            @livewire('admin-hs-cls-sec-wise-admitted-students',['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' =>
-            1]);
-            @elseif($statusButtons['promotion'] == true)
-            :Promotion
-            @livewire('admin-hs-cls-sec-wise-promoted-students',['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' =>
-            1]);
-            @endif
+                @if($statusButtons['running'] == true)
+                    :Running
+                    @livewire('admin-hs-cls-sec-wise-running-students', ['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' => 1]);
+                @elseif($statusButtons['admission'] == true)
+                    :Admission
+                @livewire('admin-hs-cls-sec-wise-admitted-students',['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' =>
+                1]);
+                @elseif($statusButtons['promotion'] == true)
+                :Promotion
+                @livewire('admin-hs-cls-sec-wise-promoted-students',['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' =>
+                1]);
+                @endif
 
             @endif
         </main>

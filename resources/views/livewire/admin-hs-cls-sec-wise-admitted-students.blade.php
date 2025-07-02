@@ -28,7 +28,8 @@
     <div class="min-h-screen overflow-y-auto">
         {{-- Active Class: {{ $hsClassId ?? 'N/A' }} --}}
         <div>
-            <h2>For Class(New): {{ $hsClassId ?? 'Not Assigned' }}</h2>
+            {{-- <h2>For Class(New): {{ $hsClassId ?? 'Not Assigned' }}</h2> --}}
+            <p class="max-w-full text-3xl font-bold leading-relaxed text-gray-900 dark:text-white">Assign Roll No, For Newly Admitted Students to Class Id:{{ $hsClassId }} </p> 
         </div>
         <table class="min-w-full border-collapse bg-white shadow-sm rounded-lg mx-8">
             <thead class="bg-gray-100">
@@ -51,7 +52,7 @@
                 <tr>
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">{{ $loop->iteration }}</td>
                 
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">SDB Id:{{ $hsStudentcr->id }}<br/>Session:{{ $hsStudentcr->hsSession->name }}</td>
+                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">SDB Id:{{ $hsStudentdb->id ?? 'x' }}<br/>Session:{{ $hsStudentdb->id ?? 'x' }}</td>
                     <td class="px-4 py-2 text-left text-xs text-gray-900 border-b font-semibold">
                         <span class="font-semibold text-red-900">{{ $hsStudentdb->name ?? 'X'}}</span>, {{$hsStudentdb->ssex ?? 'X'}}<br/>
                         DOB:{{ $hsStudentdb->dob }}<br/>
@@ -66,6 +67,21 @@
                         Roll No:{{ $hsStudentdb->remarks ?? 'X'}}
                     </td>
 
+                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b"></td>
+
+
+                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
+                        {{-- @if($hsStudentcr->next_class_id == null) --}}
+                        <button type="button" 
+                            wire:click="assignRollNo('{{ $hsStudentdb->id }}')"
+                            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Assign Roll No
+                        </button>
+                        {{-- @else
+                            <Span class="text-red-600 text-lg font-bold">Promoted</Span>
+                        @endif --}}
+                    </td>
+
 
 
 
@@ -78,17 +94,16 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
 
 
 
-    {{-- Promoted Students, records from HsStudentCrs, from previous session, previous class --}}
-    <div class="min-h-screen overflow-y-auto">
+        {{-- Promoted Students, records from HsStudentCrs, from previous session, previous class --}}
         {{-- Active Class: {{ $hsClassId ?? 'N/A' }} --}}
         <div>
-            <h2>For Class(CLS): {{ $hsClassId ?? 'Not Assigned' }}</h2>
+            {{-- <h2>For Class(CLS): {{ $hsClassId ?? 'Not Assigned' }}</h2> --}}
+            <p class="max-w-full text-3xl font-bold leading-relaxed text-gray-900 dark:text-white">Assign Roll No, For Promoted Students of Class Id: {{ $hsClassId }} </p>
         </div>
-        {{-- <table class="min-w-full border-collapse bg-white shadow-sm rounded-lg mx-8">
+        <table class="min-w-full border-collapse bg-white shadow-sm rounded-lg mx-8">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Sl</th>
@@ -134,7 +149,48 @@
                 </tr>
                 @endforelse
             </tbody>
-        </table> --}}
+        </table>
+
+
+        
+        {{-- Promoted Students, records from HsStudentCrs, from previous session, previous class --}}
+        {{-- Active Class: {{ $hsClassId ?? 'N/A' }} --}}
+        <div>
+            {{-- <h2>For Class(CLS): {{ $hsClassId ?? 'Not Assigned' }}</h2> --}}
+            <p class="max-w-full text-3xl font-bold leading-relaxed text-gray-900 dark:text-white">Assign Roll No, For Failed Students of Class Id: {{ $hsClassId }} </p>
+        </div>
+        <table class="min-w-full border-collapse bg-white shadow-sm rounded-lg mx-8">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Sl</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">SCRID</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Name-DOB-Pen</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Cls-Sec-Sem-Roll</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Registration No</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Parent's Name</th>                    
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Mobiles</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Bank Details</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">Action</th>
+                    <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider border-b">QR Code</th>
+                    
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+
+
+            </tbody>
+        </table>
+
+
+
+
+
+    </div>
+
+
+
+    <div class="min-h-screen overflow-y-auto">
+        
     </div>
 
 

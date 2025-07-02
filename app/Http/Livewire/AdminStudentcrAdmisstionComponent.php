@@ -35,6 +35,9 @@ class AdminStudentcrAdmisstionComponent extends Component{
     public $studentdbs;
 
     public $studentcr_curr;
+    
+    public $showNewAdmissionModal = false;
+    public $studentName;
 
     // #[On('refreshStudentcrsPromotions')]
     protected $listeners = ['refreshStudentcrsPromotions' => 'mount'];
@@ -47,6 +50,7 @@ class AdminStudentcrAdmisstionComponent extends Component{
         $this->myclasses = Myclass::all();
         $this->mysections = Section::all();
 
+        $this->showNewAdmissionModal = false;
 
         $this->classSections = Myclasssection::where('session_id', $this->session->id)
             ->where('status', 'ACTIVE')
@@ -88,9 +92,9 @@ class AdminStudentcrAdmisstionComponent extends Component{
                 ->where('next_section_id', $this->classSections->section_id)
                 ->whereNotIn('next_studentcr_id', $studentcrs_promoted_ids)
 
-                ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
-                ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm')
-                ->orderBy('total_ob_marks', 'desc')
+                // ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+                // ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm')
+                // ->orderBy('total_ob_marks', 'desc')
                 ->get()
                 ;
 
@@ -98,6 +102,49 @@ class AdminStudentcrAdmisstionComponent extends Component{
             
             
     }
+
+    public function openNewAdmissionModal(){
+        $this->showNewAdmissionModal = true;
+    }
+
+    public function closeNewAdmissionModal(){
+        $this->showNewAdmissionModal = false;
+    }
+
+
+    public function saveNewlyAdmittedStudent(){
+        // session()->flash('message', 'New Student Admitted Successfully');
+        
+        $this->validate([
+            'studentName' => 'required|string|max:255',
+        ]);
+
+        // dd($this->studentName);
+
+        try{
+        
+            $studentdb = Studentdb::create([
+                'name' => $this->studentName,
+                'stclass_id' => $this->classSections->myclass_id,
+                'stsection_id' => $this->classSections->section_id,
+                'session_id' => $this->session->id,
+                'school_id' => $this->classSections->school_id,
+            ]);
+
+        
+            session()->flash('message', 'New Student Admitted Successfully');
+        }
+        catch(\Exception $e){
+
+            session()->flash('error', $e->getMessage());
+        }
+
+        
+        $this->showNewAdmissionModal = false;
+
+    }
+
+
 
     public function admitNewStudent($studentdb_id){
         try{            

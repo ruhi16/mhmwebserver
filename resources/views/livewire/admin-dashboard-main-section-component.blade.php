@@ -81,7 +81,7 @@
 
                         
                     </main>
-                </div>
+            </div>
 
             @elseif($selectedItem == 'item2') {{-- Profile Management --}}
                 <livewire:admin-user-previledge-control-component />
@@ -99,7 +99,7 @@
                 <livewire:admin-finalize-status-component />
 
             @elseif($selectedItem == 'item7') {{-- HS Section --}}
-                {{-- <livewire:admin-h-s-main-section-component /> --}}
+                <livewire:admin-h-s-main-section-component />
 
             @elseif($selectedItem == 'item8') {{-- Teachers Marks Entry --}}
                 <livewire:admin-teacher-wise-marks-entry-status-component />

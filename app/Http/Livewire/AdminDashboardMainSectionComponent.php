@@ -108,8 +108,7 @@ class AdminDashboardMainSectionComponent extends Component
 
     public function render()
     {
-        return view('livewire.admin-dashboard-main-section-component', [
-            'items' => $this->items
-        ]);
+        return view('livewire.admin-dashboard-main-section-component', ['items' => $this->items]);
+        // return view('livewire.home');
     }
 }
