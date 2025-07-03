@@ -107,7 +107,8 @@
                                     class="text-gray-300 bg-gray-700 hover:bg-gray-600 hover:text-white hover:font-bold px-3 py-2 rounded-md text-sm font-medium">Login</a>
 
                                 @if (Route::has('register'))
-                                <a wire:navigate href="{{ route('login') }}"
+                                <a wire:navigate href="{{ route('register') }}"
+                                    {{-- wire:navigate href="{{ route('login') }}" --}}
                                 class="text-gray-300 bg-gray-700 hover:bg-gray-700 hover:text-white hover:font-bold px-3 py-2 rounded-md text-sm font-medium">Register</a>
                                 @endif
                                 @endauth

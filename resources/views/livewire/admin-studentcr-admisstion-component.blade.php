@@ -65,7 +65,8 @@
                 </td>
                 <td class="border border-gray-300 px-4 py-2">
                     <button wire:click="admitNewStudent({{ $studentdb->id }})" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Assign Roll No {{$studentdb->remarks}}
+                        Assign Roll No {{ $studentcr_max_roll_no + 1 }}
+                        {{-- {{$studentdb->remarks ?? 'NA'}} --}}
                     </button>
                 </td>
 
@@ -110,6 +111,7 @@
                         Assign 
                         {{-- {{ dd(($studentcr_curr[0]->roll_no) ) }} --}}
                         {{ isset($studentcr_curr[0]) ?  ($studentcr_curr[0]->roll_no + 1) : 1 }}
+                        {{-- {{ $studentcr_max_roll_no + 1 }} --}}
                         
                     </button>
                 </td>
@@ -148,6 +150,11 @@
                     <div>
                         <form class="max-w-sm mx-auto" wire:submit.prevent="saveNewlyAdmittedStudent">
                             <div class="grid grid-cols-4 gap-6">
+                                <div class="col-span-4 mb-6 text-md font-bold">
+                                    Highest Student's Roll No Assigned: {{ $studentcr_max_roll_no ?? 'XX' }}
+                                </div>
+                            </div>    
+                            <div class="grid grid-cols-4 gap-6">
                                 <div class="col-span-2 mb-6">
                                     <label for="myclass"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Class</label>
@@ -172,7 +179,7 @@
                             </div>
 
                             <div class="grid grid-cols-4 gap-6">
-                                <div class="col-span-4 mb-6">
+                                <div class="col-span-3 mb-6">
                                     <label for="myclass"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name:</label>
                                     <input type="text" id="studentName"
@@ -182,6 +189,18 @@
                                         class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         >
                                         @error('studentName')
+                                            <span class="text-red-500">{{ $message }}</span>
+                                        @enderror
+                                </div>
+                                <div class="col-span-1 mb-6">
+                                    <label for="myclass"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Roll No:</label>
+                                    <input type="text" id="studentRollNo"
+                                        
+                                        wire:model="studentRollNo"
+                                        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        >
+                                        @error('studentRollNo')
                                             <span class="text-red-500">{{ $message }}</span>
                                         @enderror
                                 </div>

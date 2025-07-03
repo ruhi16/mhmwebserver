@@ -64,11 +64,11 @@
             <div class="min-w-auto h-px m-2 bg-slate-400 dark:bg-slate-700"></div>
             <div class="flex items-center justify-center h-fit m-4 dark:bg-gray-800">
                 {{-- <a href="{{url('auth/google')}}">Link</a> --}}
-                <a href="{{route('auth.google.login')}}"
+                {{-- <a href="{{route('auth.google.login')}}"
                     class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
                     <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
                     <span>Login with Google</span>
-                </a>
+                </a> --}}
             </div>
         
     </x-auth-card>

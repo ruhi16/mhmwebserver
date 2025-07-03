@@ -1,16 +1,25 @@
 <div>
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
-    <div class="h-fit min-w-full mx-auto">        
-        @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
+    <div id="alert-container" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+        @if (session()->has('success'))
+            <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                <span class="font-medium">Info alert!</span> {{ session('success') }}
             </div>
+            <script>
+                setTimeout(function() {
+                    document.getElementById('alert-container').innerHTML = '';
+                }, 5000);
+            </script>
         @endif
-
         @if (session()->has('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <span class="font-medium">Danger alert!</span> {{ session('error') }}
             </div>
+            <script>
+                setTimeout(function() {
+                    document.getElementById('alert-container').innerHTML = '';
+                }, 5000);
+            </script>
         @endif
     </div>
 

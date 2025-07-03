@@ -87,6 +87,32 @@ class AdminUserPreviledgeControlComponent extends Component
         $this->getUnAttachedTeachers();
     }
 
+    public function deleteUser($user_id, $teacher_id){
+        
+        // dd($user_id, $teacher_id);
+        $this->user_id = $user_id;
+        $this->teacher_id = $teacher_id;
+
+        try{
+            $user = User::find($this->user_id)->delete();
+            
+            // $user->role_id = $this->roles->find(1)->id;  // student
+            // $user->teacher_id = 0;
+            // $user->save();
+
+            $teacher = Teacher::find($this->teacher_id);
+            $teacher->user_id = 0;
+            $teacher->save();
+
+            session()->flash('success', 'User deleted successfully');
+
+    }catch(\Exception $e){
+
+            session()->flash('error', $e->getMessage());
+        }
+        $this->getUnAttachedTeachers();
+    }
+
 
 
     public function render()

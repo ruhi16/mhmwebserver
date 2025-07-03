@@ -7,6 +7,30 @@
     @endsection
     
     <div class="h-fit min-w-full mx-auto">
+        <div id="alert-container" style="position: fixed; top: 10px; right: 10px; z-index: 1000;">
+            @if (session()->has('success'))
+                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                    <span class="font-medium">Info alert!</span> {{ session('success') }}
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.getElementById('alert-container').innerHTML = '';
+                    }, 5000);
+                </script>
+            @endif
+            @if (session()->has('error'))
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                    <span class="font-medium">Danger alert!</span> {{ session('error') }}
+                </div>
+                <script>
+                    setTimeout(function() {
+                        document.getElementById('alert-container').innerHTML = '';
+                    }, 5000);
+                </script>
+            @endif
+        </div>
+
+        
     <table class="min-w-auto mx-auto my-6 border-collapse border border-gray-300 rounded-lg">
         <caption class="caption-top p-4 font-extrabold text-xl text-gray-800 bg-gray-400 rounded-t-md">
                 User Previledge Control Section
@@ -78,8 +102,9 @@
                 <th class="border border-gray-300 px-4 py-2">Role</th>
                 <th class="border border-gray-300 px-4 py-2">Teacher Prof</th>
                 <th class="border border-gray-300 px-4 py-2">Previledge-Role</th>
-                <th class="border border-gray-300 px-4 py-2">Action</th>
                 <th class="border border-gray-300 px-4 py-2">Teacher Prof</th>
+                <th class="border border-gray-300 px-4 py-2">Action</th>
+                <th class="border border-gray-300 px-4 py-2">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -115,11 +140,20 @@
                 </td>
 
                 <td class="border border-gray-300 px-4 py-2">
-                    
-                        <button wire:click="revokePreviledge({{ $user->id }}, {{ $user->teacher_id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Revoke
-                        </button>
-                    
+                    @if($user->role->id < 3)
+                    <button wire:click="revokePreviledge({{ $user->id }}, {{ $user->teacher_id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Revoke
+                    </button>
+                    @endif
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    @if($user->role->id < 3)
+                    <button 
+                        wire:click="deleteUser({{ $user->id }}, {{ $user->teacher_id }})" 
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Delete User
+                    </button>
+                    @endif
                 </td>
             </tr>
             @endif
