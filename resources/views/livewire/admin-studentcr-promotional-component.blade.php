@@ -57,8 +57,11 @@
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm }}</td>
                     {{-- <td class="border border-gray-300 px-4 py-2">{{ $studentcr->fm != 0 ? $studentcr->total_ob_marks/$studentcr->fm*100 : 0 }}</td> --}}
                     <td class="border border-gray-300 px-4 py-2">{{ $studentcr->No_of_Ds }}</td>
-                    <td class="border border-gray-300 px-4 py-2">                    
-                        {{ $studentcr->No_of_Ds <= $promotionalRules->allowableds ? 'Promoted' : 'Not Promoted' }}
+                    <td class="border border-gray-300 px-4 py-2">     
+                        @if($promotionalRules != null)
+                            {{-- {{ $studentcr->No_of_Ds <= 0 ? 'Promoted' : 'Not Promoted' }} --}}
+                            {{ $studentcr->No_of_Ds <= $promotionalRules->allowableds ? 'Promoted' : 'Not Promoted' }}
+                        @endif
                     </td>
 
                     <th class="border border-gray-300 px-4 py-2">                    

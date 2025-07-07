@@ -7,8 +7,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Livewire\Component;
 
-class AdminUserPreviledgeControlComponent extends Component
-{
+class AdminUserPreviledgeControlComponent extends Component{
 
     public $users;
     public $roles;

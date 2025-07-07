@@ -64,9 +64,11 @@ class AdminStudentcrPromotionalComponent extends Component
                 $this->studentcrs = Studentcr::where('studentcrs.session_id', $this->session->id)
                     ->where('myclass_id', $this->classSections->myclass_id)
                     ->where('section_id', $this->classSections->section_id)
-                    ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
-                    ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
-                    ->orderBy('total_ob_marks', 'desc')
+
+                    // ->join('Studentcr_eoy_summary', 'studentcrs.id', '=', 'Studentcr_eoy_summary.id')  
+                    // ->select('studentcrs.*', 'Studentcr_eoy_summary.total_ob_marks', 'Studentcr_eoy_summary.No_of_Ds', 'Studentcr_eoy_summary.fm' )
+                    // ->orderBy('total_ob_marks', 'desc')
+                    ->orderBy('id', 'desc')
                     ->get()
                     ;
             }    
