@@ -10,9 +10,11 @@ class AdminHsClsSecWisePromotedStudents extends Component
     public $hsClassId = null, $hsSectionId = null, $hsSemesterId = null;    
     
     public $hsStudentcrs_promoted, $hsStudentcrs_admitted;
+
+    public $assignedRollNo = null;
     
     public function mount($hsClassId = null, $hsSectionId = null, $hsSemesterId = null){
-        // dd($hsClassId, $hsSectionId, $hsSemesterId);
+        // dd($hsClassId, $hsSectionId, $hsSemesterId, \App\Models\HsSession::currentlyActive()->id);
         $this->hsClassId = $hsClassId;
         $this->hsSectionId = $hsSectionId;
         $this->hsSemesterId = $hsSemesterId;
@@ -33,6 +35,20 @@ class AdminHsClsSecWisePromotedStudents extends Component
             ->get();
 
         
+    }
+
+    public function updatedAssignedRollNo($value, $key){
+        dd($value, $key);
+        $this->validateOnly($key);
+
+        try{
+            // $hsStudentcr = \App\Models\HsStudentCr::findOrFail($key);
+            // $hsStudentcr->update(['roll_no'=> $value]);
+
+            session()->flash('success', "Roll No. " . $key . " updated successfully.");
+        }catch(\Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
     }
 
     public function assignRollNo($hsStudentcrId){

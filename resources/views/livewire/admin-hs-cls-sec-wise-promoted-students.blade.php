@@ -64,13 +64,19 @@
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b"></td>
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b"></td>
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b"></td>
-                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b"></td>
+                    <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
+                        <input 
+                            id="assignedRollNo.{{ $hsStudentcr->id }}" 
+                            wire:model="assignedRollNo.{{ $hsStudentcr->id }}"
+                            type="number" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"/>
+                    </td>
                     <td class="px-4 py-2 text-left text-xs text-gray-600 border-b">
                         @if($hsStudentcr->next_hs_studentcr_id == null)
                         <button 
                             wire:click="assignRollNo('{{ $hsStudentcr->id }}')" 
                         class="bg-blue-400 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full uppercase">
-                            Assign Roll No  {{ $hsStudentcr->id }}
+                            Assign Roll No (max)
                         </button>
                         @else
                             <Span class="text-red-600 text-lg font-bold">Roll No Assigned</Span>

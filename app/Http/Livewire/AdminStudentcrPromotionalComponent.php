@@ -38,7 +38,7 @@ class AdminStudentcrPromotionalComponent extends Component
     public function mount(){
         $this->session = Session::currentlyActive();
         
-
+        // dd('Hello');
 
         $this->classSections = Myclasssection::where('session_id', $this->session->id)
             ->where('status', 'ACTIVE')
