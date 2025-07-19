@@ -37,6 +37,7 @@ class AdminHsClsSecWiseRunningStudents extends Component{
         $this->hsStudentcrs = \App\Models\HsStudentCr::with('hsStudentDb', 'hsClass', 'hsSection', 'hsSemester')
             ->where('hs_session_id', \App\Models\HsSession::currentlyActive()->id) 
             ->where('hs_class_id', $this->hsClassId)
+            ->orderBy('roll_no')
             ->get();
     }
 

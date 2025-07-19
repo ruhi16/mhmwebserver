@@ -11,7 +11,7 @@ class AdminHsClsSecWisePromotedStudents extends Component
     
     public $hsStudentcrs_promoted, $hsStudentcrs_admitted;
 
-    public $assignedRollNo = null;
+    public $assignedRollNo = [];
     
     public function mount($hsClassId = null, $hsSectionId = null, $hsSemesterId = null){
         // dd($hsClassId, $hsSectionId, $hsSemesterId, \App\Models\HsSession::currentlyActive()->id);
@@ -38,14 +38,26 @@ class AdminHsClsSecWisePromotedStudents extends Component
     }
 
     public function updatedAssignedRollNo($value, $key){
-        dd($value, $key);
-        $this->validateOnly($key);
+        // dd('val:'.$value, 'scrid:'.$key);
+        $rules = [
+            'assignedRollNo.'.$key => 'required|numeric',
+        ];
+        $messages = [
+            'assignedRollNo.'.$key => 'Roll No. is required.',
+        ];
+        $this->validateOnly('assignedRollNo.'.$key, [
+            'assignedRollNo.'.$key => 'required|numeric',
+        ],[
+            'assignedRollNo.' . $key . '.required' => 'Roll No. is required.',
+        ]);
+
+        $this->assignedRollNo[$key] = $value;
 
         try{
             // $hsStudentcr = \App\Models\HsStudentCr::findOrFail($key);
             // $hsStudentcr->update(['roll_no'=> $value]);
 
-            session()->flash('success', "Roll No. " . $key . " updated successfully.");
+            // session()->flash('success', "Roll No. " . $key . " updated successfully.");
         }catch(\Exception $e){
             session()->flash('error', $e->getMessage());
         }
@@ -53,9 +65,17 @@ class AdminHsClsSecWisePromotedStudents extends Component
 
     public function assignRollNo($hsStudentcrId){
         $hsStudentcr = \App\Models\HsStudentCr::find($hsStudentcrId);
-        $hsStudentcrMaxRollNo = \App\Models\HsStudentCr::where('hs_session_id', \App\Models\HsSession::currentlyActive()->id)
-            ->where('hs_class_id', $hsStudentcr->next_class_id)            
-            ->max('roll_no');
+
+        
+        $hsStudentcrMaxRollNo = null;
+        if($this->assignedRollNo[$hsStudentcr->id]){
+            $hsStudentcrMaxRollNo = $this->assignedRollNo[$hsStudentcr->id];
+        }else{    
+            $hsStudentcrMaxRollNo = \App\Models\HsStudentCr::where('hs_session_id', \App\Models\HsSession::currentlyActive()->id)
+                ->where('hs_class_id', $hsStudentcr->next_class_id)            
+                ->max('roll_no') + 1;
+        }
+
 
         try{
 
@@ -69,10 +89,9 @@ class AdminHsClsSecWisePromotedStudents extends Component
                 'hs_section_id' => $hsStudentcr->next_section_id,
                 'hs_semester_id' => $hsStudentcr->next_semester_id,
                 'crstatus'  => 'ACTIVE',
-                'roll_no' => $hsStudentcrMaxRollNo != null ? $hsStudentcrMaxRollNo + 1 : 1,
+                'roll_no' => $hsStudentcrMaxRollNo != null ? $hsStudentcrMaxRollNo : 1,
                 'school_id' => $hsStudentcr->school_id,
                 // 'next_studentcr_id' => null
-
             ]);
 
             $hsStudentcr->update(['next_hs_studentcr_id' => $hsStudentcr_new->id]);

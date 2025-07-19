@@ -63,7 +63,7 @@
                 <td class="px-4 py-2 text-left text-xs text-gray-900 border-b font-semibold">
                     <img src="{{asset('img/'.$hsStudentcr->qr_img_ref )}}" alt="Not Found"/>
                 </td>
-                <td class="px-4 py-2 text-left text-xs text-gray-900 border-b font-semibold"></td>
+                <td class="px-4 py-2 text-left text-xs text-gray-900 border-b font-semibold">Roll No: {{ $hsStudentcr->roll_no ?? 'X' }}</td>
                 <td class="px-4 py-2 text-left text-xs text-gray-900 border-b font-semibold"></td>
                 <td class="px-4 py-2 text-left text-xs text-gray-900 border-b font-semibold">
                     @if( $hsStudentcr->qr_img_ref == null)
