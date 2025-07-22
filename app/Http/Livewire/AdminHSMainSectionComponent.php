@@ -72,6 +72,7 @@ class AdminHSMainSectionComponent extends Component
             $this->statusButtons[$key] = false;
         }
         $this->statusButtons[$id] = true;
+        // dd($this->statusButtons);
         
         $this->render();
         

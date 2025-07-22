@@ -66,7 +66,7 @@
                 @foreach($statusButtons as $key =>$button)
                 <button wire:click="changeButtonStatus('{{$key}}')"
                     class="{{ $button == 1 ? ' bg-blue-900' : 'bg-blue-300' }} hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full uppercase">
-                    {{ $key }}xx
+                    {{ $key }}
                 </button>
                 @endforeach
             </div>
@@ -96,11 +96,18 @@
                 @elseif($statusButtons['promotion'] == true)
                     :Promotion
                     @livewire('admin-hs-cls-sec-wise-promoted-students',['hsClassId' => 1, 'hsSectionId' => 1, 'hsSemesterId' => 1]);
+                @elseif($statusButtons['marksentry'] == true)
+                    :MarksEntry
+                @elseif($statusButtons['report'] == true)
+                    :Reports
+                    @livewire('admin-hs-studentcr-report-component')
+                
+                
                 @endif
 
 
             @else
-            This is XII
+                This is XII
                 @if($statusButtons['running'] == true)
                     :Running
                     @livewire('admin-hs-cls-sec-wise-running-students', ['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' => 1]);
@@ -112,6 +119,12 @@
                 :Promotion
                 @livewire('admin-hs-cls-sec-wise-promoted-students',['hsClassId' => 2, 'hsSectionId' => 1, 'hsSemesterId' =>
                 1]);
+                @elseif($statusButtons['marksentry'] == true)
+                    :MarksEntry
+                @elseif($statusButtons['report'] == true)
+                    :Reports
+                    @livewire('admin-hs-studentcr-report-component')
+                
                 @endif
 
             @endif
