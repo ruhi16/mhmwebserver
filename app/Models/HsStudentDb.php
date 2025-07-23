@@ -16,6 +16,12 @@ class HsStudentDb extends Model
         return $this->hasMany(HsStudentDbSubject::class, 'hs_studentdb_id', 'id');
     }
 
+    public function hsSubjectSduties(){
+        return HsStudentDb::whereHas('hsSubjects', function($query) {
+            $query->where('id', 12);
+        })->get(); 
+    }
+
     public function hsStudentcrs(){
         return $this->hasMany(HsStudentcr::class, 'hs_studentdb_id', 'id');
         // 'hs_student_db_id' is the foreign key in the HsStudentcr table
