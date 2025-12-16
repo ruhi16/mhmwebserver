@@ -34,6 +34,8 @@ use App\Models\Studentvl;
 use Illuminate\Http\Request;
 use Mccarlosen\LaravelMpdf\Facades\LaravelMpdf as PDF;
 
+use Illuminate\Support\Facades\Config;
+
 
 Route::controller(App\Http\Controllers\NoticeController::class)->group(
     function () {
@@ -235,6 +237,8 @@ Route::group(
     }
 );
 
+
+
 Route::get('/generate-upr-marksheetpdf/{myclassSection_id}/{studentcr_id}', AdminMyclassSectionIndividualMarksheetComponent::class . '@exportUprMarksheetPdf')
         ->name('user.livewire.generate-upr-marksheetpdf');
 
@@ -351,11 +355,26 @@ Route::get('/dashboard', function () {
     
 
 Route::get('/', function () {
-    $notices = Notice::orderBy('dop', 'desc')->get();
+    $notices = Notice::all();         //orderBy('dop', 'desc')->get();
+    $databaseName = Config::get('database.connections.'.Config::get('database.default').'.database');
+
     return view('welcome',[
-        'notices' => $notices
+        'notices' => $notices,
+        'dbname' => $databaseName
     ]);
-});
+})->name('welcome');
+
+Route::get('/schoolevents', function () {
+    return view('schoolevents');
+})->name('schoolevents');
+
+Route::get('/schoolacademics', function () {
+    return view('schoolacademics');
+})->name('schoolacademics');
+
+Route::get('/schoolgallery', function () {
+    return view('schoolgallery');
+})->name('schoolgallery');
 
 
 

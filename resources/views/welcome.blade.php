@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
         /* Enhanced Navbar */
         .top-navbar {
             background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -54,14 +55,14 @@
             justify-content: center;
             font-weight: bold;
             color: #1a237e;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .school-name {
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .nav-menu {
@@ -85,7 +86,7 @@
         }
 
         .nav-link:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
@@ -96,7 +97,7 @@
             background: white;
             min-width: 200px;
             border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -132,7 +133,7 @@
             cursor: pointer;
         }
 
-        /* Improved Hero Section */
+        /* Updated Hero Section with Scrolling Images */
         .hero-section {
             position: relative;
             height: 80vh;
@@ -228,6 +229,7 @@
             transform: translateY(-3px);
         }
 
+        /* Image Carousel Section */
         .hero-image {
             flex: 1;
             display: flex;
@@ -235,27 +237,106 @@
             position: relative;
         }
 
-        .hero-image img {
-            max-width: 100%;
+        .image-carousel {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-            transition: transform 0.5s;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .hero-image:hover img {
-            transform: scale(1.03);
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
         }
 
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        /* Carousel Controls */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #1a237e;
+            z-index: 50;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-btn:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 50;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Floating Cards - In front of carousel */
         .floating-card {
             position: absolute;
             background: white;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 15px;
             animation: float 6s ease-in-out infinite;
+            z-index: 100;
         }
 
         .floating-card.students {
@@ -294,8 +375,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
         }
 
         /* Container */
@@ -338,7 +426,7 @@
             gap: 30px;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -380,7 +468,7 @@
         .toc-item.active {
             background: #e3f2fd;
             border-left: 3px solid #1a237e;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
 
         .toc-title {
@@ -407,13 +495,13 @@
             padding: 25px;
             margin-bottom: 25px;
             border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .notice-item.active {
             transform: translateX(10px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
 
         .notice-title {
@@ -480,14 +568,14 @@
             overflow: hidden;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             transition: all 0.3s;
         }
 
         .gallery-item:hover {
             transform: scale(1.08);
             z-index: 10;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .gallery-item img {
@@ -507,7 +595,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.85) 100%);
             display: flex;
             align-items: flex-end;
             padding: 12px;
@@ -527,37 +615,37 @@
             grid-column: span 2;
             grid-row: span 2;
         }
-        
+
         .gallery-item:nth-child(2) {
             grid-column: span 2;
             grid-row: span 1;
         }
-        
+
         .gallery-item:nth-child(3) {
             grid-column: span 2;
             grid-row: span 1;
         }
-        
+
         .gallery-item:nth-child(4) {
             grid-column: span 1;
             grid-row: span 2;
         }
-        
+
         .gallery-item:nth-child(5) {
             grid-column: span 2;
             grid-row: span 2;
         }
-        
+
         .gallery-item:nth-child(6) {
             grid-column: span 1;
             grid-row: span 1;
         }
-        
+
         .gallery-item:nth-child(7) {
             grid-column: span 2;
             grid-row: span 1;
         }
-        
+
         .gallery-item:nth-child(8) {
             grid-column: span 1;
             grid-row: span 1;
@@ -580,14 +668,14 @@
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
 
         .teacher-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .teacher-image {
@@ -638,7 +726,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -655,7 +743,7 @@
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
         .modal-close {
@@ -749,7 +837,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             width: 50px;
             height: 50px;
@@ -809,7 +897,7 @@
             color: white;
             padding: 50px;
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         .headmaster-image {
@@ -822,7 +910,7 @@
             border-radius: 50%;
             object-fit: cover;
             border: 8px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .headmaster-text h3 {
@@ -859,7 +947,7 @@
         }
 
         .feature-card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 15px;
             text-align: center;
@@ -868,7 +956,7 @@
 
         .feature-card:hover {
             transform: translateY(-10px);
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .feature-icon {
@@ -903,7 +991,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 20px;
@@ -998,7 +1086,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1014,7 +1102,7 @@
             text-align: center;
             padding-top: 30px;
             margin-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Responsive */
@@ -1045,7 +1133,7 @@
                 visibility: visible;
                 transform: none;
                 margin-top: 10px;
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
             }
 
             .dropdown-link {
@@ -1074,6 +1162,10 @@
                 justify-content: center;
             }
 
+            .image-carousel {
+                height: 400px;
+            }
+
             .floating-card {
                 position: relative;
                 margin: 15px 0;
@@ -1086,6 +1178,20 @@
                 right: auto;
                 top: auto;
                 bottom: auto;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .carousel-btn.prev {
+                left: 10px;
+            }
+
+            .carousel-btn.next {
+                right: 10px;
             }
 
             .section-title {
@@ -1148,6 +1254,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="top-navbar">
@@ -1174,7 +1281,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">Academics</a>
                     <div class="dropdown-menu">
-                        <a href="#" class="dropdown-link">Curriculum</a>
+                        <a href="{{ asset('upload/booklist/'.'2026_booklist.pdf') }}" class="dropdown-link" download>Booklist</a>
                         <a href="#" class="dropdown-link">Faculty</a>
                         <a href="#" class="dropdown-link">Results</a>
                     </div>
@@ -1192,17 +1299,19 @@
         </div>
     </nav>
 
-    <!-- Improved Hero Section -->
+    
+    <!-- Hero Section with Scrolling Images -->
     <section class="hero-section">
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">Manikchak High Madrasah (H.S)</h1>
-                <p class="hero-subtitle">Excellence in Education Since 1950</p>
+                <p class="hero-subtitle">Excellence in Education Since 1921</p>
                 <p class="hero-location">
                     <i class="fas fa-map-marker-alt"></i>
                     Manikchak • Lalgola • Murshidabad
                 </p>
-                <p>We are committed to providing quality education that nurtures young minds and prepares them for a bright future. Our institution combines traditional values with modern teaching methodologies.</p>
+                <p>We are committed to providing quality education that nurtures young minds and prepares them for a
+                    bright future. Our institution combines traditional values with modern teaching methodologies.</p>
                 <div class="hero-buttons">
                     <a href="#" class="btn btn-primary">
                         <i class="fas fa-book-open"></i> Explore Academics
@@ -1213,7 +1322,44 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=600&fit=crop" alt="School Building">
+                <div class="image-carousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        @foreach($notices->where('image_type', 'building') as $notice)
+                        <div class="carousel-slide">
+                            <img src="{{ asset( $notice->fileaddr) }}"
+                                alt="{{ asset('storage/' . $notice->fileaddr) }}">
+                        </div>
+                        @endforeach
+                        {{-- <div class="carousel-slide">
+                            <img src="https://images.pexels.com/photos/33382114/pexels-photo-33382114.jpeg?w=600&h=600&fit=crop"
+                                alt="School Building">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://images.pexels.com/photos/8458953/pexels-photo-8458953.jpeg?w=600&h=600&fit=crop"
+                                alt="School Campus">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=600&fit=crop"
+                                alt="Students Learning">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&h=600&fit=crop"
+                                alt="School Activities">
+                        </div> --}}
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <button class="carousel-btn prev" onclick="moveSlide(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next" onclick="moveSlide(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <!-- Indicators -->
+                    <div class="carousel-indicators" id="indicators"></div>
+                </div>
+
                 <div class="floating-card students">
                     <div class="icon">
                         <i class="fas fa-user-graduate"></i>
@@ -1260,16 +1406,22 @@
             <h2 class="section-title">Headmaster's Message</h2>
             <div class="headmaster-content">
                 <div class="headmaster-image">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop" alt="Headmaster">
+                    <img src="
+                    https://images.pexels.com/photos/1486064/pexels-photo-1486064.jpeg?w=300&h=300&fit=crop"
+                        alt="Headmaster">
                 </div>
                 <div class="headmaster-text">
-                    <h3>Dr. Mohammed Rashid Ahmed</h3>
+                    <h3>Md. Abdur Rouf</h3>
                     <h4>Headmaster</h4>
                     <p>
-                        Dear Students, Parents, and Well-wishers, it is with great pride and pleasure that I welcome you to Manikchak High Madrasah. 
-                        Our institution has been a beacon of knowledge and excellence for over seven decades, nurturing young minds and preparing them for a bright future. 
-                        We believe in holistic education that combines academic excellence with moral values, ensuring that our students grow not just as scholars, but as responsible citizens. 
-                        Together, let us continue this journey of enlightenment and growth. Education is the most powerful weapon which you can use to change the world.
+                        Dear Students, Parents, and Well-wishers, it is with great pride and pleasure that I welcome you
+                        to Manikchak High Madrasah.
+                        Our institution has been a beacon of knowledge and excellence for over seven decades, nurturing
+                        young minds and preparing them for a bright future.
+                        We believe in holistic education that combines academic excellence with moral values, ensuring
+                        that our students grow not just as scholars, but as responsible citizens.
+                        Together, let us continue this journey of enlightenment and growth. Education is the most
+                        powerful weapon which you can use to change the world.
                     </p>
                 </div>
             </div>
@@ -1282,35 +1434,43 @@
             <h2 class="section-title">Photo Gallery</h2>
             <div class="gallery-collage">
                 <div class="gallery-item" data-index="0">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=600&fit=crop" alt="School Building">
+                    <img src="https://images.pexels.com/photos/8458953/pexels-photo-8458953.jpeg?w=600&h=600&fit=crop"
+                        alt="School Building">
                     <div class="gallery-overlay">School Building</div>
                 </div>
                 <div class="gallery-item" data-index="1">
-                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=300&fit=crop" alt="Students">
+                    <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=300&fit=crop"
+                        alt="Students">
                     <div class="gallery-overlay">Students</div>
                 </div>
                 <div class="gallery-item" data-index="2">
-                    <img src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=600&h=300&fit=crop" alt="Library">
+                    <img src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=600&h=300&fit=crop"
+                        alt="Library">
                     <div class="gallery-overlay">Library</div>
                 </div>
                 <div class="gallery-item" data-index="3">
-                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=600&fit=crop" alt="Lab">
+                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=300&h=600&fit=crop"
+                        alt="Lab">
                     <div class="gallery-overlay">Science Lab</div>
                 </div>
                 <div class="gallery-item" data-index="4">
-                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&h=600&fit=crop" alt="Cultural Event">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&h=600&fit=crop"
+                        alt="Cultural Event">
                     <div class="gallery-overlay">Cultural Event</div>
                 </div>
                 <div class="gallery-item" data-index="5">
-                    <img src="https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=300&h=300&fit=crop" alt="Sports">
+                    <img src="https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=300&h=300&fit=crop"
+                        alt="Sports">
                     <div class="gallery-overlay">Sports Day</div>
                 </div>
                 <div class="gallery-item" data-index="6">
-                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=300&fit=crop" alt="Classroom">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&h=300&fit=crop"
+                        alt="Classroom">
                     <div class="gallery-overlay">Classroom</div>
                 </div>
                 <div class="gallery-item" data-index="7">
-                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=300&h=300&fit=crop" alt="Computer Lab">
+                    <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=300&h=300&fit=crop"
+                        alt="Computer Lab">
                     <div class="gallery-overlay">Computer Lab</div>
                 </div>
             </div>
@@ -1325,7 +1485,8 @@
                 <!-- Teacher Cards -->
                 <div class="teacher-card" data-teacher="1">
                     <div class="teacher-image">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop" alt="Teacher">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop"
+                            alt="Teacher">
                     </div>
                     <div class="teacher-info">
                         <div class="teacher-name">Prof. Ayesha Rahman</div>
@@ -1335,7 +1496,8 @@
                 </div>
                 <div class="teacher-card" data-teacher="2">
                     <div class="teacher-image">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop" alt="Teacher">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop"
+                            alt="Teacher">
                     </div>
                     <div class="teacher-info">
                         <div class="teacher-name">Mr. Arif Hussain</div>
@@ -1345,7 +1507,8 @@
                 </div>
                 <div class="teacher-card" data-teacher="3">
                     <div class="teacher-image">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop" alt="Teacher">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop"
+                            alt="Teacher">
                     </div>
                     <div class="teacher-info">
                         <div class="teacher-name">Ms. Fatima Begum</div>
@@ -1355,7 +1518,8 @@
                 </div>
                 <div class="teacher-card" data-teacher="4">
                     <div class="teacher-image">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="Teacher">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop"
+                            alt="Teacher">
                     </div>
                     <div class="teacher-info">
                         <div class="teacher-name">Mr. Kamal Das</div>
@@ -1398,7 +1562,9 @@
                     <p class="modal-subject" id="modalTeacherSubject"></p>
                     <p class="modal-qualification" id="modalTeacherQualification"></p>
                     <p class="modal-bio" id="modalTeacherBio">
-                        Dedicated educator with over 15 years of experience in teaching. Committed to fostering a positive learning environment and helping students achieve their full potential. Specialized in innovative teaching methodologies and student-centered approaches.
+                        Dedicated educator with over 15 years of experience in teaching. Committed to fostering a
+                        positive learning environment and helping students achieve their full potential. Specialized in
+                        innovative teaching methodologies and student-centered approaches.
                     </p>
                     <div class="modal-contact">
                         <div class="contact-icon">
@@ -1425,7 +1591,8 @@
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
                     <div class="feature-title">Quality Education</div>
-                    <div class="feature-desc">State-certified curriculum with experienced faculty members dedicated to excellence</div>
+                    <div class="feature-desc">State-certified curriculum with experienced faculty members dedicated to
+                        excellence</div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🏆</div>
@@ -1435,7 +1602,8 @@
                 <div class="feature-card">
                     <div class="feature-icon">💻</div>
                     <div class="feature-title">Modern Facilities</div>
-                    <div class="feature-desc">Well-equipped labs, library, sports facilities, and digital classrooms</div>
+                    <div class="feature-desc">Well-equipped labs, library, sports facilities, and digital classrooms
+                    </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌟</div>
@@ -1481,7 +1649,8 @@
         <div class="footer-container">
             <div class="footer-column">
                 <h3>About Us</h3>
-                <p>Manikchak High Madrasah (H.S) has been providing quality education since 1950. We are committed to nurturing young minds and building responsible citizens.</p>
+                <p>Manikchak High Madrasah (H.S) has been providing quality education since 1950. We are committed to
+                    nurturing young minds and building responsible citizens.</p>
                 <div class="social-links">
                     <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -1768,5 +1937,73 @@
             }
         });
     </script>
+    <script>
+        // Image Carousel
+        let currentSlide = 0;
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicatorsContainer = document.getElementById('indicators');
+        const totalSlides = slides.length;
+
+        // Create indicators
+        for (let i = 0; i < totalSlides; i++) {
+            const indicator = document.createElement('div');
+            indicator.className = 'indicator' + (i === 0 ? ' active' : '');
+            indicator.onclick = () => goToSlide(i);
+            indicatorsContainer.appendChild(indicator);
+        }
+
+        const indicators = document.querySelectorAll('.indicator');
+
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            } else if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+            
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Auto-play carousel
+        let autoPlay = setInterval(() => {
+            moveSlide(1);
+        }, 5000);
+
+        // Pause auto-play on hover
+        const carousel = document.querySelector('.image-carousel');
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoPlay);
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            autoPlay = setInterval(() => {
+                moveSlide(1);
+            }, 5000);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') moveSlide(-1);
+            if (e.key === 'ArrowRight') moveSlide(1);
+        });
+    </script>
 </body>
+
 </html>
