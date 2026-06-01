@@ -65,6 +65,7 @@ class AdminCreateUserComponent extends Component
                 'name'  => $this->name,
                 'email' => $this->email,
                 'password' => bcrypt($this->password),  
+                'role_id'  => 1,
             ]);
             $user->save();
 

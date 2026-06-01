@@ -24,6 +24,7 @@ use App\Http\Livewire\AdminUserPreviledgeControlComponent;
 use App\Http\Livewire\GeneralStudentDetailsComponent;
 use App\Http\Livewire\HssectionStudentcrIdcardComp;
 use App\Http\Livewire\SubadminMarksEntryComponent;
+use App\Http\Livewire\SubadminMarksEntryEditComponent;
 use App\Http\Livewire\SubadminMarksEntryEntityComponent;
 use App\Http\Livewire\SubadminFormativeMarksEntryEntityComponent;
 use App\Http\Livewire\UserChangePasswordComponent;
@@ -155,6 +156,9 @@ Route::group(
         
         Route::get('/marksentryclasswise/{myclassSection_id}', SubadminMarksEntryComponent::class)
             ->name('admin.marksentry');
+
+        Route::get('/marksentryedit/{myclassSection_id}', SubadminMarksEntryEditComponent::class)
+            ->name('admin.marksentry.edit');
 
         Route::get('/marksentryentityclasswise/{myclassSection_id}/{myclassSubject_id}/{examdetail_id}', SubadminMarksEntryEntityComponent::class)
             ->name('admin.marksentryentity');
@@ -342,7 +346,7 @@ Route::get('/dashboard', function () {
         return redirect(route('userDash'));
     }
 
-    if (Auth::user()) {
+    if (Auth::user() && Auth::user()->role_id == 1) {
         // Any other authenticated users
         return redirect(route('userDash'));
     }

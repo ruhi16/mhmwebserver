@@ -1295,6 +1295,30 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">Contact</a>
                 </li>
+                <li class="nav-item">
+                    @if (Route::has('login'))
+                        <div class="flex items-center space-x-2">
+                            @auth
+                                <a wire:navigate href="{{ url('/dashboard') }}"
+                                class="nav-link">
+                                    Dashboard
+                                </a>
+                            @else
+                                <a wire:navigate href="{{ route('login') }}"
+                                class="nav-link">
+                                    Login
+                                </a>
+
+                                {{-- @if (Route::has('register'))
+                                    <a wire:navigate href="{{ route('register') }}"
+                                    class="nav-link">
+                                        Register
+                                    </a>
+                                @endif --}}
+                            @endauth
+                        </div>
+                    @endif
+                </li>
             </ul>
         </div>
     </nav>

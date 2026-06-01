@@ -61,7 +61,7 @@
                             @if(count($teachersAnswerScripts) > 0)
                             <table class="min-w-auto mx-auto border-collapse border border-gray-600 ">
                                 <thead>
-                                    @foreach ($teachersAnswerScripts as $teachersAnswerScript)
+                                    @foreach ($teachersAnswerScripts->sortBy(['myclass_id', 'section_id']) as $teachersAnswerScript)
                                     @php
                                     $clssec_id = $myclasssections
                                         ->where('myclass_id', $teachersAnswerScript->myclass_id)
